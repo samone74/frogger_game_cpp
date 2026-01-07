@@ -10,7 +10,8 @@ class ObjectBase{
     Lanes,
     Car,
     Frog,
-    Live
+    Live,
+    Night
 };
     virtual ~ObjectBase(){}
     virtual void update() = 0;

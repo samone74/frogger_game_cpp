@@ -10,6 +10,8 @@ add_library(frogger_core2
         objects/car.h
         objects/lives.cpp
         objects/lives.h
+        objects/night.cpp
+        objects/night.h
 
 )
 

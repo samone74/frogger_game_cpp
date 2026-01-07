@@ -4,7 +4,10 @@
 #include "objects/lives.h"
 #include <iostream>
 #include "objects/car.h"
+#include "objects/night.h"
 #include <experimental/random>
+
+#include "objects/night.h"
 
 Game::Game(int screen_width, int screen_height): m_screen_width(screen_width), m_screen_height(screen_height) {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -14,6 +17,7 @@ Game::Game(int screen_width, int screen_height): m_screen_width(screen_width), m
     create_window();
     create_renderer();
     objects.push_back(std::make_unique<Frog>(20, m_screen_width, m_screen_height));
+    objects.push_back(std::make_unique<Night>(m_screen_width, m_screen_height));
     objects.push_back(std::make_unique<Lanes>(m_screen_width, m_screen_height));
     create_cars();
     create_live_objects();
@@ -43,6 +47,7 @@ void Game::create_renderer() {
         SDL_Quit();
         throw std::runtime_error("SDL_CreateRenderer Error: " + std::string(SDL_GetError()));
     }
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
 }
 
 void Game::run() {
