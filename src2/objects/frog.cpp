@@ -34,20 +34,20 @@ std::vector<DrawObject> Frog::draw() {
 
 std::unordered_map<SDL_Keycode, std::function<void()>> Frog::get_key_down_map() {
     std::unordered_map<SDL_Keycode, std::function<void()>> key_map = {
-            { SDLK_D, [this]() { start_move_right(); } },
-            { SDLK_A, [this]() { start_move_left();  } },
-            { SDLK_S, [this]() { start_move_down();  } },
-            { SDLK_W, [this]() { start_move_up();    } }
+            { SDLK_RIGHT, [this]() { start_move_right(); } },
+            { SDLK_LEFT, [this]() { start_move_left();  } },
+            { SDLK_DOWN, [this]() { start_move_down();  } },
+            { SDLK_UP, [this]() { start_move_up();    } }
     };
     return key_map;
 }
 
 std::unordered_map<SDL_Keycode, std::function<void()>> Frog::get_key_up_map() {
     std::unordered_map<SDL_Keycode, std::function<void()>> key_map = {
-        { SDLK_D, [this]() { stop_move_right(); } },
-        { SDLK_A, [this]() { stop_move_left();  } },
-        { SDLK_S, [this]() { stop_move_down();  } },
-        { SDLK_W, [this]() { stop_move_up();    } }
+        { SDLK_RIGHT, [this]() { stop_move_right(); } },
+        { SDLK_LEFT, [this]() { stop_move_left();  } },
+        { SDLK_DOWN, [this]() { stop_move_down();  } },
+        { SDLK_UP, [this]() { stop_move_up();    } }
     };
     return key_map;
 }
