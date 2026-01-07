@@ -27,7 +27,7 @@ Game::Game(int screen_width, int screen_height): m_screen_width(screen_width), m
 
 void Game::create_window() {
     m_window = SDL_CreateWindow(
-        "Frogger - Movable Frog",
+        "Frogger",
         m_screen_width, m_screen_height,
         0
     );
@@ -151,7 +151,7 @@ std::map<int, std::vector<DrawObject> > Game::get_draw_objects() {
 }
 
 void Game::create_cars() {
-    const int lane_height = m_screen_height / (m_level + 2);
+    const int lane_height = m_screen_height / (10 + 2);
     const int margin = 10;
     const int car_height = lane_height - margin;
     for (int i = 1; i <= m_level; i++) {
@@ -162,7 +162,9 @@ void Game::create_cars() {
         int x = std::experimental::randint(0, m_screen_width - 1);
         int dir = std::experimental::randint(0, 1) == 0 ? -1 : 1;
         int speed = dir * std::experimental::randint(1, 5);
-        objects.push_back(std::make_unique<Car>(x, i * lane_height + margin / 2, speed, color, car_height * 2,
+        int y = m_screen_height / 2 - lane_height / 2 * (m_level) + (i - 1) * lane_height + margin / 2;
+
+        objects.push_back(std::make_unique<Car>(x, y, speed, color, car_height * 2,
                                                 car_height, m_screen_width, m_screen_height));
     }
 }

@@ -20,6 +20,7 @@ class Lanes:public ObjectBase {
       const int m_screen_width, m_screen_height;
       int m_lane_size;
     const int line_size = 2;
+    const int max_number_of_lanes = 10;
 };
 
 
