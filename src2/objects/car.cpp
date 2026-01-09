@@ -30,7 +30,24 @@ std::vector<DrawObject> Car::draw() {
     DrawObject draw_object2(color, front_rectangle, 2, false);
     DrawObject draw_object3(color, middle_rectangle, 2, false);
     DrawObject draw_object4(color, back_rectangle, 2, false);
-    return {draw_object, draw_object2, draw_object3, draw_object4};
+
+    // === HEADLIGHTS ===
+    const int light_length = m_width * 2;
+    const int light_height = m_height / 2;
+    const int light_y = m_y + m_height / 4;
+
+    Color light_color(255, 255, 255, 200); // transparent white
+
+    Rectangle light_rect(
+        m_speed > 0 ? m_x + m_width : m_x - light_length,
+        light_y,
+        light_length,
+        light_height
+    );
+
+    DrawObject light(light_color, light_rect, 3, true);
+
+    return {draw_object, draw_object2, draw_object3, draw_object4, light};
 }
 
 ObjectBase::Type Car::get_type() const {

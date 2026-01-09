@@ -1,11 +1,11 @@
 #include "night.h"
 
-Night::Night(const int screen_width, const int screen_height) : rect(0, 0, screen_width, screen_height), color(0,0,0,0) {
+Night::Night(const int screen_width, const int screen_height) : rect(0, 0, screen_width, screen_height), color(0,0,0,200) {
 }
 
 std::vector<DrawObject> Night::draw() {
     std::vector<DrawObject> objects;
-    objects.push_back({color, rect, 4, true});
+    objects.push_back({color, rect, 5, true});
     return objects;
 
 }
