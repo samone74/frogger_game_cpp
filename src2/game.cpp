@@ -7,6 +7,7 @@
 #include "objects/night.h"
 #include <experimental/random>
 #include "objects/night.h"
+#include <SDL3_ttf/SDL_ttf.h>
 
 //TODO add lights for cars
 //TODO making the levels (adding lanes and later adding night and lanes)
@@ -20,6 +21,7 @@ Game::Game(int screen_width, int screen_height): m_screen_width(screen_width), m
         std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
         throw std::runtime_error("SDL_Init Error: " + std::string(SDL_GetError()));
     }
+    TTF_Init();
     create_window();
     create_renderer();
     objects.push_back(std::make_unique<Frog>(20, m_screen_width, m_screen_height));
