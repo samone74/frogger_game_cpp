@@ -11,5 +11,4 @@ set(SDL3_TFF_LIBRARY    "${CMAKE_SOURCE_DIR}/lib/SDL3_ttf-3.2.2/x86_64-w64-mingw
 
 
 add_subdirectory(src)
-add_subdirectory(src2)
 add_subdirectory(desktop)

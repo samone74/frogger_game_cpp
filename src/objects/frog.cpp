@@ -81,11 +81,11 @@ void Frog::start_move_down() {
 void Frog::start_move_up() {
     move_up = true;
 }
-void Frog::stop_move_right() {
-    move_right = false;
-}
 void Frog::stop_move_left() {
     move_left = false;
+}
+void Frog::stop_move_right() {
+    move_right = false;
 }
 void Frog::stop_move_down() {
     move_down = false;

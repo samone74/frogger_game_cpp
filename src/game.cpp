@@ -7,11 +7,9 @@
 #include "objects/night.h"
 #include <experimental/random>
 #include "objects/night.h"
-#include <SDL3_ttf/SDL_ttf.h>
 
 //TODO add lights for cars
 //TODO making the levels (adding lanes and later adding night and lanes)
-//TODO adding text to screen
 //TODO add start screen
 //TODO add lost screen
 //TODO add picture of frog
@@ -22,6 +20,7 @@ Game::Game(int screen_width, int screen_height): m_screen_width(screen_width), m
         throw std::runtime_error("SDL_Init Error: " + std::string(SDL_GetError()));
     }
     TTF_Init();
+
     create_window();
     create_renderer();
     objects.push_back(std::make_unique<Frog>(20, m_screen_width, m_screen_height));
@@ -31,6 +30,14 @@ Game::Game(int screen_width, int screen_height): m_screen_width(screen_width), m
     create_live_objects();
     m_key_down_events = objects[0]->get_key_down_map();
     m_key_up_events = objects[0]->get_key_up_map();
+    font = TTF_OpenFont("assets/arial.ttf", 32);
+    text_objects.push_back({m_renderer, font, "test", {0,0,0,0}, 100, 0});
+    auto& text = text_objects.at(0);
+    timer = std::make_unique<CountDownTimer>(
+    [&text](const std::string& value) {
+        text.set_text(value);
+    },
+    60);
 }
 
 void Game::create_window() {
@@ -60,6 +67,7 @@ void Game::create_renderer() {
 
 void Game::run() {
     m_running = true;
+    timer->start();
 
     while (m_running) {
         set_level();
@@ -129,6 +137,7 @@ void Game::update_objects() {
                   });
         (*frog)->set_y(m_screen_height - frog_rect.height);
     }
+    timer->update();
 }
 
 
@@ -137,12 +146,14 @@ void Game::draw_object_to_screen(DrawObject draw_object) {
                            draw_object.color.transparency);
     SDL_FRect object_rect(draw_object.rectangle.x, draw_object.rectangle.y,
                           draw_object.rectangle.width, draw_object.rectangle.height);
-    if (draw_object.fill)
-    {SDL_RenderFillRect(m_renderer, &object_rect);}
+    if (draw_object.fill) {
+        SDL_RenderFillRect(m_renderer, &object_rect);
+    }
     else {
         SDL_RenderRect(m_renderer, &object_rect);
     }
-
+    for (const auto& text: text_objects)
+    {SDL_RenderTexture(m_renderer, text.get_texture(), NULL, &text.get_rect());}
 }
 
 std::map<int, std::vector<DrawObject> > Game::get_draw_objects() {
