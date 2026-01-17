@@ -11,14 +11,11 @@
 
 class MainGameState final :public GameState {
     public:
-    MainGameState();
-    ~MainGameState();
+    explicit MainGameState(const SdlContext& ctx);
+    ~MainGameState() override = default;
 
-    void handle_event(const SdlContext& ctx, const SDL_Event& e) override;
-
+    TransitionRequest handle_event(const SdlContext& ctx, const SDL_Event& event) override;
     TransitionRequest update(const SdlContext& ctx) override;
-
-    // Render the state
     void render(const SdlContext& ctx) override;
 
 private:
@@ -31,12 +28,13 @@ private:
     TTF_Font *font = nullptr;
     std::unordered_map<SDL_Keycode, std::function<void()> > m_key_down_events;
     std::unordered_map<SDL_Keycode, std::function<void()> > m_key_up_events;
-    void create_cars();
-    void set_level();
-    void change_level(int level_increase);
+    void create_cars(const SdlContext& ctx);
+    void set_level() const;
+    void change_level(const SdlContext& ctx, int level_increase);
     bool detect_collision(const Rectangle& a, const Rectangle& b);
     void create_live_objects();
     void remove_live_objects();
+    void draw_object_to_screen(const SdlContext& ctx, DrawObject draw_object);
 };
 
 

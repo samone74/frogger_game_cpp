@@ -32,9 +32,11 @@ SdlContext::SdlContext(SdlContext&& other) noexcept: m_width(other.m_width), m_h
     *this = std::move(other);
 }
 
-SdlContext& SdlContext::operator=(SdlContext&& other) noexcept: m_width(other.m_width), m_height(other.m_height) {
+SdlContext& SdlContext::operator=(SdlContext&& other) noexcept {
     if (this != &other) {
         cleanup();
+        m_height = other.m_height;
+        m_width = other.m_width;
         m_window = other.m_window;
         m_renderer = other.m_renderer;
         other.m_window = nullptr;

@@ -28,7 +28,7 @@ private:
 
     SDL_Window* m_window = nullptr;
     SDL_Renderer* m_renderer = nullptr;
-    const int m_width;
-    const int m_height;
+    int m_width;
+    int m_height;
 };
 #endif //SDL_CONTEXT_H
