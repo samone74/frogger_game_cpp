@@ -1,6 +1,6 @@
 add_library(frogger_core
-            game.cpp
-            game.h
+        game_states/main_game.cpp
+        game_states/main_game.h
             objects/object_base.h
         objects/frog.cpp
         objects/frog.h
@@ -16,6 +16,16 @@ add_library(frogger_core
         objects/text_object.h
         objects/count_down_timer.cpp
         objects/count_down_timer.h
+        game_states/game_state.h
+        game.cpp
+        game.h
+        game_states/game_state_manager.cpp
+        game_states/game_state_manager.h
+        objects/sdl_context.h
+        objects/sdl_context.cpp
+        game_states/transition.h
+        game_states/main_game_state.cpp
+        game_states/main_game_state.h
 
 )
 
