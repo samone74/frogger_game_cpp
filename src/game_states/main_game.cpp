@@ -236,5 +236,5 @@ void Game::render() {
     for (auto &draw_objects: draw_objects_map) {
         for (auto &draw_object: draw_objects.second) { draw_object_to_screen(draw_object); }
     }
-    SDL_RenderPresent(m_renderer);
+
 }

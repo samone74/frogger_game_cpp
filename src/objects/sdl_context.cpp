@@ -5,8 +5,8 @@
 SdlContext::SdlContext(const std::string& title, const int width, const int height)
     : m_width(width), m_height(height)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        throw std::runtime_error(SDL_GetError());
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
+        throw std::runtime_error("SDL_Init Error: " + std::string(SDL_GetError()));
     }
 
     m_window = SDL_CreateWindow(title.c_str(), m_width, m_height, 0);

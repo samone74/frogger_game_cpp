@@ -12,7 +12,7 @@
 class MainGameState final :public GameState {
     public:
     explicit MainGameState(const SdlContext& ctx);
-    ~MainGameState() override = default;
+    ~MainGameState() override {};
 
     TransitionRequest handle_event(const SdlContext& ctx, const SDL_Event& event) override;
     TransitionRequest update(const SdlContext& ctx) override;

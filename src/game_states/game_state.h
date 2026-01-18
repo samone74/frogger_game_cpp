@@ -7,7 +7,7 @@ class SdlContext;
 
 class GameState {
 public:
-    virtual ~GameState();
+    virtual ~GameState() = default;
 
     // Called once when the state becomes active
     virtual void on_enter(SdlContext& ctx){};

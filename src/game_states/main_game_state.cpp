@@ -11,48 +11,40 @@
 MainGameState::MainGameState(const SdlContext& ctx){
 
     objects.push_back(std::make_unique<Frog>(20, ctx.width(), ctx.height()));
-    objects.push_back(std::make_unique<Night>( ctx.width(), ctx.height()));
+    //objects.push_back(std::make_unique<Night>( ctx.width(), ctx.height()));
     objects.push_back(std::make_unique<Lanes>(ctx.width(), ctx.height()));
     create_cars(ctx);
     create_live_objects();
     m_key_down_events = objects[0]->get_key_down_map();
     m_key_up_events = objects[0]->get_key_up_map();
-    font = TTF_OpenFont("assets/arial.ttf", 32);
-    text_objects.push_back({ctx.renderer(), font, "test", {0,0,0,0}, 100, 0});
-    auto& text = text_objects.at(0);
-    timer = std::make_unique<CountDownTimer>(
-    [&text](const std::string& value) {
-        text.set_text(value);
-    },
-    60);
 }
 
 TransitionRequest MainGameState::handle_event(const SdlContext& ctx, const SDL_Event& event) {
     if (event.type == SDL_EVENT_QUIT)
-        return {};
+        return std::nullopt ;
     if (event.type == SDL_EVENT_KEY_DOWN) {
         if (m_key_down_events.contains(event.key.key)) {
             m_key_down_events.at(event.key.key)();
         }
         if (event.key.key == SDLK_ESCAPE) {
-            return {};
+            return std::nullopt ;
         }
         if (event.key.key == SDLK_P) {
             change_level(ctx, 1);
-            return {};
+            return std::nullopt ;
         }
         if (event.key.key == SDLK_O) {
             change_level(ctx, -1);
-            return {};
+            return std::nullopt ;
         }
     }
     if (event.type == SDL_EVENT_KEY_UP) {
         if (m_key_up_events.contains(event.key.key)) {
             m_key_up_events.at(event.key.key)();
-            return {};
+            return std::nullopt ;
         }
     }
-    return {};
+    return std::nullopt;
 }
 
 TransitionRequest MainGameState::update(const SdlContext& ctx) {
@@ -77,14 +69,15 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
             }
         }
     }
-    if (frog_rect.y == 0) {
+  /*  if (frog_rect.y == 0) {
         change_level(ctx, 1);
         frog = std::ranges::find_if(objects,[](const std::unique_ptr<ObjectBase>& obj) {
                       return obj->get_type() == ObjectBase::Type::Frog;
                   });
         (*frog)->set_y(ctx.height() - frog_rect.height);
-    }
-    timer->update();
+    }*/
+   // timer->update();
+    return std::nullopt;
 }
 
 
@@ -99,22 +92,25 @@ void MainGameState::draw_object_to_screen(const SdlContext& ctx, DrawObject draw
     else {
         SDL_RenderRect(ctx.renderer(), &object_rect);
     }
-    for (const auto& text: text_objects)
-    {SDL_RenderTexture(ctx.renderer(), text.get_texture(), NULL, &text.get_rect());}
+  //  for (const auto& text: text_objects)
+   // {SDL_RenderTexture(ctx.renderer(), text.get_texture(), NULL, &text.get_rect());}
 }
 
-std::map<int, std::vector<DrawObject> > MainGameState::get_draw_objects() {
-    std::map<int, std::vector<DrawObject> > draw_objects_map;
-    for (auto &object: objects) {
-        for (const auto &objects_to_draw = object->draw(); auto &object_to_draw: objects_to_draw) {
-            if (!draw_objects_map.contains(object_to_draw.layer)) {
-                draw_objects_map.insert(std::pair<int, std::vector<DrawObject> >(object_to_draw.layer, {}));
-            }
-            draw_objects_map.at(object_to_draw.layer).push_back(object_to_draw);
+
+std::map<int, std::vector<DrawObject>> MainGameState::get_draw_objects() {
+    std::map<int, std::vector<DrawObject>> draw_objects_map;
+
+    for (auto& object : objects) {
+        auto objects_to_draw = object->draw();   // store the vector by value
+
+        for (auto& object_to_draw : objects_to_draw) {
+            draw_objects_map[object_to_draw.layer].push_back(object_to_draw);
         }
     }
+
     return draw_objects_map;
 }
+
 
 void MainGameState::create_cars(const SdlContext& ctx) {
     const int lane_height = ctx.height() / (10 + 2);
@@ -177,11 +173,12 @@ void MainGameState::remove_live_objects() {
 }
 
 void MainGameState::render(const SdlContext& ctx) {
-    SDL_SetRenderDrawColor(ctx.renderer(), 0, 125, 0, 255);
-    SDL_RenderClear(ctx.renderer());
     const auto &draw_objects_map = get_draw_objects();
+
+
+
+
     for (auto &draw_objects: draw_objects_map) {
         for (auto &draw_object: draw_objects.second) { draw_object_to_screen(ctx, draw_object); }
     }
-    SDL_RenderPresent(ctx.renderer());
 }
