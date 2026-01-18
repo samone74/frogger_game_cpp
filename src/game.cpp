@@ -36,7 +36,6 @@ bool process_transition(GameStateManager& gsm, SdlContext& ctx, const Transition
         case Transition::Type::Switch:
             gsm.change_state(tr.target, ctx);
         return true;
-
         case Transition::Type::Quit:
             return false;
     }

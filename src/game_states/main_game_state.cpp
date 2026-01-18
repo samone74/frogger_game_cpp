@@ -21,13 +21,13 @@ MainGameState::MainGameState(const SdlContext& ctx){
 
 TransitionRequest MainGameState::handle_event(const SdlContext& ctx, const SDL_Event& event) {
     if (event.type == SDL_EVENT_QUIT)
-        return std::nullopt ;
+        return Transition::quit() ;
     if (event.type == SDL_EVENT_KEY_DOWN) {
         if (m_key_down_events.contains(event.key.key)) {
             m_key_down_events.at(event.key.key)();
         }
         if (event.key.key == SDLK_ESCAPE) {
-            return std::nullopt ;
+            return Transition::quit();
         }
         if (event.key.key == SDLK_P) {
             change_level(ctx, 1);
@@ -69,13 +69,13 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
             }
         }
     }
-  /*  if (frog_rect.y == 0) {
+    if (frog_rect.y == 0) {
         change_level(ctx, 1);
         frog = std::ranges::find_if(objects,[](const std::unique_ptr<ObjectBase>& obj) {
                       return obj->get_type() == ObjectBase::Type::Frog;
                   });
         (*frog)->set_y(ctx.height() - frog_rect.height);
-    }*/
+    }
    // timer->update();
     return std::nullopt;
 }
