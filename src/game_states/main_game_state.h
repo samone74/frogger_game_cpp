@@ -12,8 +12,7 @@
 class MainGameState final :public GameState {
     public:
     explicit MainGameState(const SdlContext& ctx);
-    ~MainGameState() override {};
-
+    ~MainGameState() override = default;
     TransitionRequest handle_event(const SdlContext& ctx, const SDL_Event& event) override;
     TransitionRequest update(const SdlContext& ctx) override;
     void render(const SdlContext& ctx) override;
@@ -34,7 +33,6 @@ private:
     bool detect_collision(const Rectangle& a, const Rectangle& b);
     void create_live_objects();
     void remove_live_objects();
-    void draw_object_to_screen(const SdlContext& ctx, DrawObject draw_object);
 };
 
 

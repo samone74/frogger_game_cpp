@@ -81,22 +81,6 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
 }
 
 
-void MainGameState::draw_object_to_screen(const SdlContext& ctx, DrawObject draw_object) {
-    SDL_SetRenderDrawColor(ctx.renderer(), draw_object.color.red, draw_object.color.green, draw_object.color.blue,
-                           draw_object.color.transparency);
-    SDL_FRect object_rect(draw_object.rectangle.x, draw_object.rectangle.y,
-                          draw_object.rectangle.width, draw_object.rectangle.height);
-    if (draw_object.fill) {
-        SDL_RenderFillRect(ctx.renderer(), &object_rect);
-    }
-    else {
-        SDL_RenderRect(ctx.renderer(), &object_rect);
-    }
-  //  for (const auto& text: text_objects)
-   // {SDL_RenderTexture(ctx.renderer(), text.get_texture(), NULL, &text.get_rect());}
-}
-
-
 std::map<int, std::vector<DrawObject>> MainGameState::get_draw_objects() {
     std::map<int, std::vector<DrawObject>> draw_objects_map;
 
@@ -107,7 +91,6 @@ std::map<int, std::vector<DrawObject>> MainGameState::get_draw_objects() {
             draw_objects_map[object_to_draw.layer].push_back(object_to_draw);
         }
     }
-
     return draw_objects_map;
 }
 
@@ -174,11 +157,7 @@ void MainGameState::remove_live_objects() {
 
 void MainGameState::render(const SdlContext& ctx) {
     const auto &draw_objects_map = get_draw_objects();
-
-
-
-
     for (auto &draw_objects: draw_objects_map) {
-        for (auto &draw_object: draw_objects.second) { draw_object_to_screen(ctx, draw_object); }
+        for (auto &draw_object: draw_objects.second) { ctx.draw_object_to_screen(draw_object); }
     }
 }

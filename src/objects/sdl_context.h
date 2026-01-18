@@ -3,6 +3,8 @@
 
 #include <SDL3/SDL.h>
 #include <string>
+#include <vector>
+#include "draw_objects.h"
 
 class SdlContext {
 public:
@@ -22,7 +24,7 @@ public:
 
     [[nodiscard]] int width() const noexcept { return m_width; }
     [[nodiscard]] int height() const noexcept { return m_height; }
-
+    void draw_object_to_screen(const DrawObject &draw_object) const;
 private:
     void cleanup() noexcept;
     SDL_Window* m_window = nullptr;

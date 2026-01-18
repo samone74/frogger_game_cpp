@@ -45,6 +45,23 @@ SdlContext& SdlContext::operator=(SdlContext&& other) noexcept {
     return *this;
 }
 
+
+void SdlContext::draw_object_to_screen(const DrawObject &draw_object) const {
+    SDL_SetRenderDrawColor(m_renderer, draw_object.color.red, draw_object.color.green, draw_object.color.blue,
+                           draw_object.color.transparency);
+    const SDL_FRect object_rect(draw_object.rectangle.x, draw_object.rectangle.y,
+                          draw_object.rectangle.width, draw_object.rectangle.height);
+    if (draw_object.fill) {
+        SDL_RenderFillRect(m_renderer, &object_rect);
+    }
+    else {
+        SDL_RenderRect(m_renderer, &object_rect);
+    }
+    //  for (const auto& text: text_objects)
+    // {SDL_RenderTexture(ctx.renderer(), text.get_texture(), NULL, &text.get_rect());}
+}
+
+
 void SdlContext::cleanup() noexcept {
     if (m_renderer) {
         SDL_DestroyRenderer(m_renderer);
