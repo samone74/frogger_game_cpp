@@ -22,6 +22,7 @@ SdlContext::SdlContext(const std::string& title, const int width, const int heig
         SDL_Quit();
         throw std::runtime_error(SDL_GetError());
     }
+    font = TTF_OpenFont("assets/arial.ttf", 32);
 }
 
 SdlContext::~SdlContext() {
@@ -39,6 +40,7 @@ SdlContext& SdlContext::operator=(SdlContext&& other) noexcept {
         m_width = other.m_width;
         m_window = other.m_window;
         m_renderer = other.m_renderer;
+        font = other.font;
         other.m_window = nullptr;
         other.m_renderer = nullptr;
     }
@@ -57,9 +59,27 @@ void SdlContext::draw_object_to_screen(const DrawObject &draw_object) const {
     else {
         SDL_RenderRect(m_renderer, &object_rect);
     }
-    //  for (const auto& text: text_objects)
-    // {SDL_RenderTexture(ctx.renderer(), text.get_texture(), NULL, &text.get_rect());}
 }
+
+void SdlContext::draw_text_to_screen(const TextDrawObject &text_object) {
+
+    auto it = m_textCache.find(text_object.id);
+
+    if (it == m_textCache.end()) {
+        // Create new TextObject
+        auto txt = std::make_unique<TextObject>(renderer(), font, text_object.text, text_object.color, text_object.x, text_object.y);
+        m_textCache[text_object.id] = std::move(txt);
+    } else {
+        // Update existing one only if text changed
+        auto& txt = *it->second;
+        txt.set_position(text_object.x, text_object.y);
+        txt.set_text(text_object.text); // rebuilds texture only if changed
+    }
+
+    auto& txt = *m_textCache[text_object.id];
+    SDL_RenderTexture(renderer(), txt.get_texture(), nullptr, &txt.get_rect());
+}
+
 
 
 void SdlContext::cleanup() noexcept {
