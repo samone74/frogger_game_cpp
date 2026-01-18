@@ -1,7 +1,5 @@
 add_library(frogger_core
-        game_states/main_game.cpp
-        game_states/main_game.h
-            objects/object_base.h
+        objects/object_base.h
         objects/frog.cpp
         objects/frog.h
         objects/lanes.cpp
