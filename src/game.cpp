@@ -1,6 +1,6 @@
 #include "game.h"
 
-MainGame::MainGame(int width, int height) :m_ctx(m_game_name, 800, 600){
+MainGame::MainGame(int width, int height) :m_ctx(GAME_NAME, 800, 600){
 }
 
 MainGame::~MainGame() = default;
