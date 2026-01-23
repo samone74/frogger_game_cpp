@@ -1,44 +1,45 @@
 #include "game.h"
 
+MainGame::MainGame(int width, int height) :m_ctx(m_game_name, 800, 600){
+}
 
-void run_game(SdlContext& ctx) {
+MainGame::~MainGame() = default;
+
+void MainGame::run_game() {
     GameStateManager gsm;
-    gsm.change_state(StateID::Play, ctx);
-
+    gsm.change_state(StateID::Play, m_ctx);
     bool running = true;
     SDL_Event e;
-
     while (running) {
 
         // --- Handle events ---
         while (SDL_PollEvent(&e)) {
-            if (auto tr = gsm.get()->handle_event(ctx, e)) {
-                running = process_transition(gsm, ctx, *tr);
+            if (auto tr = gsm.get()->handle_event(m_ctx, e)) {
+                running = process_transition(*tr);
             }
         }
 
         // --- Update ---
-        if (auto tr = gsm.get()->update(ctx)) {
-            running = process_transition(gsm, ctx, *tr);
+        if (auto tr = gsm.get()->update(m_ctx)) {
+            running = process_transition(*tr);
         }
 
         // --- Render ---
-        SDL_SetRenderDrawColor(ctx.renderer(), 0, 125, 0, 255);
-        SDL_RenderClear(ctx.renderer());
-        gsm.get()->render(ctx);
-        SDL_RenderPresent(ctx.renderer());
+        SDL_SetRenderDrawColor(m_ctx.renderer(), 0, 125, 0, 255);
+        SDL_RenderClear(m_ctx.renderer());
+        gsm.get()->render(m_ctx);
+        SDL_RenderPresent(m_ctx.renderer());
         SDL_Delay(16); // ~60 FPS
     }
 }
 
-bool process_transition(GameStateManager& gsm, SdlContext& ctx, const Transition& tr) {
+bool MainGame::process_transition(const Transition &tr) {
     switch (tr.type) {
         case Transition::Type::Switch:
-            gsm.change_state(tr.target, ctx);
+            m_gsm.change_state(tr.target, m_ctx);
         return true;
         case Transition::Type::Quit:
             return false;
     }
     return true;
 }
-
