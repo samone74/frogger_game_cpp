@@ -17,6 +17,7 @@ MainGameState::MainGameState(const SdlContext& ctx){
     create_live_objects();
     m_key_down_events = objects[0]->get_key_down_map();
     m_key_up_events = objects[0]->get_key_up_map();
+    text_objects.push_back({TextID::Level, "Test",50,50, {255,0,0,0}, 0});
 }
 
 TransitionRequest MainGameState::handle_event(const SdlContext& ctx, const SDL_Event& event) {
@@ -83,10 +84,8 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
 
 std::map<int, std::vector<DrawObject>> MainGameState::get_draw_objects() {
     std::map<int, std::vector<DrawObject>> draw_objects_map;
-
     for (auto& object : objects) {
         auto objects_to_draw = object->draw();   // store the vector by value
-
         for (auto& object_to_draw : objects_to_draw) {
             draw_objects_map[object_to_draw.layer].push_back(object_to_draw);
         }
@@ -155,9 +154,12 @@ void MainGameState::remove_live_objects() {
               });
 }
 
-void MainGameState::render(const SdlContext& ctx) {
+void MainGameState::render(SdlContext& ctx) {
     const auto &draw_objects_map = get_draw_objects();
     for (auto &draw_objects: draw_objects_map) {
         for (auto &draw_object: draw_objects.second) { ctx.draw_object_to_screen(draw_object); }
+    }
+    for (auto &text_object: text_objects) {
+        ctx.draw_text_to_screen(text_object);
     }
 }

@@ -15,8 +15,7 @@ class MainGameState final :public GameState {
     ~MainGameState() override = default;
     TransitionRequest handle_event(const SdlContext& ctx, const SDL_Event& event) override;
     TransitionRequest update(const SdlContext& ctx) override;
-    void render(const SdlContext& ctx) override;
-
+    void render(SdlContext& ctx) override;
 private:
     std::vector<std::unique_ptr<ObjectBase>> objects;
     std::vector<TextDrawObject> text_objects;

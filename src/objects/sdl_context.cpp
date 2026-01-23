@@ -1,4 +1,5 @@
 #include "sdl_context.h"
+#include <iostream>
 #include <stdexcept>
 #include <utility>
 
@@ -22,7 +23,13 @@ SdlContext::SdlContext(const std::string& title, const int width, const int heig
         SDL_Quit();
         throw std::runtime_error(SDL_GetError());
     }
-    font = TTF_OpenFont("assets/arial.ttf", 32);
+    TTF_Init();
+    font = TTF_OpenFont("C:/Users/samzw/OneDrive/Documenten/GitHub/frogger_game_cpp/cmake-build-debug/desktop/assets/arial.ttf", 32);
+    if (!font) {
+        std::string error = SDL_GetError();
+        std::cout << "TTF_OpenFont error: " << SDL_GetError() << "\n";
+    }
+
 }
 
 SdlContext::~SdlContext() {
@@ -46,7 +53,6 @@ SdlContext& SdlContext::operator=(SdlContext&& other) noexcept {
     }
     return *this;
 }
-
 
 void SdlContext::draw_object_to_screen(const DrawObject &draw_object) const {
     SDL_SetRenderDrawColor(m_renderer, draw_object.color.red, draw_object.color.green, draw_object.color.blue,
@@ -75,12 +81,9 @@ void SdlContext::draw_text_to_screen(const TextDrawObject &text_object) {
         txt.set_position(text_object.x, text_object.y);
         txt.set_text(text_object.text); // rebuilds texture only if changed
     }
-
     auto& txt = *m_textCache[text_object.id];
     SDL_RenderTexture(renderer(), txt.get_texture(), nullptr, &txt.get_rect());
 }
-
-
 
 void SdlContext::cleanup() noexcept {
     if (m_renderer) {

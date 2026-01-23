@@ -21,7 +21,7 @@ public:
     virtual TransitionRequest update(const SdlContext& ctx) = 0;
 
     // Render the state
-    virtual void render(const SdlContext& ctx) = 0;
+    virtual void render(SdlContext& ctx) = 0;
 };
 
 
