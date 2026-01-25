@@ -4,7 +4,7 @@
 
 // Identify states without including their headers
 enum class StateID {
-    Menu,
+    Start,
     Play,
     Lose
 };
@@ -20,7 +20,7 @@ struct Transition {
 
     // Convenience constructors
     static Transition switch_to(StateID id) { return { Type::Switch, id }; }
-    static Transition quit()                { return { Type::Quit,  StateID::Menu }; }
+    static Transition quit()                { return { Type::Quit,  StateID::Start }; }
 };
 
 // A state returns:

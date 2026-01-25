@@ -23,7 +23,7 @@ struct DrawObject {
   bool fill = true;
 };
 
-enum class TextID : uint32_t { Score, Lives, Level, Debug };
+enum class TextID : uint32_t { Score, Lives, Level, Debug, Start };
 
 struct TextDrawObject {
   TextID id; // unique key for caching
@@ -32,6 +32,7 @@ struct TextDrawObject {
   int y;
   SDL_Color color;
   int layer = 0;
+  void set_text(const std::string& text_in){text = text_in;}
 };
 
 

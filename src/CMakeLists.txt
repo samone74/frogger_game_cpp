@@ -24,6 +24,8 @@ add_library(frogger_core
         game_states/transition.h
         game_states/main_game_state.cpp
         game_states/main_game_state.h
+        game_states/start_screen.cpp
+        game_states/start_screen.h
 
 )
 

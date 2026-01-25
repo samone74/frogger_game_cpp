@@ -18,6 +18,7 @@ MainGameState::MainGameState(const SdlContext& ctx){
     m_key_down_events = objects[0]->get_key_down_map();
     m_key_up_events = objects[0]->get_key_up_map();
     text_objects.push_back({TextID::Level, "Test",50,50, {255,0,0,0}, 0});
+    timer = std::make_unique<CountDownTimer>( [obj = &text_objects.at(0)](const std::string& s) { obj->set_text(s); }, 60);
 }
 
 TransitionRequest MainGameState::handle_event(const SdlContext& ctx, const SDL_Event& event) {
@@ -77,7 +78,7 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
                   });
         (*frog)->set_y(ctx.height() - frog_rect.height);
     }
-   // timer->update();
+    timer->update();
     return std::nullopt;
 }
 

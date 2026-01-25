@@ -6,28 +6,27 @@ MainGame::MainGame(int width, int height) :m_ctx(GAME_NAME, 800, 600){
 MainGame::~MainGame() = default;
 
 void MainGame::run_game() {
-    GameStateManager gsm;
-    gsm.change_state(StateID::Play, m_ctx);
+    m_gsm.change_state(StateID::Start, m_ctx);
     bool running = true;
     SDL_Event e;
     while (running) {
 
         // --- Handle events ---
         while (SDL_PollEvent(&e)) {
-            if (auto tr = gsm.get()->handle_event(m_ctx, e)) {
+            if (auto tr = m_gsm.get()->handle_event(m_ctx, e)) {
                 running = process_transition(*tr);
             }
         }
 
         // --- Update ---
-        if (auto tr = gsm.get()->update(m_ctx)) {
+        if (auto tr = m_gsm.get()->update(m_ctx)) {
             running = process_transition(*tr);
         }
 
         // --- Render ---
         SDL_SetRenderDrawColor(m_ctx.renderer(), 0, 125, 0, 255);
         SDL_RenderClear(m_ctx.renderer());
-        gsm.get()->render(m_ctx);
+        m_gsm.get()->render(m_ctx);
         SDL_RenderPresent(m_ctx.renderer());
         SDL_Delay(16); // ~60 FPS
     }
