@@ -61,9 +61,7 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
                 (*frog)->set_y(ctx.height() - frog_rect.height);
                 m_lives--;
                 if (m_lives == 0) {
-                    m_lives = 5;
-                    change_level(ctx, -m_level + 1);
-                    set_level();
+                    return Transition::switch_to(StateID::Lose);
                 }
                 remove_live_objects();
                 create_live_objects();
@@ -73,6 +71,8 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
     }
     if (frog_rect.y == 0) {
         change_level(ctx, 1);
+        if ( m_level == 11)
+            return Transition::switch_to(StateID::Win);
         frog = std::ranges::find_if(objects,[](const std::unique_ptr<ObjectBase>& obj) {
                       return obj->get_type() == ObjectBase::Type::Frog;
                   });

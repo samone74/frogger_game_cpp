@@ -6,7 +6,8 @@
 enum class StateID {
     Start,
     Play,
-    Lose
+    Lose,
+    Win
 };
 
 struct Transition {

@@ -26,6 +26,10 @@ add_library(frogger_core
         game_states/main_game_state.h
         game_states/start_screen.cpp
         game_states/start_screen.h
+        game_states/lose_screen.cpp
+        game_states/lose_screen.h
+        game_states/win_screen.cpp
+        game_states/win_screen.h
 
 )
 
