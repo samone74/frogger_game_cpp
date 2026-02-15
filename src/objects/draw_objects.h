@@ -35,5 +35,14 @@ struct TextDrawObject {
   void set_text(const std::string& text_in){text = text_in;}
 };
 
+struct SpriteDrawObject {
+  std::string sprite_file;
+  int x;
+  int y;
+  int width;
+  int height;
+  int layer =0;
+};
+
 
 #endif //DRAWOBJECT_H

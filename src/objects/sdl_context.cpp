@@ -85,6 +85,18 @@ void SdlContext::draw_text_to_screen(const TextDrawObject &text_object) {
     SDL_RenderTexture(renderer(), txt.get_texture(), nullptr, &txt.get_rect());
 }
 
+
+void SdlContext::draw_sprite_to_screen(const SpriteDrawObject &sprite_draw_object) {
+    auto sprite_draw_it = m_spriteCache.find(sprite_draw_object.sprite_file);
+    if (sprite_draw_it == m_spriteCache.end()) {
+        //create new object
+        m_spriteCache.emplace(sprite_draw_object.sprite_file, std::make_unique<SpriteObject>(
+            sprite_draw_object.sprite_file, m_renderer, sprite_draw_object.x, sprite_draw_object.y, sprite_draw_object.width, sprite_draw_object.height) );
+        sprite_draw_it = m_spriteCache.find(sprite_draw_object.sprite_file);
+    }
+    SDL_RenderTexture(renderer(), sprite_draw_it->second->get_texture(), nullptr, &sprite_draw_it->second->get_rect());
+}
+
 void SdlContext::cleanup() noexcept {
     if (m_renderer) {
         SDL_DestroyRenderer(m_renderer);

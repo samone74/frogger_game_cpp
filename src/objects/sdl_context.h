@@ -7,6 +7,7 @@
 #include <vector>
 #include "draw_objects.h"
 #include "text_object.h"
+#include "sprite_object.h"
 #include <unordered_map>
 #include <memory>
 
@@ -30,6 +31,7 @@ public:
     [[nodiscard]] int height() const noexcept { return m_height; }
     void draw_object_to_screen(const DrawObject &draw_object) const;
     void draw_text_to_screen(const TextDrawObject &text_object);
+    void draw_sprite_to_screen(const SpriteDrawObject &sprite_draw_object);
 private:
     void cleanup() noexcept;
     SDL_Window* m_window = nullptr;
@@ -38,6 +40,6 @@ private:
     int m_width;
     int m_height;
     std::unordered_map<TextID, std::unique_ptr<TextObject>> m_textCache;
-
+    std::unordered_map<std::string, std::unique_ptr<SpriteObject>> m_spriteCache;
 };
 #endif //SDL_CONTEXT_H

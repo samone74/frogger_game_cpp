@@ -30,6 +30,8 @@ add_library(frogger_core
         game_states/lose_screen.h
         game_states/win_screen.cpp
         game_states/win_screen.h
+        objects/sprite_object.cpp
+        objects/sprite_object.h
 
 )
 
