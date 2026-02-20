@@ -9,7 +9,7 @@ public:
     SpriteObject(const std::string &sprite_file, SDL_Renderer *renderer, float x,
                  float y, float width, float height);
 
-    ~SpriteObject();
+    ~SpriteObject() = default;
 
     // non-copyable
     SpriteObject(const SpriteObject &) = delete;
@@ -30,6 +30,7 @@ private:
     SDL_Texture *texture = nullptr;
     SDL_Renderer *m_renderer = nullptr;
     SDL_FRect m_rect{0, 0, 0, 0};
+    SDL_Texture* load_texture();
 };
 
 

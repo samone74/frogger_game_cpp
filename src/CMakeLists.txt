@@ -38,3 +38,5 @@ add_library(frogger_core
 target_include_directories(frogger_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(frogger_core PRIVATE ${SDL3_INCLUDE_DIR})
 target_include_directories(frogger_core PRIVATE ${SDL3_TFF_INCLUDE_DIR})
+target_include_directories(frogger_core PRIVATE ${SDL3_IMAGE_INCLUDE_DIR})
+

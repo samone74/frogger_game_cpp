@@ -19,6 +19,7 @@ class MainGameState final :public GameState {
 private:
     std::vector<std::unique_ptr<ObjectBase>> objects;
     std::vector<TextDrawObject> text_objects;
+    std::vector<SpriteDrawObject> sprite_objects;
     std::unique_ptr<CountDownTimer> timer = nullptr;
     int m_level = 1;
     int m_lives = 5;

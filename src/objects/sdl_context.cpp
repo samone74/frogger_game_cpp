@@ -94,7 +94,7 @@ void SdlContext::draw_sprite_to_screen(const SpriteDrawObject &sprite_draw_objec
             sprite_draw_object.sprite_file, m_renderer, sprite_draw_object.x, sprite_draw_object.y, sprite_draw_object.width, sprite_draw_object.height) );
         sprite_draw_it = m_spriteCache.find(sprite_draw_object.sprite_file);
     }
-    SDL_RenderTexture(renderer(), sprite_draw_it->second->get_texture(), nullptr, &sprite_draw_it->second->get_rect());
+   // SDL_RenderTexture(renderer(), sprite_draw_it->second->get_texture(), nullptr, &sprite_draw_it->second->get_rect());
 }
 
 void SdlContext::cleanup() noexcept {

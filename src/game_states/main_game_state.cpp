@@ -19,6 +19,7 @@ MainGameState::MainGameState(const SdlContext& ctx){
     m_key_up_events = objects[0]->get_key_up_map();
     text_objects.push_back({TextID::Level, "Test",50,50, {255,0,0,0}, 0});
     timer = std::make_unique<CountDownTimer>( [obj = &text_objects.at(0)](const std::string& s) { obj->set_text(s); }, 60);
+    sprite_objects.push_back({R"(C:\Users\samzw\OneDrive\Documenten\GitHub\frogger_game_cpp\assets\sprites\frog.png)", 10,10,20,20,0});
 }
 
 TransitionRequest MainGameState::handle_event(const SdlContext& ctx, const SDL_Event& event) {
@@ -162,5 +163,8 @@ void MainGameState::render(SdlContext& ctx) {
     }
     for (auto &text_object: text_objects) {
         ctx.draw_text_to_screen(text_object);
+    }
+    for (auto &sprite_object: sprite_objects) {
+        ctx.draw_sprite_to_screen(sprite_object);
     }
 }
