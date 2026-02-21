@@ -20,3 +20,18 @@ SDL_Texture* SpriteObject::load_texture() {
     SDL_DestroySurface(surf);
     return tex;
 }
+
+SpriteDrawObject::SpriteDrawObject(const std::string &sprite_file,  SDL_Renderer* renderer): sprite_file(sprite_file) {
+    texture = load_texture(renderer);
+}
+
+void SpriteDrawObject::draw(SDL_Renderer *renderer) {
+    SDL_RenderTexture(renderer(), texture, nullptr, &rect);
+}
+
+SDL_Texture* SpriteDrawObject::load_texture(SDL_Renderer *renderer) const {
+    SDL_Surface* surf = IMG_Load(sprite_file.c_str());
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(renderer, surf);
+    SDL_DestroySurface(surf);
+    return tex;
+}

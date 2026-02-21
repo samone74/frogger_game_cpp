@@ -5,11 +5,13 @@
 
 class DrawObjectBase {
 public:
-    virtual ~DrawObjectBase() = delete;
+    DrawObjectBase()= default;
+    virtual ~DrawObjectBase() = default;
     DrawObjectBase(const DrawObjectBase&) = delete;
     DrawObjectBase(DrawObjectBase&&) = delete;
     DrawObjectBase& operator=(const DrawObjectBase&) = delete;
     virtual void draw(SDL_Renderer* m_renderer) = 0;
 };
+
 
 #endif //DRAW_OBJECT_BASE_H

@@ -3,6 +3,8 @@
 #include <string>
 #include <SDL3/SDL_render.h>
 
+#include "draw_object_base.h"
+
 
 class SpriteObject {
 public:
@@ -33,5 +35,20 @@ private:
     SDL_Texture* load_texture();
 };
 
+class SpriteDrawObject: public DrawObjectBase {
+    public:
+    SpriteDrawObject(const std::string &sprite_file, SDL_Renderer *renderer);
+    ~SpriteDrawObject() override = default;
+    SpriteDrawObject(const SpriteDrawObject &) = delete;
+    SpriteDrawObject &operator=(const SpriteDrawObject &) = delete;
+    SpriteDrawObject(SpriteDrawObject &&other) noexcept;
+    SpriteDrawObject &operator=(SpriteDrawObject &&other) noexcept;
+    void draw(SDL_Renderer *renderer) override;
+private:
+    std::string sprite_file;
+    SDL_Texture *texture = nullptr;
+    SDL_FRect rect{0, 0, 0, 0};
+    SDL_Texture* load_texture(SDL_Renderer *renderer) const;
+};
 
 #endif //SPRIT_OBJECT_H
