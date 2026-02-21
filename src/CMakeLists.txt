@@ -32,6 +32,7 @@ add_library(frogger_core
         game_states/win_screen.h
         objects/sprite_object.cpp
         objects/sprite_object.h
+        objects/draw_object_base.h
 
 )
 
