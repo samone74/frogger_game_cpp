@@ -83,8 +83,6 @@ void TextObject::rebuild_texture()
         0,
         m_color
     );
-
-
     m_texture = SDL_CreateTextureFromSurface(m_renderer, surface);
 
     m_rect.w = static_cast<float>(surface->w);

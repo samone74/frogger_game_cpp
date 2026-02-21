@@ -16,7 +16,7 @@ class Lanes:public ObjectBase {
     Rectangle get_rect() override;
     void set_y(int y) override{};
     private:
-      int m_number_of_lanes = 10;
+      int m_number_of_lanes = 1;
       const int m_screen_width, m_screen_height;
       int m_lane_size;
     const int line_size = 2;

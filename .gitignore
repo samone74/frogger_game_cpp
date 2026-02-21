@@ -19,3 +19,4 @@ CMakeUserPresets.json
 #cmake-build-*
 /cmake-build-debug
 /.idea
+/.idea
