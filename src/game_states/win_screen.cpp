@@ -2,8 +2,10 @@
 #include "objects/sdl_context.h"
 
 WinScreen::WinScreen(const SdlContext &ctx) {
-    text_objects.push_back({TextID::Start,"You won, press P to start again", 20, ctx.height()/2, {255,0,0,0},0});
-
+    std::string font_file = "C:/Users/samzw/OneDrive/Documenten/GitHub/frogger_game_cpp/cmake-build-debug/desktop/assets/arial.ttf";
+    std::string text = "You won, press P to start again";
+    Color red(255, 0, 0, 255);
+    objects.push_back(std::make_unique<TextDrawObject>(ctx.renderer(), text, font_file, 20, red, 10, 10));
 }
 
 TransitionRequest WinScreen::handle_event(const SdlContext &ctx, const SDL_Event &event) {
@@ -17,7 +19,7 @@ TransitionRequest WinScreen::handle_event(const SdlContext &ctx, const SDL_Event
 }
 
 void WinScreen::render(SdlContext& ctx) {
-    for (auto &text_object: text_objects) {
-        ctx.draw_text_to_screen(text_object);
+    for (auto &object: objects) {
+        object->draw(ctx.renderer());
     }
 }

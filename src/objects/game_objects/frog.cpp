@@ -1,8 +1,11 @@
 #include "frog.h"
 #include <iostream>
 
+#include "objects/draw_objects/draw_object_rect.h"
+
 Frog::Frog(const int size, const int screen_width, const int screen_height):
 size(size), m_screen_width(screen_width), m_screen_height(screen_height), x(screen_width/2), y(screen_height - size) {
+    create_draw_objects();
 }
 
 void Frog::update() {
@@ -19,17 +22,15 @@ void Frog::update() {
     if (y < 0) y = 0;
     if (y > m_screen_height - size) y = m_screen_height - size;
     if (x > m_screen_width - size ) x = m_screen_width - size;
+    m_draw_objects.at(0)->set_position(x, y);
 }
 
-std::vector<DrawObject> Frog::draw() {
-    const Rectangle frog_rectangle(
-    x,
-    y,
-    size,
-    size);
-    const Color color(0,224,0,255);
-    const DrawObject draw_object(color,frog_rectangle, 2);
-    return {draw_object};
+std::vector<DrawObjectBase *> Frog::get_draw_objects() {
+    std::vector<DrawObjectBase *> draw_objects_ptr;
+    for (auto& draw_object : m_draw_objects) {
+        draw_objects_ptr.push_back(draw_object.get());
+    }
+    return draw_objects_ptr;
 }
 
 std::unordered_map<SDL_Keycode, std::function<void()>> Frog::get_key_down_map() {
@@ -56,14 +57,6 @@ ObjectBase::Type Frog::get_type() const {
     return Type::Frog;
 }
 
-Rectangle Frog::get_rect() {
-    const Rectangle frog_rectangle(
-x,
-y,
-size,
-size);
-    return frog_rectangle;
-}
 
 void Frog::set_y(int y_in) {
     y = y_in;
@@ -90,6 +83,17 @@ void Frog::stop_move_right() {
 void Frog::stop_move_down() {
     move_down = false;
 }
+
+void Frog::create_draw_objects() {
+    m_draw_objects.clear();
+    const Color green(0,224,0,255);
+    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(x, y, size, size, green, true));
+}
+
 void Frog::stop_move_up() {
     move_up = false;
+}
+
+Rectangle Frog::get_rect() {
+    return Rectangle(x, y, size, size);
 }
