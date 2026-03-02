@@ -11,15 +11,13 @@
 #include "objects/game_objects/lives.h"
 
 MainGameState::MainGameState(const SdlContext& ctx){
-
-
     objects.push_back(std::make_unique<Lanes>(ctx.width(), ctx.height()));
     create_cars(ctx);
     create_live_objects();
     objects.push_back(std::make_unique<Frog>(20, ctx.width(), ctx.height()));
     m_key_down_events = objects.back()->get_key_down_map();
     m_key_up_events = objects.back()->get_key_up_map();
-    //timer = std::make_unique<CountDownTimer>( [obj = &text_objects.at(0)](const std::string& s) { obj->set_text(s); }, 60);
+    objects.push_back(std::make_unique<CountDownTimer>( ctx, 60));
     //sprite_objects.push_back({R"(C:\Users\samzw\OneDrive\Documenten\GitHub\frogger_game_cpp\assets\sprites\frog2.png)", 10,10,50,60,0});
 }
 

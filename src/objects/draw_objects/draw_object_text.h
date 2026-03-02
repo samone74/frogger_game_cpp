@@ -5,6 +5,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include "draw_object_base.h"
 #include "objects/color.h"
+#include "objects/rectangle.h"
 
 class TextDrawObject final : public DrawObjectBase {
 public:
@@ -24,6 +25,7 @@ public:
     void set_text(const std::string& text_new);
     void set_position(float x, float y) override;
     std::pair<float, float> get_position() override;
+    Rectangle get_rect();
 private:
     void rebuild_texture(SDL_Renderer *renderer);
     bool modified = false;

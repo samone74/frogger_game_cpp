@@ -15,7 +15,8 @@ class ObjectBase{
     Car,
     Frog,
     Live,
-    Night
+    Night,
+    Timer
 };
     virtual ~ObjectBase(){}
     virtual void update() = 0;

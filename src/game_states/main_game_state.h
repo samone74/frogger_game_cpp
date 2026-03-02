@@ -7,6 +7,7 @@
 #include <unordered_map>
 
 #include "objects/rectangle.h"
+#include "objects/game_objects/count_down_timer.h"
 #include "objects/game_objects/object_base.h"
 
 
@@ -19,7 +20,6 @@ class MainGameState final :public GameState {
     void render(SdlContext& ctx) override;
 private:
     std::vector<std::unique_ptr<ObjectBase>> objects;
-   // std::unique_ptr<CountDownTimer> timer = nullptr;
     int m_level = 1;
     int m_lives = 5;
     std::unordered_map<SDL_Keycode, std::function<void()> > m_key_down_events;

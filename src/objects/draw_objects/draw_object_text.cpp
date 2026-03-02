@@ -57,6 +57,10 @@ std::pair<float, float> TextDrawObject::get_position() {
     return {rect.x, rect.y};
 }
 
+Rectangle TextDrawObject::get_rect() {
+    return {rect.x, rect.y, rect.w, rect.h};
+}
+
 void TextDrawObject::rebuild_texture(SDL_Renderer *renderer) {
     if (texture) {
         SDL_DestroyTexture(texture);
