@@ -19,6 +19,7 @@ std::vector<DrawObjectBase *> Lanes::get_draw_objects() {
 
 void Lanes::change_level(const int level) {
   m_number_of_lanes = level;
+  create_draw_objects();
 }
 
 ObjectBase::Type Lanes::get_type() const {
@@ -31,7 +32,7 @@ void Lanes::create_draw_objects() {
   const Color white(255, 255, 255, 255);
   m_draw_objects.push_back(std::make_unique<DrawObjectRect>(0,  m_screen_height / 2 - m_lane_size / 2 * m_number_of_lanes,
     m_screen_width,
-    m_lane_size * m_number_of_lanes, gray, false ));
+    m_lane_size * m_number_of_lanes, gray, true ));
   for (int i = 0; i < m_number_of_lanes + 1; i++) {
     m_draw_objects.push_back(std::make_unique<DrawObjectRect>(  0,
       m_screen_height / 2 - m_lane_size / 2 * m_number_of_lanes + m_lane_size * (i)- line_size / 2,
