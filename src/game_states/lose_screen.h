@@ -5,10 +5,11 @@
 #include "game_state.h"
 #include <vector>
 #include <memory>
-#include "objects/draw_objects.h"
-#include "objects/object_base.h"
 
-class LoseScreen:public GameState {
+#include "objects/draw_objects/draw_object_text.h"
+
+
+ class LoseScreen:public GameState {
 public:
  explicit LoseScreen(const SdlContext& ctx);
  ~LoseScreen() override = default;
@@ -27,8 +28,7 @@ public:
  void render(SdlContext& ctx) override;
 
 private:
- std::vector<std::unique_ptr<ObjectBase>> objects;
- std::vector<TextDrawObject> text_objects;
+ std::vector<std::unique_ptr<TextDrawObject>> objects;
 };
 
 

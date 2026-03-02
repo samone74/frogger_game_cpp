@@ -1,10 +1,13 @@
 #include "start_screen.h"
 
 #include "objects/sdl_context.h"
+#include "objects/draw_objects/draw_object_text.h"
 
 StartScreen::StartScreen(const SdlContext &ctx) {
-    text_objects.push_back({TextID::Start,"Press any key to continue", 20, ctx.height()/2, {255,0,0,0},0});
-
+    std::string font_file = "C:/Users/samzw/OneDrive/Documenten/GitHub/frogger_game_cpp/cmake-build-debug/desktop/assets/arial.ttf";
+    std::string text = "Press any key to continue";
+    Color red(255, 0, 0, 255);
+    objects.push_back(std::make_unique<TextDrawObject>(ctx.renderer(), text, font_file, 20, red, 10, 10));
 }
 
 TransitionRequest StartScreen::handle_event(const SdlContext &ctx, const SDL_Event &event) {
@@ -17,7 +20,7 @@ TransitionRequest StartScreen::handle_event(const SdlContext &ctx, const SDL_Eve
 }
 
 void StartScreen::render(SdlContext& ctx) {
-    for (auto &text_object: text_objects) {
-        ctx.draw_text_to_screen(text_object);
+    for (auto &object: objects) {
+        object->draw(ctx.renderer());
     }
 }

@@ -1,25 +1,24 @@
 #include "main_game_state.h"
-#include "../objects/frog.h"
-#include "../objects/lanes.h"
-#include "../objects/lives.h"
+
 #include <iostream>
-#include "../objects/car.h"
-#include "../objects/night.h"
 #include "objects/sdl_context.h"
 #include <experimental/random>
 
-MainGameState::MainGameState(const SdlContext& ctx){
+#include "objects/color.h"
+#include "objects/game_objects/car.h"
+#include "objects/game_objects/frog.h"
+#include "objects/game_objects/lanes.h"
+#include "objects/game_objects/lives.h"
 
-    objects.push_back(std::make_unique<Frog>(20, ctx.width(), ctx.height()));
-    //objects.push_back(std::make_unique<Night>( ctx.width(), ctx.height()));
+MainGameState::MainGameState(const SdlContext& ctx){
     objects.push_back(std::make_unique<Lanes>(ctx.width(), ctx.height()));
     create_cars(ctx);
     create_live_objects();
-    m_key_down_events = objects[0]->get_key_down_map();
-    m_key_up_events = objects[0]->get_key_up_map();
-    text_objects.push_back({TextID::Level, "Test",50,50, {255,0,0,0}, 0});
-    timer = std::make_unique<CountDownTimer>( [obj = &text_objects.at(0)](const std::string& s) { obj->set_text(s); }, 60);
-    sprite_objects.push_back({R"(C:\Users\samzw\OneDrive\Documenten\GitHub\frogger_game_cpp\assets\sprites\frog2.png)", 10,10,50,60,0});
+    objects.push_back(std::make_unique<Frog>(20, ctx.width(), ctx.height()));
+    m_key_down_events = objects.back()->get_key_down_map();
+    m_key_up_events = objects.back()->get_key_up_map();
+    objects.push_back(std::make_unique<CountDownTimer>( ctx, 60));
+    //sprite_objects.push_back({R"(C:\Users\samzw\OneDrive\Documenten\GitHub\frogger_game_cpp\assets\sprites\frog2.png)", 10,10,50,60,0});
 }
 
 TransitionRequest MainGameState::handle_event(const SdlContext& ctx, const SDL_Event& event) {
@@ -79,21 +78,11 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
                   });
         (*frog)->set_y(ctx.height() - frog_rect.height);
     }
-    timer->update();
+    //timer->update();
     return std::nullopt;
 }
 
 
-std::map<int, std::vector<DrawObject>> MainGameState::get_draw_objects() {
-    std::map<int, std::vector<DrawObject>> draw_objects_map;
-    for (auto& object : objects) {
-        auto objects_to_draw = object->draw();   // store the vector by value
-        for (auto& object_to_draw : objects_to_draw) {
-            draw_objects_map[object_to_draw.layer].push_back(object_to_draw);
-        }
-    }
-    return draw_objects_map;
-}
 
 
 void MainGameState::create_cars(const SdlContext& ctx) {
@@ -157,14 +146,10 @@ void MainGameState::remove_live_objects() {
 }
 
 void MainGameState::render(SdlContext& ctx) {
-    const auto &draw_objects_map = get_draw_objects();
-    for (auto &draw_objects: draw_objects_map) {
-        for (auto &draw_object: draw_objects.second) { ctx.draw_object_to_screen(draw_object); }
+    for (const auto& object : objects) {
+        for (const auto& draw_object:object->get_draw_objects()) {
+            draw_object->draw(ctx.renderer());
+        }
     }
-    for (auto &text_object: text_objects) {
-        ctx.draw_text_to_screen(text_object);
-    }
-    for (auto &sprite_object: sprite_objects) {
-        ctx.draw_sprite_to_screen(sprite_object);
-    }
+
 }

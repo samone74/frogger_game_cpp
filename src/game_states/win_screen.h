@@ -4,8 +4,7 @@
 #include "game_state.h"
 #include <vector>
 #include <memory>
-#include "objects/draw_objects.h"
-#include "objects/object_base.h"
+#include "objects/draw_objects/draw_object_text.h"
 
 class WinScreen:public GameState {
 public:
@@ -26,8 +25,7 @@ public:
     void render(SdlContext& ctx) override;
 
 private:
-    std::vector<std::unique_ptr<ObjectBase>> objects;
-    std::vector<TextDrawObject> text_objects;
+    std::vector<std::unique_ptr<TextDrawObject>> objects;
 };
 
 

@@ -4,13 +4,13 @@
 #include <utility>
 
 SdlContext::SdlContext(const std::string& title, const int width, const int height)
-    : m_width(width), m_height(height)
+    : window_width(width), window_height(height)
 {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         throw std::runtime_error("SDL_Init Error: " + std::string(SDL_GetError()));
     }
 
-    m_window = SDL_CreateWindow(title.c_str(), m_width, m_height, 0);
+    m_window = SDL_CreateWindow(title.c_str(), window_width, window_height, 0);
     if (!m_window) {
         SDL_Quit();
         throw std::runtime_error(SDL_GetError());
@@ -29,22 +29,21 @@ SdlContext::SdlContext(const std::string& title, const int width, const int heig
         std::string error = SDL_GetError();
         std::cout << "TTF_OpenFont error: " << SDL_GetError() << "\n";
     }
-
 }
 
 SdlContext::~SdlContext() {
     cleanup();
 }
 
-SdlContext::SdlContext(SdlContext&& other) noexcept: m_width(other.m_width), m_height(other.m_height) {
+SdlContext::SdlContext(SdlContext&& other) noexcept: window_width(other.window_width), window_height(other.window_height) {
     *this = std::move(other);
 }
 
 SdlContext& SdlContext::operator=(SdlContext&& other) noexcept {
     if (this != &other) {
         cleanup();
-        m_height = other.m_height;
-        m_width = other.m_width;
+        window_height = other.window_height;
+        window_width = other.window_width;
         m_window = other.m_window;
         m_renderer = other.m_renderer;
         font = other.font;
@@ -54,47 +53,11 @@ SdlContext& SdlContext::operator=(SdlContext&& other) noexcept {
     return *this;
 }
 
-void SdlContext::draw_object_to_screen(const DrawObject &draw_object) const {
-    SDL_SetRenderDrawColor(m_renderer, draw_object.color.red, draw_object.color.green, draw_object.color.blue,
-                           draw_object.color.transparency);
-    const SDL_FRect object_rect(draw_object.rectangle.x, draw_object.rectangle.y,
-                          draw_object.rectangle.width, draw_object.rectangle.height);
-    if (draw_object.fill) {
-        SDL_RenderFillRect(m_renderer, &object_rect);
+
+void SdlContext::draw_object_to_screen(const std::vector<DrawObjectBase *> &draw_objects) {
+    for (const auto &draw_object : draw_objects) {
+        draw_object->draw(m_renderer);
     }
-    else {
-        SDL_RenderRect(m_renderer, &object_rect);
-    }
-}
-
-void SdlContext::draw_text_to_screen(const TextDrawObject &text_object) {
-
-    auto it = m_textCache.find(text_object.id);
-
-    if (it == m_textCache.end()) {
-        // Create new TextObject
-        auto txt = std::make_unique<TextObject>(renderer(), font, text_object.text, text_object.color, text_object.x, text_object.y);
-        m_textCache[text_object.id] = std::move(txt);
-    } else {
-        // Update existing one only if text changed
-        auto& txt = *it->second;
-        txt.set_position(text_object.x, text_object.y);
-        txt.set_text(text_object.text); // rebuilds texture only if changed
-    }
-    auto& txt = *m_textCache[text_object.id];
-    SDL_RenderTexture(renderer(), txt.get_texture(), nullptr, &txt.get_rect());
-}
-
-
-void SdlContext::draw_sprite_to_screen(const SpriteDrawObject &sprite_draw_object) {
-    auto sprite_draw_it = m_spriteCache.find(sprite_draw_object.sprite_file);
-    if (sprite_draw_it == m_spriteCache.end()) {
-        //create new object
-        m_spriteCache.emplace(sprite_draw_object.sprite_file, std::make_unique<SpriteObject>(
-            sprite_draw_object.sprite_file, m_renderer, sprite_draw_object.x, sprite_draw_object.y, sprite_draw_object.width, sprite_draw_object.height) );
-        sprite_draw_it = m_spriteCache.find(sprite_draw_object.sprite_file);
-    }
-    SDL_RenderTexture(renderer(), sprite_draw_it->second->get_texture(), nullptr, &sprite_draw_it->second->get_rect());
 }
 
 void SdlContext::cleanup() noexcept {
