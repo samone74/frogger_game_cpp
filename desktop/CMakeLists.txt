@@ -24,3 +24,9 @@ add_custom_command(TARGET frogger_desktop POST_BUILD
         "${CMAKE_SOURCE_DIR}/lib/SDL3_image-3.4.0/x86_64-w64-mingw32/bin/SDL3_image.dll"
         "$<TARGET_FILE_DIR:frogger_desktop>"
 )
+
+add_custom_command(TARGET frogger_desktop POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/assets"
+        "$<TARGET_FILE_DIR:frogger_desktop>/assets"
+)

@@ -5,8 +5,7 @@
 
 CountDownTimer::CountDownTimer(const SdlContext &context, const Uint32 time_left): m_time_left(time_left * 1000){
     last_time_tick = SDL_GetTicks();
-    std::string font_file =
-            "C:/Users/samzw/OneDrive/Documenten/GitHub/frogger_game_cpp/cmake-build-debug/desktop/assets/arial.ttf";;
+    std::string font_file = "assets/fonts/arial.ttf";
     float font_size = 18;
     Color font_color = Color(255, 255, 255, 255);
     float m_x = 50;
