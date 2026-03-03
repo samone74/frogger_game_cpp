@@ -2,7 +2,7 @@
 #include "objects/sdl_context.h"
 
 LoseScreen::LoseScreen(const SdlContext &ctx) {
-    std::string font_file = "C:/Users/samzw/OneDrive/Documenten/GitHub/frogger_game_cpp/cmake-build-debug/desktop/assets/arial.ttf";
+    std::string font_file = "assets/fonts/arial.ttf";
     std::string text = "You lost, press P to try again";
     Color red(255, 0, 0, 255);
     objects.push_back(std::make_unique<TextDrawObject>(ctx.renderer(), text, font_file, 20, red, 10, 10));

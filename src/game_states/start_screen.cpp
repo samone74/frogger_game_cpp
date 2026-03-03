@@ -4,7 +4,7 @@
 #include "objects/draw_objects/draw_object_text.h"
 
 StartScreen::StartScreen(const SdlContext &ctx) {
-    std::string font_file = "C:/Users/samzw/OneDrive/Documenten/GitHub/frogger_game_cpp/cmake-build-debug/desktop/assets/arial.ttf";
+    std::string font_file = "assets/fonts/arial.ttf";
     std::string text = "Press any key to continue";
     Color red(255, 0, 0, 255);
     objects.push_back(std::make_unique<TextDrawObject>(ctx.renderer(), text, font_file, 20, red, 10, 10));

@@ -5,7 +5,7 @@
 
 CountDownTimer::CountDownTimer(const SdlContext &context, const Uint32 time_left): m_time_left(time_left * 1000){
     last_time_tick = SDL_GetTicks();
-    std::string font_file = "assets/arial.ttf";
+    std::string font_file = "assets/fonts/arial.ttf";
     float font_size = 18;
     Color font_color = Color(255, 255, 255, 255);
     float m_x = 50;
