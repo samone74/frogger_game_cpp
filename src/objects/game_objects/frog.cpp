@@ -2,10 +2,11 @@
 #include <iostream>
 
 #include "objects/draw_objects/draw_object_rect.h"
+#include "objects/draw_objects/draw_object_sprite.h"
 
-Frog::Frog(const int size, const int screen_width, const int screen_height):
-size(size), m_screen_width(screen_width), m_screen_height(screen_height), x(screen_width/2), y(screen_height - size) {
-    create_draw_objects();
+Frog::Frog(const int size,  const SdlContext& context):
+x(context.width()/2), y(context.height() - size), size(size), m_screen_width(context.width()), m_screen_height(context.height()) {
+    create_draw_objects(context);
 }
 
 void Frog::update() {
@@ -84,10 +85,12 @@ void Frog::stop_move_down() {
     move_down = false;
 }
 
-void Frog::create_draw_objects() {
+void Frog::create_draw_objects( const SdlContext& context) {
     m_draw_objects.clear();
     ;
-    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(x, y, size, size, FROGGREEN, true));
+   // m_draw_objects.push_back(std::make_unique<DrawObjectRect>(x, y, size, size, FROGGREEN, true));
+    const std::string sprite_file = "assets\\sprites\\frog2.png";
+    m_draw_objects.push_back(std::make_unique<DrawObjectSprite>(sprite_file, context.renderer(),x, y, size, size ));
 }
 
 void Frog::stop_move_up() {
