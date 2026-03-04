@@ -24,8 +24,7 @@ Rectangle Live::get_rect() {
 
 void Live::create_draw_objects() {
     m_draw_objects.clear();
-    Color red(225, 0, 0, 255);
-    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(m_x, m_y, width, height, red, true ));
+    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(m_x, m_y, width, height, RED, true ));
 }
 
 

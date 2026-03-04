@@ -1,5 +1,7 @@
 #include "game.h"
 
+#include "objects/color.h"
+
 MainGame::MainGame(int width, int height) :m_ctx(GAME_NAME, 800, 600){
 }
 
@@ -24,7 +26,7 @@ void MainGame::run_game() {
         }
 
         // --- Render ---
-        SDL_SetRenderDrawColor(m_ctx.renderer(), 0, 125, 0, 255);
+        SDL_SetRenderDrawColor(m_ctx.renderer(), GREEN.red, GREEN.green, GREEN.blue, GREEN.transparency);
         SDL_RenderClear(m_ctx.renderer());
         m_gsm.get()->render(m_ctx);
         SDL_RenderPresent(m_ctx.renderer());

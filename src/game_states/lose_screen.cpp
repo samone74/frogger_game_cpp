@@ -4,8 +4,7 @@
 LoseScreen::LoseScreen(const SdlContext &ctx) {
     std::string font_file = "assets/fonts/arial.ttf";
     std::string text = "You lost, press P to try again";
-    Color red(255, 0, 0, 255);
-    objects.push_back(std::make_unique<TextDrawObject>(ctx.renderer(), text, font_file, 20, red, 10, 10));
+    objects.push_back(std::make_unique<TextDrawObject>(ctx.renderer(), text, font_file, 20, RED, 10, 10));
 }
 
 TransitionRequest LoseScreen::handle_event(const SdlContext &ctx, const SDL_Event &event) {
