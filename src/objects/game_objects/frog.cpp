@@ -4,8 +4,8 @@
 #include "objects/draw_objects/draw_object_rect.h"
 #include "objects/draw_objects/draw_object_sprite.h"
 
-Frog::Frog(const int size, const int screen_width, const int screen_height,  const SdlContext& context):
-size(size), m_screen_width(screen_width), m_screen_height(screen_height), x(screen_width/2), y(screen_height - size) {
+Frog::Frog(const int size,  const SdlContext& context):
+x(context.width()/2), y(context.height() - size), size(size), m_screen_width(context.width()), m_screen_height(context.height()) {
     create_draw_objects(context);
 }
 

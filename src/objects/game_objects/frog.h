@@ -8,7 +8,7 @@
 
 class Frog: public ObjectBase {
   public:
-    Frog(int size, int screen_width, int screen_height, const SdlContext& context);
+    Frog(int size, const SdlContext& context);
     ~Frog() override = default;
     void update() override;
     std::vector<DrawObjectBase*> get_draw_objects() override;

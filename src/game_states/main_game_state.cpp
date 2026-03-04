@@ -14,7 +14,7 @@ MainGameState::MainGameState(const SdlContext& ctx){
     objects.push_back(std::make_unique<Lanes>(ctx.width(), ctx.height()));
     create_cars(ctx);
     create_live_objects();
-    objects.push_back(std::make_unique<Frog>(40, ctx.width(), ctx.height(), ctx));
+    objects.push_back(std::make_unique<Frog>(40, ctx));
     m_key_down_events = objects.back()->get_key_down_map();
     m_key_up_events = objects.back()->get_key_up_map();
     objects.push_back(std::make_unique<CountDownTimer>( ctx, 60));
