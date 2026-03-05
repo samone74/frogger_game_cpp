@@ -88,19 +88,23 @@ void MainGameState::create_cars(const SdlContext& ctx) {
     const int lane_height = ctx.height() / (10 + 2);
     const int margin = 10;
     const int car_height = lane_height - margin;
+    const int car_width = 2 * car_height;
+    const int minimum_distance = car_width;
     for (int i = 1; i <= m_level; i++) {
         int dir = std::experimental::randint(0, 1) == 0 ? -1 : 1;
         int speed = dir * std::experimental::randint(1, 5);
         int y = ctx.height() / 2 - lane_height / 2 * (m_level) + (i - 1) * lane_height + margin / 2;
         int number_of_cars_in_lane = std::round(3.0 / std::abs(speed));
-        int distance_between_cars = 2 * ctx.height() / number_of_cars_in_lane;
+        int length_for_car = ctx.width() / number_of_cars_in_lane;
+        int x_prev = 0;
         for (int j = 0; j < number_of_cars_in_lane; j++) {
             int red = std::experimental::randint(0, 255);
             int green = std::experimental::randint(0, 255);
             int blue = std::experimental::randint(0, 255);
             Color color(red, green, blue, 255);
-            int x = std::experimental::randint(j * distance_between_cars, distance_between_cars * (j + 1) - car_height * 2);
-            objects.push_back(std::make_unique<Car>(x, y, speed, color, car_height * 2,
+            int x = std::experimental::randint(x_prev, length_for_car * (j + 1));
+            x_prev = x + minimum_distance + car_width;
+            objects.push_back(std::make_unique<Car>(x, y, speed, color, car_width,
                                                     car_height, ctx.width(), ctx.height()));
         }
     }
