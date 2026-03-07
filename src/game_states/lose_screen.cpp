@@ -9,10 +9,11 @@ LoseScreen::LoseScreen(const SdlContext &ctx) {
 
 TransitionRequest LoseScreen::handle_event(const SdlContext &ctx, const SDL_Event &event) {
     if (event.type == SDL_EVENT_QUIT)
-        return Transition::quit() ;
+        return Transition::quit();
     if (event.type == SDL_EVENT_KEY_DOWN) {
-        if (event.key.key == SDLK_P)
-        return Transition::switch_to(StateID::Play);
+        if (event.key.key == SDLK_P) {
+            return Transition::switch_to(StateID::Play);
+        }
         if (event.key.key == SDLK_ESCAPE) {
             return Transition::quit();
         }
@@ -20,7 +21,7 @@ TransitionRequest LoseScreen::handle_event(const SdlContext &ctx, const SDL_Even
     return std::nullopt;
 }
 
-void LoseScreen::render(SdlContext& ctx) {
+void LoseScreen::render(SdlContext &ctx) {
     for (auto &object: objects) {
         object->draw(ctx.renderer());
     }

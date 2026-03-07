@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <utility>
+#include <SDL3_ttf/SDL_ttf.h>
 
 SdlContext::SdlContext(const std::string& title, const int width, const int height)
     : window_width(width), window_height(height)
@@ -41,7 +42,6 @@ SdlContext& SdlContext::operator=(SdlContext&& other) noexcept {
         window_width = other.window_width;
         m_window = other.m_window;
         m_renderer = other.m_renderer;
-        font = other.font;
         other.m_window = nullptr;
         other.m_renderer = nullptr;
     }

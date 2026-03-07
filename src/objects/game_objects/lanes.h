@@ -14,14 +14,14 @@ class Lanes:public ObjectBase {
     std::unordered_map<SDL_Keycode, std::function<void()>> get_key_down_map() override {return {};}
     std::unordered_map<SDL_Keycode, std::function<void()>> get_key_up_map() override {return {};}
     void change_level(int level) override;
-    Type get_type() const override;
-    void set_y(int y) override{};
+    [[nodiscard]] Type get_type() const override;
+    void set_y(float y) override{};
   Rectangle get_rect() override;
     private:
       int m_number_of_lanes = 1;
       const int m_screen_width, m_screen_height;
-      int m_lane_size;
-    const int line_size = 2;
+      float m_lane_size;
+    const float line_size = 2;
     const int max_number_of_lanes = 10;
   std::vector<std::unique_ptr<DrawObjectBase>> m_draw_objects;
   void create_draw_objects();

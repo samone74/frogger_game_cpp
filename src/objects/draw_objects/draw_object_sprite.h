@@ -6,7 +6,7 @@
 
 class DrawObjectSprite final : public DrawObjectBase {
 public:
-    DrawObjectSprite(const std::string &sprite_file,  SDL_Renderer* renderer, float x, float y, float width, float height);
+    DrawObjectSprite(std::string sprite_file,  SDL_Renderer* renderer, float x, float y, float width, float height);
 
     ~DrawObjectSprite() override = default;
 

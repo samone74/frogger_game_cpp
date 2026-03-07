@@ -2,7 +2,6 @@
 #define COUNT_DOWN_TIMER_H
 #include <functional>
 #include <memory>
-#include <string>
 #include <SDL3/SDL.h>
 
 #include "object_base.h"
@@ -20,8 +19,8 @@ class CountDownTimer:public ObjectBase {
     std::unordered_map<SDL_Keycode, std::function<void()>> get_key_down_map() override;
     std::unordered_map<SDL_Keycode, std::function<void()>> get_key_up_map() override;
     void change_level(int level) override;
-    Type get_type() const override;
-    void set_y(int y) override;
+    [[nodiscard]] Type get_type() const override;
+    void set_y(float y) override;
     Rectangle get_rect() override;
 
     private:

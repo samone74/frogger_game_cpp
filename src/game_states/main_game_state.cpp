@@ -6,6 +6,7 @@
 
 #include "objects/color.h"
 #include "objects/game_objects/car.h"
+#include "objects/game_objects/count_down_timer.h"
 #include "objects/game_objects/frog.h"
 #include "objects/game_objects/lanes.h"
 #include "objects/game_objects/lives.h"
@@ -57,7 +58,7 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
         object->update();
         if (object->get_type() == ObjectBase::Type::Car) {
             if ( detect_collision(object->get_rect(), frog_rect)) {
-                (*frog)->set_y(ctx.height() - frog_rect.height);
+                (*frog)->set_y(static_cast<float>(ctx.height()) - frog_rect.height);
                 m_lives--;
                 if (m_lives == 0) {
                     return Transition::switch_to(StateID::Lose);
@@ -75,7 +76,7 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
         frog = std::ranges::find_if(objects,[](const std::unique_ptr<ObjectBase>& obj) {
                       return obj->get_type() == ObjectBase::Type::Frog;
                   });
-        (*frog)->set_y(ctx.height() - frog_rect.height);
+        (*frog)->set_y(static_cast<float>(ctx.height()) - frog_rect.height);
     }
     //timer->update();
     return std::nullopt;
@@ -86,7 +87,7 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
 
 void MainGameState::create_cars(const SdlContext& ctx) {
     const int lane_height = ctx.height() / (10 + 2);
-    const int margin = 10;
+    constexpr int margin = 10;
     const int car_height = lane_height - margin;
     const int car_width = 2 * car_height;
     const int minimum_distance = car_width;
@@ -94,7 +95,7 @@ void MainGameState::create_cars(const SdlContext& ctx) {
         int dir = std::experimental::randint(0, 1) == 0 ? -1 : 1;
         int speed = dir * std::experimental::randint(1, 5);
         int y = ctx.height() / 2 - lane_height / 2 * (m_level) + (i - 1) * lane_height + margin / 2;
-        int number_of_cars_in_lane = std::round(3.0 / std::abs(speed));
+        int number_of_cars_in_lane =  static_cast<int>(std::round(3.0 / std::abs(speed)));
         int length_for_car = ctx.width() / number_of_cars_in_lane;
         int x_prev = 0;
         for (int j = 0; j < number_of_cars_in_lane; j++) {
@@ -128,13 +129,6 @@ void MainGameState::change_level(const SdlContext& ctx, const int level_increase
     set_level();
 }
 
-bool MainGameState::detect_collision(const Rectangle& a, const Rectangle& b) {
-        return a.x < b.x + b.width  &&
-               a.x + a.width > b.x  &&
-               a.y < b.y + b.height &&
-               a.y + a.height > b.y;
-}
-
 void MainGameState::create_live_objects() {
     for (int i = 1; i <= m_lives; i++) {
         objects.push_back(std::make_unique<Live>(5 * i));
@@ -154,5 +148,11 @@ void MainGameState::render(SdlContext& ctx) {
             draw_object->draw(ctx.renderer());
         }
     }
+}
 
+bool detect_collision(const Rectangle& a, const Rectangle& b) {
+    return a.x < b.x + b.width  &&
+           a.x + a.width > b.x  &&
+           a.y < b.y + b.height &&
+           a.y + a.height > b.y;
 }

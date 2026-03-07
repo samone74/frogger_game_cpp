@@ -1,6 +1,4 @@
 #include "count_down_timer.h"
-#include <utility>
-
 #include "objects/sdl_context.h"
 
 CountDownTimer::CountDownTimer(const SdlContext &context, const Uint32 time_left): m_time_left(time_left * 1000){
@@ -48,7 +46,7 @@ ObjectBase::Type CountDownTimer::get_type() const {
     return Type::Timer;
 }
 
-void CountDownTimer::set_y(int y) {
+void CountDownTimer::set_y(float y) {
     m_y = y;
 }
 

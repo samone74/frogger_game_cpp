@@ -1,8 +1,10 @@
 #include "draw_object_sprite.h"
 #include <SDL3_image/SDL_image.h>
 
-DrawObjectSprite::DrawObjectSprite(const std::string &sprite_file, SDL_Renderer *renderer, const float x, const float y,
-                                   const float width, const float height): sprite_file(sprite_file) {
+#include <utility>
+
+DrawObjectSprite::DrawObjectSprite(std::string sprite_file, SDL_Renderer *renderer, const float x, const float y,
+                                   const float width, const float height): sprite_file(std::move(sprite_file)) {
     load_texture(renderer);
     rect.x = x;
     rect.y = y;

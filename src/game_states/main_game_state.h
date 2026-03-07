@@ -3,11 +3,8 @@
 #include "game_state.h"
 #include <vector>
 #include <memory>
-
 #include <unordered_map>
-
 #include "objects/rectangle.h"
-#include "objects/game_objects/count_down_timer.h"
 #include "objects/game_objects/object_base.h"
 
 
@@ -27,11 +24,11 @@ private:
     void create_cars(const SdlContext& ctx);
     void set_level() const;
     void change_level(const SdlContext& ctx, int level_increase);
-    bool detect_collision(const Rectangle& a, const Rectangle& b);
+
     void create_live_objects();
     void remove_live_objects();
 };
-
+bool detect_collision(const Rectangle& a, const Rectangle& b);
 
 
 #endif //MAIN_GAME_STATE_H

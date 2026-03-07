@@ -23,7 +23,7 @@ public:
 private:
     std::unique_ptr<GameState> current;
 
-    std::unique_ptr<GameState> create_state(StateID id, const SdlContext& context);
+    static std::unique_ptr<GameState> create_state(StateID id, const SdlContext& context);
 };
 
 
