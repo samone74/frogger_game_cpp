@@ -13,6 +13,9 @@ TransitionRequest LoseScreen::handle_event(const SdlContext &ctx, const SDL_Even
     if (event.type == SDL_EVENT_KEY_DOWN) {
         if (event.key.key == SDLK_P)
         return Transition::switch_to(StateID::Play);
+        if (event.key.key == SDLK_ESCAPE) {
+            return Transition::quit();
+        }
     }
     return std::nullopt;
 }
