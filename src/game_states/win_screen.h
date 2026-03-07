@@ -6,7 +6,7 @@
 #include <memory>
 #include "objects/draw_objects/draw_object_text.h"
 
-class WinScreen:public GameState {
+class WinScreen final :public GameState {
 public:
     explicit WinScreen(const SdlContext& ctx);
     ~WinScreen() override = default;

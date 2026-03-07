@@ -1,11 +1,9 @@
 #include "frog.h"
-#include <iostream>
-
 #include "objects/draw_objects/draw_object_rect.h"
 #include "objects/draw_objects/draw_object_sprite.h"
 
-Frog::Frog(const int size,  const SdlContext& context):
-x(context.width()/2), y(context.height() - size), size(size), m_screen_width(context.width()), m_screen_height(context.height()) {
+Frog::Frog(const float size,  const SdlContext& context):
+x(static_cast<float>(context.width())/2), y(static_cast<float>(context.height()) - size), size(size), m_screen_width(context.width()), m_screen_height(context.height()) {
     create_draw_objects(context);
 }
 
@@ -21,8 +19,8 @@ void Frog::update() {
     // keep in bounds
     if (x < 0) x = 0;
     if (y < 0) y = 0;
-    if (y > m_screen_height - size) y = m_screen_height - size;
-    if (x > m_screen_width - size ) x = m_screen_width - size;
+    if (y > static_cast<float>(m_screen_height) - size) y = static_cast<float>(m_screen_height) - size;
+    if (x > static_cast<float>(m_screen_width) - size ) x = static_cast<float>(m_screen_width) - size;
     m_draw_objects.at(0)->set_position(x, y);
 }
 
@@ -66,7 +64,7 @@ ObjectBase::Type Frog::get_type() const {
 }
 
 
-void Frog::set_y(int y_in) {
+void Frog::set_y(const float y_in) {
     y = y_in;
     move_down = false;
     move_up = false;

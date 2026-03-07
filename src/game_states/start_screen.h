@@ -8,7 +8,7 @@
 #include "objects/draw_objects/draw_object_text.h"
 #include "objects/game_objects/object_base.h"
 
-class StartScreen:public GameState {
+class StartScreen final :public GameState {
     public:
     explicit StartScreen(const SdlContext& ctx);
     ~StartScreen() override = default;

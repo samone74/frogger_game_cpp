@@ -24,8 +24,8 @@ class ObjectBase{
     virtual std::unordered_map<SDL_Keycode, std::function<void()>> get_key_down_map() = 0;
     virtual std::unordered_map<SDL_Keycode, std::function<void()>> get_key_up_map() = 0;
     virtual void change_level(int level) = 0;
-    virtual Type get_type() const = 0;
-    virtual void set_y(int y) = 0;
+    [[nodiscard]] virtual Type get_type() const = 0;
+    virtual void set_y(float y) = 0;
     virtual Rectangle get_rect() = 0;
   };
 

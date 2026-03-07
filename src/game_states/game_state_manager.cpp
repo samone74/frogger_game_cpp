@@ -14,5 +14,4 @@ std::unique_ptr<GameState> GameStateManager::create_state(StateID id, const SdlC
         case StateID::Win: return std::make_unique<WinScreen>(context);
         default: return nullptr;
     }
-    return nullptr;
 }

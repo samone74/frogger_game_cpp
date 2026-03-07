@@ -2,7 +2,7 @@
 
 #include "objects/draw_objects/draw_object_rect.h"
 
-Live::Live(const int x): m_x(x){
+Live::Live(const float x): m_x(x){
     create_draw_objects() ;
 }
 

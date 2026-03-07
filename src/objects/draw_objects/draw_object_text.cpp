@@ -1,5 +1,4 @@
 #include "draw_object_text.h"
-#include <array>
 #include <iostream>
 
 TextDrawObject::TextDrawObject(SDL_Renderer *renderer, const std::string &text, const std::string &font_file,
@@ -57,7 +56,7 @@ std::pair<float, float> TextDrawObject::get_position() {
     return {rect.x, rect.y};
 }
 
-Rectangle TextDrawObject::get_rect() {
+Rectangle TextDrawObject::get_rect() const {
     return {rect.x, rect.y, rect.w, rect.h};
 }
 

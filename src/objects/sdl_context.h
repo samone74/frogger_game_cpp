@@ -1,7 +1,6 @@
 #ifndef SDL_CONTEXT_H
 #define SDL_CONTEXT_H
 #include <SDL3/SDL.h>
-#include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 #include <vector>
 #include "draw_objects/draw_object_base.h"

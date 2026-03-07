@@ -25,7 +25,7 @@ public:
     void set_text(const std::string& text_new);
     void set_position(float x, float y) override;
     std::pair<float, float> get_position() override;
-    Rectangle get_rect();
+    [[nodiscard]] Rectangle get_rect() const;
 private:
     void rebuild_texture(SDL_Renderer *renderer);
     bool modified = false;
