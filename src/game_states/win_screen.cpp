@@ -11,6 +11,9 @@ TransitionRequest WinScreen::handle_event(const SdlContext &ctx, const SDL_Event
     if (event.type == SDL_EVENT_QUIT)
         return Transition::quit() ;
     if (event.type == SDL_EVENT_KEY_DOWN) {
+        if (event.key.key == SDLK_ESCAPE) {
+            return Transition::quit();
+        }
         if (event.key.key == SDLK_P)
             return Transition::switch_to(StateID::Play);
     }
