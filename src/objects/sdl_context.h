@@ -31,7 +31,6 @@ private:
     void cleanup() noexcept;
     SDL_Window* m_window = nullptr;
     SDL_Renderer* m_renderer = nullptr;
-    TTF_Font *font = nullptr;
     int window_width;
     int window_height;
 };
