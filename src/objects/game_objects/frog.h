@@ -14,7 +14,7 @@ class Frog: public ObjectBase {
     std::vector<DrawObjectBase*> get_draw_objects() override;
     std::unordered_map<SDL_Keycode, std::function<void()>> get_key_down_map() override;
     std::unordered_map<SDL_Keycode, std::function<void()>> get_key_up_map() override;
-    void change_level(int level) override {};
+    void change_level(int level) override;
     Type get_type() const override;
     void set_y(int y_in) override;
     void start_move_right();

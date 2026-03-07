@@ -54,6 +54,13 @@ std::unordered_map<SDL_Keycode, std::function<void()>> Frog::get_key_up_map() {
     return key_map;
 }
 
+void Frog::change_level(int level) {
+    move_down = false;
+    move_up = false;
+    move_left = false;
+    move_right = false;
+}
+
 ObjectBase::Type Frog::get_type() const {
     return Type::Frog;
 }
@@ -61,6 +68,10 @@ ObjectBase::Type Frog::get_type() const {
 
 void Frog::set_y(int y_in) {
     y = y_in;
+    move_down = false;
+    move_up = false;
+    move_left = false;
+    move_right = false;
 }
 
 void Frog::start_move_right() {

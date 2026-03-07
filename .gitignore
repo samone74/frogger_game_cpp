@@ -23,3 +23,4 @@ CMakeUserPresets.json
 /cmake-build-debug-system-android
 /cmake-build-release/.cmake
 /cmake-build-release
+/.idea

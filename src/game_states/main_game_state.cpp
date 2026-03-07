@@ -23,7 +23,7 @@ MainGameState::MainGameState(const SdlContext& ctx){
 TransitionRequest MainGameState::handle_event(const SdlContext& ctx, const SDL_Event& event) {
     if (event.type == SDL_EVENT_QUIT)
         return Transition::quit() ;
-    if (event.type == SDL_EVENT_KEY_DOWN) {
+    if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat) {
         if (m_key_down_events.contains(event.key.key)) {
             m_key_down_events.at(event.key.key)();
         }
