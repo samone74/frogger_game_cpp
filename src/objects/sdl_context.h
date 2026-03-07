@@ -25,13 +25,12 @@ public:
     [[nodiscard]] int width() const noexcept { return window_width; }
     [[nodiscard]] int height() const noexcept { return window_height; }
 
-    void draw_object_to_screen(const std::vector<DrawObjectBase*>& draw_objects);
+    void draw_object_to_screen(const std::vector<DrawObjectBase*>& draw_objects) const;
 
 private:
     void cleanup() noexcept;
     SDL_Window* m_window = nullptr;
     SDL_Renderer* m_renderer = nullptr;
-    TTF_Font *font = nullptr;
     int window_width;
     int window_height;
 };

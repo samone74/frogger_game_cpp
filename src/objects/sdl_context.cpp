@@ -24,11 +24,6 @@ SdlContext::SdlContext(const std::string& title, const int width, const int heig
         throw std::runtime_error(SDL_GetError());
     }
     TTF_Init();
-    font = TTF_OpenFont("C:/Users/samzw/OneDrive/Documenten/GitHub/frogger_game_cpp/cmake-build-debug/desktop/assets/arial.ttf", 32);
-    if (!font) {
-        std::string error = SDL_GetError();
-        std::cout << "TTF_OpenFont error: " << SDL_GetError() << "\n";
-    }
 }
 
 SdlContext::~SdlContext() {
@@ -54,7 +49,7 @@ SdlContext& SdlContext::operator=(SdlContext&& other) noexcept {
 }
 
 
-void SdlContext::draw_object_to_screen(const std::vector<DrawObjectBase *> &draw_objects) {
+void SdlContext::draw_object_to_screen(const std::vector<DrawObjectBase *> &draw_objects) const {
     for (const auto &draw_object : draw_objects) {
         draw_object->draw(m_renderer);
     }
