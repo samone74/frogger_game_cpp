@@ -25,7 +25,7 @@ public:
     [[nodiscard]] int width() const noexcept { return window_width; }
     [[nodiscard]] int height() const noexcept { return window_height; }
 
-    void draw_object_to_screen(const std::vector<DrawObjectBase*>& draw_objects);
+    void draw_object_to_screen(const std::vector<DrawObjectBase*>& draw_objects) const;
 
 private:
     void cleanup() noexcept;
