@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Install MSYS2 with MinGW, CMake, Ninja, Clang tools
-        uses: msys2/setup-msys2@v2
+        uses: msys2/setup-msys2@v3
         with:
           update: true
           install: >
@@ -33,6 +33,7 @@ jobs:
             -DCMAKE_CXX_COMPILER=g++ \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             -DCMAKE_CXX_CLANG_TIDY="clang-tidy;-warnings-as-errors=*"
+            -DCMAKE_CXX_FLAGS="-fno-modules-ts"
 
       - name: Run clang-tidy (via build)
         shell: msys2 {0}
