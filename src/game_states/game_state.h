@@ -1,7 +1,7 @@
 #ifndef GAME_STATE_H
 #define GAME_STATE_H
 
-#include "Transition.h"
+#include "transition.h"
 #include <SDL3/SDL_events.h>
 
 class SdlContext;
