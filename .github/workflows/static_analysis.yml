@@ -1,4 +1,4 @@
-name: Static analysis (Windows)
+name: Static analysis (Windows + Clang)
 
 on:
   push:
@@ -14,26 +14,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Install MSYS2 with MinGW, CMake, Ninja, Clang tools
+      - name: Install MSYS2 with Clang, CMake, Ninja
         uses: msys2/setup-msys2@v2
         with:
           update: true
           install: >
-            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-clang
+            mingw-w64-x86_64-clang-tools-extra
             mingw-w64-x86_64-cmake
             mingw-w64-x86_64-ninja
-            mingw-w64-x86_64-clang-tools-extra
 
-      - name: Configure with clang-tidy
+      - name: Configure with clang-tidy (Clang toolchain)
         shell: msys2 {0}
         run: |
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_C_COMPILER=gcc \
-            -DCMAKE_CXX_COMPILER=g++ \
+            -DCMAKE_C_COMPILER=clang \
+            -DCMAKE_CXX_COMPILER=clang++ \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            -DCMAKE_CXX_CLANG_TIDY="clang-tidy;-warnings-as-errors=*;--extra-arg=-fno-modules;-extra-arg=-fno-modules-ts;-extra-arg=-Wno-unknown-warning-option" \
-            -DCMAKE_CXX_FLAGS="-fno-modules-ts"
+            -DCMAKE_CXX_CLANG_TIDY="clang-tidy;-warnings-as-errors=*"
 
       - name: Run clang-tidy (via build)
         shell: msys2 {0}
