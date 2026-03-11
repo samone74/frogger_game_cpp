@@ -32,7 +32,7 @@ jobs:
             -DCMAKE_C_COMPILER=gcc \
             -DCMAKE_CXX_COMPILER=g++ \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            -DCMAKE_CXX_CLANG_TIDY="clang-tidy;-warnings-as-errors=*"
+            -DCMAKE_CXX_CLANG_TIDY="clang-tidy;-warnings-as-errors=*" \
             -DCMAKE_CXX_FLAGS="-fno-modules-ts"
 
       - name: Run clang-tidy (via build)
