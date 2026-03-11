@@ -1,32 +1,38 @@
-name: Code Style (clang-format)
+name: Static analysis (Windows)
 
 on:
-  push:
   pull_request:
+  schedule:
+    - cron: '0 3 * * 1'
 
 jobs:
-  clang-format-check:
+  clang-tidy:
     runs-on: windows-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Install LLVM (clang-format)
-        uses: KyleMayes/install-llvm-action@v2
+      - name: Install MSYS2 with MinGW, CMake, Ninja, Clang tools
+        uses: msys2/setup-msys2@v2
         with:
-          version: "17"   # match your local version if needed
-          directory: ${{ runner.temp }}/llvm
+          update: true
+          install: >
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-ninja
+            mingw-w64-x86_64-clang-tools-extra
 
-      - name: Add LLVM to PATH
-        run: echo "${{ runner.temp }}\llvm\bin" >> $env:GITHUB_PATH
-
-      - name: Run clang-format check
-        shell: bash
+      - name: Configure with clang-tidy
+        shell: msys2 {0}
         run: |
-          FILES=$(git ls-files '*.cpp' '*.hpp' '*.h' '*.cc' | grep -v '^lib/')
-          clang-format --version
-          diff -u <(cat $FILES) <(clang-format $FILES) || {
-            echo "Code is not clang-formatted."
-            exit 1
-          }
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_C_COMPILER=gcc \
+            -DCMAKE_CXX_COMPILER=g++ \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            -DCMAKE_CXX_CLANG_TIDY="clang-tidy;-warnings-as-errors=*"
+
+      - name: Run clang-tidy (via build)
+        shell: msys2 {0}
+        run: cmake --build build --config Debug
