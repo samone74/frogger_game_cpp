@@ -10,16 +10,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install clang-format
         run: sudo apt-get update && sudo apt-get install -y clang-format
 
       - name: Run clang-format check
         run: |
-          FILES=$(git ls-files '*.cpp' '*.hpp' '*.h' '*.cc')
+          FILES=$(git ls-files '*.cpp' '*.hpp' '*.h' '*.cc' | grep -v '^lib/')
           clang-format --version
-          # Fail if any file would be reformatted
           diff -u <(cat $FILES) <(clang-format $FILES) || {
             echo "Code is not clang-formatted."
             exit 1

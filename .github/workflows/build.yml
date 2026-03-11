@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install MSYS2 with MinGW and Ninja
         uses: msys2/setup-msys2@v2
