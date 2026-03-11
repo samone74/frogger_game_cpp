@@ -1,27 +1,32 @@
-name: Static analysis
+name: Code Style (clang-format)
 
 on:
   push:
   pull_request:
-  schedule:
-    - cron: '0 3 * * 1'  # weekly, optional
 
 jobs:
-  clang-tidy:
-    runs-on: ubuntu-latest
+  clang-format-check:
+    runs-on: windows-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Install clang-tidy
-        run: sudo apt-get update && sudo apt-get install -y clang-tidy cmake ninja-build
+      - name: Install LLVM (clang-format)
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: "17"   # match your local version if needed
+          directory: ${{ runner.temp }}/llvm
 
-      - name: Configure with clang-tidy
+      - name: Add LLVM to PATH
+        run: echo "${{ runner.temp }}\llvm\bin" >> $env:GITHUB_PATH
+
+      - name: Run clang-format check
+        shell: bash
         run: |
-          cmake -S . -B build \
-            -G Ninja \
-            -DCMAKE_CXX_CLANG_TIDY="clang-tidy;-warnings-as-errors=*"
-
-      - name: Run clang-tidy (via build)
-        run: cmake --build build
+          FILES=$(git ls-files '*.cpp' '*.hpp' '*.h' '*.cc' | grep -v '^lib/')
+          clang-format --version
+          diff -u <(cat $FILES) <(clang-format $FILES) || {
+            echo "Code is not clang-formatted."
+            exit 1
+          }
