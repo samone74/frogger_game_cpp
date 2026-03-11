@@ -2,16 +2,15 @@
 #define FROG_H
 #include <memory>
 
-#include "objects/sdl_context.h"
 #include "objects/game_objects/object_base.h"
+#include "objects/sdl_context.h"
 
-
-class Frog: public ObjectBase {
+class Frog : public ObjectBase {
   public:
-    Frog(float size, const SdlContext& context);
+    Frog(float size, const SdlContext &context);
     ~Frog() override = default;
     void update() override;
-    std::vector<DrawObjectBase*> get_draw_objects() override;
+    std::vector<DrawObjectBase *> get_draw_objects() override;
     std::unordered_map<SDL_Keycode, std::function<void()>> get_key_down_map() override;
     std::unordered_map<SDL_Keycode, std::function<void()>> get_key_up_map() override;
     void change_level(int level) override;
@@ -26,7 +25,8 @@ class Frog: public ObjectBase {
     void stop_move_up();
     void stop_move_down();
     Rectangle get_rect() override;
-private:
+
+  private:
     float x, y;
     const float size;
     const int m_screen_width, m_screen_height;
@@ -36,7 +36,7 @@ private:
     bool move_up = false;
     bool move_down = false;
     std::vector<std::unique_ptr<DrawObjectBase>> m_draw_objects;
-    void create_draw_objects( const SdlContext& context);
+    void create_draw_objects(const SdlContext &context);
 };
 
-#endif //FROG_H
+#endif // FROG_H

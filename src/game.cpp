@@ -2,8 +2,7 @@
 
 #include "objects/color.h"
 
-MainGame::MainGame(int width, int height) :m_ctx(GAME_NAME, 800, 600){
-}
+MainGame::MainGame(int width, int height) : m_ctx(GAME_NAME, 800, 600) {}
 
 MainGame::~MainGame() = default;
 
@@ -12,7 +11,6 @@ void MainGame::run_game() {
     bool running = true;
     SDL_Event e;
     while (running) {
-
         // --- Handle events ---
         while (SDL_PollEvent(&e)) {
             if (auto tr = m_gsm.get()->handle_event(m_ctx, e)) {
@@ -36,11 +34,11 @@ void MainGame::run_game() {
 
 bool MainGame::process_transition(const Transition &tr) {
     switch (tr.type) {
-        case Transition::Type::Switch:
-            m_gsm.change_state(tr.target, m_ctx);
+    case Transition::Type::Switch:
+        m_gsm.change_state(tr.target, m_ctx);
         return true;
-        case Transition::Type::Quit:
-            return false;
+    case Transition::Type::Quit:
+        return false;
     }
     return true;
 }

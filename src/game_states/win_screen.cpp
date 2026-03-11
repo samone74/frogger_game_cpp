@@ -9,7 +9,7 @@ WinScreen::WinScreen(const SdlContext &ctx) {
 
 TransitionRequest WinScreen::handle_event(const SdlContext &ctx, const SDL_Event &event) {
     if (event.type == SDL_EVENT_QUIT)
-        return Transition::quit() ;
+        return Transition::quit();
     if (event.type == SDL_EVENT_KEY_DOWN) {
         if (event.key.key == SDLK_ESCAPE) {
             return Transition::quit();
@@ -20,8 +20,8 @@ TransitionRequest WinScreen::handle_event(const SdlContext &ctx, const SDL_Event
     return std::nullopt;
 }
 
-void WinScreen::render(SdlContext& ctx) {
-    for (auto &object: objects) {
+void WinScreen::render(SdlContext &ctx) {
+    for (auto &object : objects) {
         object->draw(ctx.renderer());
     }
 }

@@ -1,16 +1,16 @@
 #ifndef GAME_STATE_MANAGER_H
 #define GAME_STATE_MANAGER_H
 
-#include <memory>
 #include "game_state.h"
-#include "transition.h"
 #include "objects/sdl_context.h"
+#include "transition.h"
+#include <memory>
 
 class GameStateManager {
-public:
+  public:
     GameStateManager() = default;
 
-    void change_state(StateID id, SdlContext& ctx) {
+    void change_state(StateID id, SdlContext &ctx) {
         if (current) {
             current->on_exit(ctx);
         }
@@ -18,14 +18,12 @@ public:
         current->on_enter(ctx);
     }
 
-    GameState* get() { return current.get(); }
+    GameState *get() { return current.get(); }
 
-private:
+  private:
     std::unique_ptr<GameState> current;
 
-    static std::unique_ptr<GameState> create_state(StateID id, const SdlContext& context);
+    static std::unique_ptr<GameState> create_state(StateID id, const SdlContext &context);
 };
-
-
 
 #endif

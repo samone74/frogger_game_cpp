@@ -1,12 +1,12 @@
 #ifndef DRAW_OBJECT_SPRITE_H
 #define DRAW_OBJECT_SPRITE_H
-#include <string>
 #include "SDL3/SDL.h"
 #include "draw_object_base.h"
+#include <string>
 
 class DrawObjectSprite final : public DrawObjectBase {
-public:
-    DrawObjectSprite(std::string sprite_file,  SDL_Renderer* renderer, float x, float y, float width, float height);
+  public:
+    DrawObjectSprite(std::string sprite_file, SDL_Renderer *renderer, float x, float y, float width, float height);
 
     ~DrawObjectSprite() override = default;
 
@@ -24,7 +24,7 @@ public:
 
     std::pair<float, float> get_position() override;
 
-private:
+  private:
     std::string sprite_file;
     SDL_Texture *texture = nullptr;
     SDL_FRect rect{0, 0, 0, 0};
@@ -32,6 +32,4 @@ private:
     void load_texture(SDL_Renderer *renderer);
 };
 
-
-
-#endif //DRAW_OBJECT_SPRITE_H
+#endif // DRAW_OBJECT_SPRITE_H

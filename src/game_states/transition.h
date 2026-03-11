@@ -3,25 +3,20 @@
 #include <optional>
 
 // Identify states without including their headers
-enum class StateID {
-    Start,
-    Play,
-    Lose,
-    Win
-};
+enum class StateID { Start, Play, Lose, Win };
 
 struct Transition {
     enum class Type {
-        Switch,  // replace current state with target
-        Quit     // exit the game loop
+        Switch, // replace current state with target
+        Quit    // exit the game loop
     };
 
     Type type;
     StateID target; // only meaningful for Switch
 
     // Convenience constructors
-    static Transition switch_to(StateID id) { return { Type::Switch, id }; }
-    static Transition quit()                { return { Type::Quit,  StateID::Start }; }
+    static Transition switch_to(StateID id) { return {Type::Switch, id}; }
+    static Transition quit() { return {Type::Quit, StateID::Start}; }
 };
 
 // A state returns:
@@ -29,4 +24,4 @@ struct Transition {
 // - Transition    -> request a transition
 using TransitionRequest = std::optional<Transition>;
 
-#endif //TRANSITION_H
+#endif // TRANSITION_H

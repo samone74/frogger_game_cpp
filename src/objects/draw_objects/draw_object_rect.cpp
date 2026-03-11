@@ -1,9 +1,8 @@
 #include "draw_object_rect.h"
 
 DrawObjectRect::DrawObjectRect(const float x, const float y, const float w, const float h, const Color color,
-                               const bool fill): color(
-                                                     color.red, color.green, color.blue, color.transparency),
-                                                 fill(fill) {
+                               const bool fill)
+    : color(color.red, color.green, color.blue, color.transparency), fill(fill) {
     rect.x = x;
     rect.y = y;
     rect.w = w;
@@ -24,6 +23,4 @@ void DrawObjectRect::set_position(float x, float y) {
     rect.y = y;
 }
 
-std::pair<float, float> DrawObjectRect::get_position() {
-    return {rect.x,rect.y};
-}
+std::pair<float, float> DrawObjectRect::get_position() { return {rect.x, rect.y}; }

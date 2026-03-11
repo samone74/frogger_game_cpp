@@ -1,8 +1,8 @@
 #include "main_game_state.h"
 
-#include <iostream>
 #include "objects/sdl_context.h"
 #include <experimental/random>
+#include <iostream>
 
 #include "objects/color.h"
 #include "objects/game_objects/car.h"
@@ -11,19 +11,19 @@
 #include "objects/game_objects/lanes.h"
 #include "objects/game_objects/lives.h"
 
-MainGameState::MainGameState(const SdlContext& ctx){
+MainGameState::MainGameState(const SdlContext &ctx) {
     objects.push_back(std::make_unique<Lanes>(ctx.width(), ctx.height()));
     create_cars(ctx);
     create_live_objects();
     objects.push_back(std::make_unique<Frog>(40, ctx));
     m_key_down_events = objects.back()->get_key_down_map();
     m_key_up_events = objects.back()->get_key_up_map();
-    objects.push_back(std::make_unique<CountDownTimer>( ctx, 60));
+    objects.push_back(std::make_unique<CountDownTimer>(ctx, 60));
 }
 
-TransitionRequest MainGameState::handle_event(const SdlContext& ctx, const SDL_Event& event) {
+TransitionRequest MainGameState::handle_event(const SdlContext &ctx, const SDL_Event &event) {
     if (event.type == SDL_EVENT_QUIT)
-        return Transition::quit() ;
+        return Transition::quit();
     if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat) {
         if (m_key_down_events.contains(event.key.key)) {
             m_key_down_events.at(event.key.key)();
@@ -33,31 +33,30 @@ TransitionRequest MainGameState::handle_event(const SdlContext& ctx, const SDL_E
         }
         if (event.key.key == SDLK_P) {
             change_level(ctx, 1);
-            return std::nullopt ;
+            return std::nullopt;
         }
         if (event.key.key == SDLK_O) {
             change_level(ctx, -1);
-            return std::nullopt ;
+            return std::nullopt;
         }
     }
     if (event.type == SDL_EVENT_KEY_UP) {
         if (m_key_up_events.contains(event.key.key)) {
             m_key_up_events.at(event.key.key)();
-            return std::nullopt ;
+            return std::nullopt;
         }
     }
     return std::nullopt;
 }
 
-TransitionRequest MainGameState::update(const SdlContext& ctx) {
-    auto frog = std::ranges::find_if(objects,[](const std::unique_ptr<ObjectBase>& obj) {
-                      return obj->get_type() == ObjectBase::Type::Frog;
-                  });
-    const Rectangle& frog_rect = (*frog)->get_rect();
-    for (auto &object: objects) {
+TransitionRequest MainGameState::update(const SdlContext &ctx) {
+    auto frog = std::ranges::find_if(
+        objects, [](const std::unique_ptr<ObjectBase> &obj) { return obj->get_type() == ObjectBase::Type::Frog; });
+    const Rectangle &frog_rect = (*frog)->get_rect();
+    for (auto &object : objects) {
         object->update();
         if (object->get_type() == ObjectBase::Type::Car) {
-            if ( detect_collision(object->get_rect(), frog_rect)) {
+            if (detect_collision(object->get_rect(), frog_rect)) {
                 (*frog)->set_y(static_cast<float>(ctx.height()) - frog_rect.height);
                 m_lives--;
                 if (m_lives == 0) {
@@ -71,21 +70,17 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
     }
     if (frog_rect.y == 0) {
         change_level(ctx, 1);
-        if ( m_level == 11)
+        if (m_level == 11)
             return Transition::switch_to(StateID::Win);
-        frog = std::ranges::find_if(objects,[](const std::unique_ptr<ObjectBase>& obj) {
-                      return obj->get_type() == ObjectBase::Type::Frog;
-                  });
+        frog = std::ranges::find_if(
+            objects, [](const std::unique_ptr<ObjectBase> &obj) { return obj->get_type() == ObjectBase::Type::Frog; });
         (*frog)->set_y(static_cast<float>(ctx.height()) - frog_rect.height);
     }
-    //timer->update();
+    // timer->update();
     return std::nullopt;
 }
 
-
-
-
-void MainGameState::create_cars(const SdlContext& ctx) {
+void MainGameState::create_cars(const SdlContext &ctx) {
     const int lane_height = ctx.height() / (10 + 2);
     constexpr int margin = 10;
     const int car_height = lane_height - margin;
@@ -95,7 +90,7 @@ void MainGameState::create_cars(const SdlContext& ctx) {
         int dir = std::experimental::randint(0, 1) == 0 ? -1 : 1;
         int speed = dir * std::experimental::randint(1, 5);
         int y = ctx.height() / 2 - lane_height / 2 * (m_level) + (i - 1) * lane_height + margin / 2;
-        int number_of_cars_in_lane =  static_cast<int>(std::round(3.0 / std::abs(speed)));
+        int number_of_cars_in_lane = static_cast<int>(std::round(3.0 / std::abs(speed)));
         int length_for_car = ctx.width() / number_of_cars_in_lane;
         int x_prev = 0;
         for (int j = 0; j < number_of_cars_in_lane; j++) {
@@ -105,26 +100,23 @@ void MainGameState::create_cars(const SdlContext& ctx) {
             Color color(red, green, blue, 255);
             int x = std::experimental::randint(x_prev, length_for_car * (j + 1));
             x_prev = x + minimum_distance + car_width;
-            objects.push_back(std::make_unique<Car>(x, y, speed, color, car_width,
-                                                    car_height, ctx.width(), ctx.height()));
+            objects.push_back(
+                std::make_unique<Car>(x, y, speed, color, car_width, car_height, ctx.width(), ctx.height()));
         }
     }
 }
 
-void MainGameState::set_level() const
-{
-    for (auto &object: objects) {
+void MainGameState::set_level() const {
+    for (auto &object : objects) {
         object->change_level(m_level);
     }
 }
 
-void MainGameState::change_level(const SdlContext& ctx, const int level_increase) {
+void MainGameState::change_level(const SdlContext &ctx, const int level_increase) {
     m_level += level_increase;
     m_level = std::max(m_level, 1);
     std::erase_if(objects,
-                  [](const std::unique_ptr<ObjectBase>& obj) {
-                      return obj->get_type() == ObjectBase::Type::Car;
-                  });
+                  [](const std::unique_ptr<ObjectBase> &obj) { return obj->get_type() == ObjectBase::Type::Car; });
     create_cars(ctx);
     set_level();
 }
@@ -137,22 +129,17 @@ void MainGameState::create_live_objects() {
 
 void MainGameState::remove_live_objects() {
     std::erase_if(objects,
-              [](const std::unique_ptr<ObjectBase>& obj) {
-                  return obj->get_type() == ObjectBase::Type::Live;
-              });
+                  [](const std::unique_ptr<ObjectBase> &obj) { return obj->get_type() == ObjectBase::Type::Live; });
 }
 
-void MainGameState::render(SdlContext& ctx) {
-    for (const auto& object : objects) {
-        for (const auto& draw_object:object->get_draw_objects()) {
+void MainGameState::render(SdlContext &ctx) {
+    for (const auto &object : objects) {
+        for (const auto &draw_object : object->get_draw_objects()) {
             draw_object->draw(ctx.renderer());
         }
     }
 }
 
-bool detect_collision(const Rectangle& a, const Rectangle& b) {
-    return a.x < b.x + b.width  &&
-           a.x + a.width > b.x  &&
-           a.y < b.y + b.height &&
-           a.y + a.height > b.y;
+bool detect_collision(const Rectangle &a, const Rectangle &b) {
+    return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
 }

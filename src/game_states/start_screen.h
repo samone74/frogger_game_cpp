@@ -2,34 +2,35 @@
 #define START_SCREEN_H
 
 #include "game_state.h"
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include "objects/draw_objects/draw_object_text.h"
 #include "objects/game_objects/object_base.h"
 
-class StartScreen final :public GameState {
-    public:
-    explicit StartScreen(const SdlContext& ctx);
+class StartScreen final : public GameState {
+  public:
+    explicit StartScreen(const SdlContext &ctx);
     ~StartScreen() override = default;
     // Called once when the state becomes active
-    void on_enter(SdlContext& ctx) override{};
+    void on_enter(SdlContext &ctx) override {};
 
     // Called once right before the state is replaced
-    void on_exit(SdlContext& ctx) override{};
+    void on_exit(SdlContext &ctx) override {};
 
     // Input/events for the state
-    TransitionRequest handle_event(const SdlContext& ctx, const SDL_Event& event) override;
+    TransitionRequest handle_event(const SdlContext &ctx, const SDL_Event &event) override;
 
-    TransitionRequest update(const SdlContext& ctx) override {return std::nullopt;;};
+    TransitionRequest update(const SdlContext &ctx) override {
+        return std::nullopt;
+        ;
+    };
 
     // Render the state
-    void render(SdlContext& ctx) override;
+    void render(SdlContext &ctx) override;
 
-private:
+  private:
     std::vector<std::unique_ptr<TextDrawObject>> objects;
 };
 
-
-
-#endif //START_SCREEN_H
+#endif // START_SCREEN_H

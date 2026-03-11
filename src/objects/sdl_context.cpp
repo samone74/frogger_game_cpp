@@ -1,12 +1,11 @@
 #include "sdl_context.h"
+#include <SDL3_ttf/SDL_ttf.h>
 #include <iostream>
 #include <stdexcept>
 #include <utility>
-#include <SDL3_ttf/SDL_ttf.h>
 
-SdlContext::SdlContext(const std::string& title, const int width, const int height)
-    : window_width(width), window_height(height)
-{
+SdlContext::SdlContext(const std::string &title, const int width, const int height)
+    : window_width(width), window_height(height) {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         throw std::runtime_error("SDL_Init Error: " + std::string(SDL_GetError()));
     }
@@ -27,15 +26,14 @@ SdlContext::SdlContext(const std::string& title, const int width, const int heig
     TTF_Init();
 }
 
-SdlContext::~SdlContext() {
-    cleanup();
-}
+SdlContext::~SdlContext() { cleanup(); }
 
-SdlContext::SdlContext(SdlContext&& other) noexcept: window_width(other.window_width), window_height(other.window_height) {
+SdlContext::SdlContext(SdlContext &&other) noexcept
+    : window_width(other.window_width), window_height(other.window_height) {
     *this = std::move(other);
 }
 
-SdlContext& SdlContext::operator=(SdlContext&& other) noexcept {
+SdlContext &SdlContext::operator=(SdlContext &&other) noexcept {
     if (this != &other) {
         cleanup();
         window_height = other.window_height;
@@ -47,7 +45,6 @@ SdlContext& SdlContext::operator=(SdlContext&& other) noexcept {
     }
     return *this;
 }
-
 
 void SdlContext::draw_object_to_screen(const std::vector<DrawObjectBase *> &draw_objects) const {
     for (const auto &draw_object : draw_objects) {

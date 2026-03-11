@@ -8,4 +8,4 @@ struct Rectangle {
     float height;
 };
 
-#endif //RECTANGLE_H
+#endif // RECTANGLE_H

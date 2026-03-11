@@ -22,7 +22,7 @@ TransitionRequest LoseScreen::handle_event(const SdlContext &ctx, const SDL_Even
 }
 
 void LoseScreen::render(SdlContext &ctx) {
-    for (auto &object: objects) {
+    for (auto &object : objects) {
         object->draw(ctx.renderer());
     }
 }

@@ -1,7 +1,7 @@
 #include "start_screen.h"
 
-#include "objects/sdl_context.h"
 #include "objects/draw_objects/draw_object_text.h"
+#include "objects/sdl_context.h"
 
 StartScreen::StartScreen(const SdlContext &ctx) {
     std::string font_file = "assets/fonts/arial.ttf";
@@ -11,7 +11,7 @@ StartScreen::StartScreen(const SdlContext &ctx) {
 
 TransitionRequest StartScreen::handle_event(const SdlContext &ctx, const SDL_Event &event) {
     if (event.type == SDL_EVENT_QUIT)
-        return Transition::quit() ;
+        return Transition::quit();
     if (event.type == SDL_EVENT_KEY_DOWN) {
         if (event.key.key == SDLK_ESCAPE) {
             return Transition::quit();
@@ -21,8 +21,8 @@ TransitionRequest StartScreen::handle_event(const SdlContext &ctx, const SDL_Eve
     return std::nullopt;
 }
 
-void StartScreen::render(SdlContext& ctx) {
-    for (auto &object: objects) {
+void StartScreen::render(SdlContext &ctx) {
+    for (auto &object : objects) {
         object->draw(ctx.renderer());
     }
 }
