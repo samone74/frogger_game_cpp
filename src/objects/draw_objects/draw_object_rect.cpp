@@ -1,13 +1,13 @@
 #include "draw_object_rect.h"
 
 // NOLINTNEXTLINE(readability-identifier-length)
-DrawObjectRect::DrawObjectRect(const float x, const float y, const float w, const float h, const Color color,
+DrawObjectRect::DrawObjectRect(const float x, const float y, const float width, const float height, const Color color,
                                const bool fill)
     : color(color.red, color.green, color.blue, color.transparency), fill(fill) {
     rect.x = x;
     rect.y = y;
-    rect.w = w;
-    rect.h = h;
+    rect.w = width;
+    rect.h = height;
 }
 
 void DrawObjectRect::draw(SDL_Renderer *renderer) {

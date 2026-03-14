@@ -10,7 +10,7 @@
 class DrawObjectRect : public DrawObjectBase {
   public:
     // NOLINTNEXTLINE(readability-identifier-length)
-    DrawObjectRect(float x, float y, float w, float h, Color color, bool fill);
+    DrawObjectRect(float x, float y, float width, float height, Color color, bool fill);
     ~DrawObjectRect() override = default;
     void draw(SDL_Renderer *renderer) override;
     // NOLINTNEXTLINE(readability-identifier-length)

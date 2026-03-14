@@ -10,6 +10,7 @@
 class TextDrawObject final : public DrawObjectBase {
   public:
     TextDrawObject(SDL_Renderer *renderer, const std::string &text, const std::string &font_file, float font_size,
+                   // NOLINTNEXTLINE(readability-identifier-length)
                    Color color, float x, float y);
     ~TextDrawObject() override = default;
     TextDrawObject(const TextDrawObject &) = delete;

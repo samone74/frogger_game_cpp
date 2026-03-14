@@ -6,8 +6,7 @@ TextDrawObject::TextDrawObject(SDL_Renderer *renderer, const std::string &text, 
                                const float font_size, const Color color, const float x, const float y)
     : color(color.red, color.green, color.blue, color.transparency), text(text) {
     font = TTF_OpenFont(font_file.c_str(), font_size);
-    if (!font) {
-        std::string error = SDL_GetError();
+    if (font == nullptr) {
         std::cout << "TTF_OpenFont error: " << SDL_GetError() << "\n";
     }
     rebuild_texture(renderer);

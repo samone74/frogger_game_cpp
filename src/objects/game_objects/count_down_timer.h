@@ -20,6 +20,7 @@ class CountDownTimer : public ObjectBase {
     std::unordered_map<SDL_Keycode, std::function<void()>> get_key_up_map() override;
     void change_level(int level) override;
     [[nodiscard]] Type get_type() const override;
+    // NOLINTNEXTLINE(readability-identifier-length)
     void set_y(float y) override;
     Rectangle get_rect() override;
 
