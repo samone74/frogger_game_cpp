@@ -6,6 +6,7 @@
 
 class DrawObjectSprite final : public DrawObjectBase {
   public:
+    // NOLINTNEXTLINE(readability-identifier-length)
     DrawObjectSprite(std::string sprite_file, SDL_Renderer *renderer, float x, float y, float width, float height);
 
     ~DrawObjectSprite() override = default;
@@ -19,7 +20,7 @@ class DrawObjectSprite final : public DrawObjectBase {
     DrawObjectSprite &operator=(DrawObjectSprite &&other) noexcept;
 
     void draw(SDL_Renderer *renderer) override;
-
+    // NOLINTNEXTLINE(readability-identifier-length)
     void set_position(float x, float y) override;
 
     std::pair<float, float> get_position() override;

@@ -2,7 +2,7 @@
 #include <SDL3_image/SDL_image.h>
 
 #include <utility>
-
+// NOLINTNEXTLINE(readability-identifier-length)
 DrawObjectSprite::DrawObjectSprite(std::string sprite_file, SDL_Renderer *renderer, const float x, const float y,
                                    const float width, const float height)
     : sprite_file(std::move(sprite_file)) {
@@ -46,7 +46,7 @@ void DrawObjectSprite::draw(SDL_Renderer *renderer) {
     }
     SDL_RenderTexture(renderer, texture, nullptr, &rect);
 }
-
+// NOLINTNEXTLINE(readability-identifier-length)
 void DrawObjectSprite::set_position(const float x, const float y) {
     rect.x = x;
     rect.y = y;

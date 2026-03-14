@@ -1,5 +1,6 @@
 #include "draw_object_rect.h"
 
+// NOLINTNEXTLINE(readability-identifier-length)
 DrawObjectRect::DrawObjectRect(const float x, const float y, const float w, const float h, const Color color,
                                const bool fill)
     : color(color.red, color.green, color.blue, color.transparency), fill(fill) {
@@ -18,7 +19,7 @@ void DrawObjectRect::draw(SDL_Renderer *renderer) {
     }
 }
 
-void DrawObjectRect::set_position(float x, float y) {
+void DrawObjectRect::set_position(const float x, const float y) { // NOLINT(readability-identifier-length)
     rect.x = x;
     rect.y = y;
 }

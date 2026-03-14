@@ -2,6 +2,7 @@
 #include <iostream>
 
 TextDrawObject::TextDrawObject(SDL_Renderer *renderer, const std::string &text, const std::string &font_file,
+                               // NOLINTNEXTLINE(readability-identifier-length)
                                const float font_size, const Color color, const float x, const float y)
     : color(color.red, color.green, color.blue, color.transparency), text(text) {
     font = TTF_OpenFont(font_file.c_str(), font_size);
@@ -46,8 +47,8 @@ void TextDrawObject::set_text(const std::string &text_new) {
     text = text_new;
     modified = true;
 }
-
-void TextDrawObject::set_position(float x, float y) {
+// NOLINTNEXTLINE(readability-identifier-length)
+void TextDrawObject::set_position(const float x, const float y) {
     rect.x = x;
     rect.y = y;
 }
@@ -57,7 +58,7 @@ std::pair<float, float> TextDrawObject::get_position() { return {rect.x, rect.y}
 Rectangle TextDrawObject::get_rect() const { return {rect.x, rect.y, rect.w, rect.h}; }
 
 void TextDrawObject::rebuild_texture(SDL_Renderer *renderer) {
-    if (texture) {
+    if (texture != nullptr) {
         SDL_DestroyTexture(texture);
         texture = nullptr;
     }

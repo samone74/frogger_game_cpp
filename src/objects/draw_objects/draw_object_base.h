@@ -13,7 +13,7 @@ class DrawObjectBase {
     DrawObjectBase(DrawObjectBase &&) = delete;
     DrawObjectBase &operator=(const DrawObjectBase &) = delete;
     virtual void draw(SDL_Renderer *m_renderer) = 0;
-    virtual void set_position(float x, float y) = 0;
+    virtual void set_position(float x, float y) = 0; // NOLINT(readability-identifier-length)
     virtual std::pair<float, float> get_position() = 0;
 };
 

@@ -9,9 +9,11 @@
 
 class DrawObjectRect : public DrawObjectBase {
   public:
+    // NOLINTNEXTLINE(readability-identifier-length)
     DrawObjectRect(float x, float y, float w, float h, Color color, bool fill);
     ~DrawObjectRect() override = default;
     void draw(SDL_Renderer *renderer) override;
+    // NOLINTNEXTLINE(readability-identifier-length)
     void set_position(float x, float y) override;
     std::pair<float, float> get_position() override;
 
