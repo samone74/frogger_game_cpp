@@ -28,6 +28,7 @@ class CountDownTimer : public ObjectBase {
     Uint32 m_time_left;
     std::unique_ptr<TextDrawObject> m_draw_object = nullptr;
     float m_y;
+    const int seconds_to_milli_seconds = 1000;
 };
 
 #endif // COUNT_DOWN_TIMER_H

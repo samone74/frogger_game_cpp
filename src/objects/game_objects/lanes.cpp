@@ -28,13 +28,13 @@ void Lanes::create_draw_objects() {
     m_draw_objects.clear();
 
     m_draw_objects.push_back(std::make_unique<DrawObjectRect>(
-        0, static_cast<float>(m_screen_height) / 2 - m_lane_size / 2 * static_cast<float>(m_number_of_lanes),
+        0, (static_cast<float>(m_screen_height) / 2) - (m_lane_size / 2 * static_cast<float>(m_number_of_lanes)),
         m_screen_width, m_lane_size * static_cast<float>(m_number_of_lanes), GRAY, true));
     for (int i = 0; i < m_number_of_lanes + 1; i++) {
         m_draw_objects.push_back(std::make_unique<DrawObjectRect>(
             0,
-            static_cast<float>(m_screen_height) / 2 - m_lane_size / 2 * static_cast<float>(m_number_of_lanes) +
-                m_lane_size * static_cast<float>(i) - line_size / 2,
+            (static_cast<float>(m_screen_height) / 2) - (m_lane_size / 2 * static_cast<float>(m_number_of_lanes)) +
+                (m_lane_size * static_cast<float>(i)) - line_size / 2,
             m_screen_width, line_size, WHITE, true));
     }
 }

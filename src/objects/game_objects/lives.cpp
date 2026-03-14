@@ -2,7 +2,7 @@
 
 #include "objects/draw_objects/draw_object_rect.h"
 
-Live::Live(const float x) : m_x(x) { create_draw_objects(); }
+Live::Live(const float x) : m_x(x) { create_draw_objects(); } // NOLINT(readability-identifier-length)
 
 std::vector<DrawObjectBase *> Live::get_draw_objects() {
     std::vector<DrawObjectBase *> draw_objects_ptr;

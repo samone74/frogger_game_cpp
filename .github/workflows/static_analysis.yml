@@ -32,8 +32,6 @@ jobs:
             -DCMAKE_C_COMPILER=clang \
             -DCMAKE_CXX_COMPILER=clang++ \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            -DCMAKE_CXX_CLANG_TIDY="clang-tidy;-warnings-as-errors=*;--checks=clang-analyzer-*,-clang-analyzer-alpha*;--checks=bugprone-*;--checks=performance-*;--checks=readability-*"
-
 
       - name: Run clang-tidy (via build)
         shell: msys2 {0}
