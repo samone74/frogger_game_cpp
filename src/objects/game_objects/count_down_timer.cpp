@@ -1,16 +1,17 @@
 #include "count_down_timer.h"
 #include "objects/sdl_context.h"
 
-CountDownTimer::CountDownTimer(const SdlContext &context, const Uint32 time_left) : m_time_left(time_left * 1000) {
+CountDownTimer::CountDownTimer(const SdlContext &context, const Uint32 time_left)
+    : m_time_left(time_left * seconds_to_milli_seconds) {
     last_time_tick = SDL_GetTicks();
     std::string font_file = "assets/fonts/arial.ttf";
     constexpr float font_size = 18;
     Color font_color = WHITE;
     constexpr float m_x = 50;
     m_y = 0;
-    m_draw_object =
-        std::make_unique<TextDrawObject>(context.renderer(), "Time left: " + std::to_string(m_time_left / 1000),
-                                         font_file, font_size, font_color, m_x, m_y);
+    m_draw_object = std::make_unique<TextDrawObject>(
+        context.renderer(), "Time left: " + std::to_string(m_time_left / seconds_to_milli_seconds), font_file,
+        font_size, font_color, m_x, m_y);
 }
 
 void CountDownTimer::start() { last_time_tick = SDL_GetTicks(); }

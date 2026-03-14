@@ -24,11 +24,11 @@ class CountDownTimer : public ObjectBase {
     Rectangle get_rect() override;
 
   private:
+    const int seconds_to_milli_seconds = 1000;
     Uint32 last_time_tick;
     Uint32 m_time_left;
     std::unique_ptr<TextDrawObject> m_draw_object = nullptr;
     float m_y;
-    const int seconds_to_milli_seconds = 1000;
 };
 
 #endif // COUNT_DOWN_TIMER_H
