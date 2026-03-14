@@ -14,8 +14,8 @@ void MainGame::run_game() {
     while (running) {
         // --- Handle events ---
         while (SDL_PollEvent(&events)) {
-            if (auto tr = m_gsm.get()->handle_event(m_ctx, events)) {
-                running = process_transition(*tr);
+            if (auto transition_request = m_gsm.get()->handle_event(m_ctx, events)) {
+                running = process_transition(*transition_request);
             }
         }
 
@@ -29,7 +29,7 @@ void MainGame::run_game() {
         SDL_RenderClear(m_ctx.renderer());
         m_gsm.get()->render(m_ctx);
         SDL_RenderPresent(m_ctx.renderer());
-        SDL_Delay(16); // ~60 FPS
+        SDL_Delay(1 / fps * SECONDS_TO_MILLISECONDS); // ~60 FPS
     }
 }
 

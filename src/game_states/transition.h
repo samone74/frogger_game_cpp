@@ -1,9 +1,10 @@
 #ifndef TRANSITION_H
 #define TRANSITION_H
+#include <cstdint>
 #include <optional>
 
 // Identify states without including their headers
-enum class StateID { Start, Play, Lose, Win };
+enum StateID : std::uint8_t { Start, Play, Lose, Win };
 
 struct Transition {
     enum class Type {
@@ -15,7 +16,7 @@ struct Transition {
     StateID target; // only meaningful for Switch
 
     // Convenience constructors
-    static Transition switch_to(StateID id) { return {Type::Switch, id}; }
+    static Transition switch_to(const StateID identifier) { return {Type::Switch, identifier}; }
     static Transition quit() { return {Type::Quit, StateID::Start}; }
 };
 
