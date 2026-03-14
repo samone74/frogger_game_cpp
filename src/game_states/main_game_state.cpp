@@ -12,7 +12,7 @@
 #include "objects/game_objects/lives.h"
 
 MainGameState::MainGameState(const SdlContext &ctx) {
-    objects.push_back(std::make_unique<Lanes>(ctx.width(), ctx.height()));
+    objects.push_back(std::make_unique<Lanes>(ctx.screen_size()));
     create_cars(ctx);
     create_live_objects();
     objects.push_back(std::make_unique<Frog>(40, ctx));

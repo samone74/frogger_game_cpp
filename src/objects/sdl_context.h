@@ -24,6 +24,7 @@ class SdlContext {
 
     [[nodiscard]] int width() const noexcept { return m_screen_size.width; }
     [[nodiscard]] int height() const noexcept { return m_screen_size.height; }
+    [[nodiscard]] ScreenSize screen_size() const noexcept { return m_screen_size; }
 
     void draw_object_to_screen(const std::vector<DrawObjectBase *> &draw_objects) const;
 
