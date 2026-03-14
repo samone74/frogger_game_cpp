@@ -1,19 +1,20 @@
 #include "game.h"
 
 #include "objects/color.h"
+#include "objects/screen_size.h"
 
-MainGame::MainGame(int width, int height) : m_ctx(GAME_NAME, 800, 600) {}
+MainGame::MainGame(const ScreenSize &screen_size) : m_ctx(GAME_NAME, screen_size) {}
 
 MainGame::~MainGame() = default;
 
 void MainGame::run_game() {
     m_gsm.change_state(StateID::Start, m_ctx);
     bool running = true;
-    SDL_Event e;
+    SDL_Event events;
     while (running) {
         // --- Handle events ---
-        while (SDL_PollEvent(&e)) {
-            if (auto tr = m_gsm.get()->handle_event(m_ctx, e)) {
+        while (SDL_PollEvent(&events)) {
+            if (auto tr = m_gsm.get()->handle_event(m_ctx, events)) {
                 running = process_transition(*tr);
             }
         }

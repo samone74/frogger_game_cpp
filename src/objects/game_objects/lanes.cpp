@@ -3,14 +3,13 @@
 #include "objects/color.h"
 #include "objects/draw_objects/draw_object_rect.h"
 
-Lanes::Lanes(const int screen_width, const int screen_height)
-    : m_screen_width(screen_width), m_screen_height(screen_height) {
+Lanes::Lanes(const ScreenSize &screen_size) : m_screen_width(screen_size.width), m_screen_height(screen_size.height) {
     m_lane_size = static_cast<float>(m_screen_height) / (static_cast<float>(max_number_of_lanes) + 2);
     create_draw_objects();
 }
 
 std::vector<DrawObjectBase *> Lanes::get_draw_objects() {
-    std::vector<DrawObjectBase *> draw_objects_ptr;
+    std::vector<DrawObjectBase *> draw_objects_ptr(m_draw_objects.size());
     for (auto &draw_object : m_draw_objects) {
         draw_objects_ptr.push_back(draw_object.get());
     }

@@ -3,10 +3,11 @@
 #include <memory>
 
 #include "object_base.h"
+#include "objects/screen_size.h"
 
 class Lanes : public ObjectBase {
   public:
-    Lanes(int screen_width, int screen_height);
+    explicit Lanes(const ScreenSize &screen_size);
     ~Lanes() override = default;
     void update() override {};
     std::vector<DrawObjectBase *> get_draw_objects() override;

@@ -1,11 +1,12 @@
 #ifndef GAME_H
 #define GAME_H
 #include "game_states/game_state_manager.h"
+#include "objects/screen_size.h"
 #include "objects/sdl_context.h"
 
 class MainGame {
   public:
-    MainGame(int width, int height);
+    explicit MainGame(const ScreenSize &screen_size);
 
     ~MainGame();
 

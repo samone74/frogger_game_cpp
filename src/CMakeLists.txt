@@ -35,7 +35,7 @@ add_library(frogger_core
         objects/draw_objects/draw_object_rect.h
         objects/color.h
         objects/rectangle.h
-
+        objects/screen_size.h
 )
 
 target_include_directories(frogger_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

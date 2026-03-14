@@ -4,13 +4,12 @@
 #include <stdexcept>
 #include <utility>
 
-SdlContext::SdlContext(const std::string &title, const int width, const int height)
-    : window_width(width), window_height(height) {
+SdlContext::SdlContext(const std::string &title, const ScreenSize &screen_size) : m_screen_size(screen_size) {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         throw std::runtime_error("SDL_Init Error: " + std::string(SDL_GetError()));
     }
 
-    m_window = SDL_CreateWindow(title.c_str(), window_width, window_height, 0);
+    m_window = SDL_CreateWindow(title.c_str(), screen_size.width, screen_size.height, 0);
     if (!m_window) {
         SDL_Quit();
         throw std::runtime_error(SDL_GetError());
@@ -28,16 +27,12 @@ SdlContext::SdlContext(const std::string &title, const int width, const int heig
 
 SdlContext::~SdlContext() { cleanup(); }
 
-SdlContext::SdlContext(SdlContext &&other) noexcept
-    : window_width(other.window_width), window_height(other.window_height) {
-    *this = std::move(other);
-}
+SdlContext::SdlContext(SdlContext &&other) noexcept : m_screen_size(other.m_screen_size) { *this = std::move(other); }
 
 SdlContext &SdlContext::operator=(SdlContext &&other) noexcept {
     if (this != &other) {
         cleanup();
-        window_height = other.window_height;
-        window_width = other.window_width;
+        m_screen_size = other.m_screen_size;
         m_window = other.m_window;
         m_renderer = other.m_renderer;
         other.m_window = nullptr;
