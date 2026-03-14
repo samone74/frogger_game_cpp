@@ -22,19 +22,15 @@ void Frog::update() {
         x += speed;
     }
     // keep in bounds
-    if (x < 0)
-        x = 0;
-    if (y < 0)
-        y = 0;
-    if (y > static_cast<float>(m_screen_height) - size)
-        y = static_cast<float>(m_screen_height) - size;
-    if (x > static_cast<float>(m_screen_width) - size)
-        x = static_cast<float>(m_screen_width) - size;
+    x = std::max<float>(x, 0);
+    x = std::min(x, static_cast<float>(m_screen_width) - size);
+    y = std::max<float>(y, 0);
+    y = std::min(y, static_cast<float>(m_screen_height) - size);
     m_draw_objects.at(0)->set_position(x, y);
 }
 
 std::vector<DrawObjectBase *> Frog::get_draw_objects() {
-    std::vector<DrawObjectBase *> draw_objects_ptr;
+    std::vector<DrawObjectBase *> draw_objects_ptr(m_draw_objects.size());
     for (auto &draw_object : m_draw_objects) {
         draw_objects_ptr.push_back(draw_object.get());
     }

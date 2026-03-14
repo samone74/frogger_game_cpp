@@ -19,6 +19,7 @@ class TextDrawObject final : public DrawObjectBase {
     TextDrawObject &operator=(TextDrawObject &&other) noexcept;
     void draw(SDL_Renderer *renderer) override;
     void set_text(const std::string &text_new);
+    // NOLINTNEXTLINE(readability-identifier-length)
     void set_position(float x, float y) override;
     std::pair<float, float> get_position() override;
     [[nodiscard]] Rectangle get_rect() const;

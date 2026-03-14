@@ -4,10 +4,10 @@
 #include <optional>
 
 // Identify states without including their headers
-enum StateID : std::uint8_t { Start, Play, Lose, Win };
+enum class StateID : std::uint8_t { Start, Play, Lose, Win };
 
 struct Transition {
-    enum class Type {
+    enum class Type : std::uint8_t {
         Switch, // replace current state with target
         Quit    // exit the game loop
     };

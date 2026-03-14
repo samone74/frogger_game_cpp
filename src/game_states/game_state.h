@@ -17,7 +17,7 @@ class GameState {
     virtual void on_exit(SdlContext &ctx) {};
 
     // Input/events for the state
-    virtual TransitionRequest handle_event(const SdlContext &ctx, const SDL_Event &e) = 0;
+    virtual TransitionRequest handle_event(const SdlContext &ctx, const SDL_Event &event) = 0;
 
     virtual TransitionRequest update(const SdlContext &ctx) = 0;
 

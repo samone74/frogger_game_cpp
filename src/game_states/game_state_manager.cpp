@@ -5,8 +5,8 @@
 #include "start_screen.h"
 #include "win_screen.h"
 
-std::unique_ptr<GameState> GameStateManager::create_state(StateID id, const SdlContext &context) {
-    switch (id) {
+std::unique_ptr<GameState> GameStateManager::create_state(StateID identifier, const SdlContext &context) {
+    switch (identifier) {
     case StateID::Play:
         return std::make_unique<MainGameState>(context);
     case StateID::Start:

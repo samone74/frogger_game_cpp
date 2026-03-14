@@ -33,10 +33,10 @@ void MainGame::run_game() {
     }
 }
 
-bool MainGame::process_transition(const Transition &tr) {
-    switch (tr.type) {
+bool MainGame::process_transition(const Transition &transition_request) {
+    switch (transition_request.type) {
     case Transition::Type::Switch:
-        m_gsm.change_state(tr.target, m_ctx);
+        m_gsm.change_state(transition_request.target, m_ctx);
         return true;
     case Transition::Type::Quit:
         return false;

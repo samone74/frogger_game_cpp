@@ -10,11 +10,11 @@ class GameStateManager {
   public:
     GameStateManager() = default;
 
-    void change_state(StateID id, SdlContext &ctx) {
+    void change_state(StateID identifier, SdlContext &ctx) {
         if (current) {
             current->on_exit(ctx);
         }
-        current = create_state(id, ctx);
+        current = create_state(identifier, ctx);
         current->on_enter(ctx);
     }
 
@@ -23,7 +23,7 @@ class GameStateManager {
   private:
     std::unique_ptr<GameState> current;
 
-    static std::unique_ptr<GameState> create_state(StateID id, const SdlContext &context);
+    static std::unique_ptr<GameState> create_state(StateID identifier, const SdlContext &context);
 };
 
 #endif

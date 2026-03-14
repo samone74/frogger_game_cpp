@@ -20,7 +20,7 @@ class MainGame {
     GameStateManager m_gsm;
     const int fps = 60;
 
-    bool process_transition(const Transition &tr);
+    bool process_transition(const Transition &transition_request);
 };
 
 #endif // GAME_H
