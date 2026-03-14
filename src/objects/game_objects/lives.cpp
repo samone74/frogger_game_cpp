@@ -5,7 +5,8 @@
 Live::Live(const float x) : m_x(x) { create_draw_objects(); } // NOLINT(readability-identifier-length)
 
 std::vector<DrawObjectBase *> Live::get_draw_objects() {
-    std::vector<DrawObjectBase *> draw_objects_ptr(m_draw_objects.size());
+    std::vector<DrawObjectBase *> draw_objects_ptr;
+    draw_objects_ptr.reserve(m_draw_objects.size());
     for (auto &draw_object : m_draw_objects) {
         draw_objects_ptr.push_back(draw_object.get());
     }

@@ -20,8 +20,8 @@ void MainGame::run_game() {
         }
 
         // --- Update ---
-        if (auto tr = m_gsm.get()->update(m_ctx)) {
-            running = process_transition(*tr);
+        if (auto transition_request = m_gsm.get()->update(m_ctx)) {
+            running = process_transition(*transition_request);
         }
 
         // --- Render ---
@@ -29,7 +29,8 @@ void MainGame::run_game() {
         SDL_RenderClear(m_ctx.renderer());
         m_gsm.get()->render(m_ctx);
         SDL_RenderPresent(m_ctx.renderer());
-        SDL_Delay(1 / fps * SECONDS_TO_MILLISECONDS); // ~60 FPS
+        int temp = SECONDS_TO_MILLISECONDS / fps;
+        SDL_Delay(SECONDS_TO_MILLISECONDS / fps); // ~60 FPS
     }
 }
 

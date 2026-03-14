@@ -27,7 +27,7 @@ class Frog : public ObjectBase {
     Rectangle get_rect() override;
 
   private:
-    float x, y;
+    float m_x, m_y;
     const float size;
     const int m_screen_width, m_screen_height;
     const float speed = 5;

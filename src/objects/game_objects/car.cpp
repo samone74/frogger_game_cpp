@@ -23,6 +23,7 @@ void Car::update() {
 
 std::vector<DrawObjectBase *> Car::get_draw_objects() {
     std::vector<DrawObjectBase *> draw_objects_ptr;
+    draw_objects_ptr.reserve(m_draw_objects.size());
     for (auto &draw_object : m_draw_objects) {
         draw_objects_ptr.push_back(draw_object.get());
     }
@@ -35,21 +36,20 @@ Rectangle Car::get_rect() { return Rectangle(m_x, m_y, m_width, m_height); }
 
 void Car::create_car_draw_objects() {
     m_draw_objects.clear();
-    Color black(0, 0, 0, 255);
     // complete car rectangle
     m_draw_objects.push_back(std::make_unique<DrawObjectRect>(m_x, m_y, m_width, m_height, m_color, true));
     // front rectangle
-    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(m_x, m_y, m_width / 4, m_height, black, false));
+    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(m_x, m_y, m_width / 4, m_height, BLACK, false));
     // middle rectangle
     m_draw_objects.push_back(
-        std::make_unique<DrawObjectRect>(m_x + m_width / 4, m_y, m_width / 2, m_height, black, false));
+        std::make_unique<DrawObjectRect>(m_x + m_width / 4, m_y, m_width / 2, m_height, BLACK, false));
     // back rectangle
     m_draw_objects.push_back(
-        std::make_unique<DrawObjectRect>(m_x + 3 * m_width / 4, m_y, m_width / 4, m_height, black, false));
+        std::make_unique<DrawObjectRect>(m_x + 3 * m_width / 4, m_y, m_width / 4, m_height, BLACK, false));
 }
 
-void Car::move_draw_objects(const float dx) const {
+void Car::move_draw_objects(const float d_x) const {
     for (auto &ptr : m_draw_objects) {
-        ptr->set_position(ptr->get_position().first + dx, m_y);
+        ptr->set_position(ptr->get_position().first + d_x, m_y);
     }
 }

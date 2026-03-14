@@ -10,6 +10,7 @@ Lanes::Lanes(const ScreenSize &screen_size) : m_screen_width(screen_size.width),
 
 std::vector<DrawObjectBase *> Lanes::get_draw_objects() {
     std::vector<DrawObjectBase *> draw_objects_ptr;
+    draw_objects_ptr.reserve(m_draw_objects.size());
     for (auto &draw_object : m_draw_objects) {
         draw_objects_ptr.push_back(draw_object.get());
     }
