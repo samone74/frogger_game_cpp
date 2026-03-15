@@ -12,8 +12,8 @@ CountDownTimer::CountDownTimer(const SdlContext &context, const Uint32 time_left
     constexpr float m_x = 50;
     m_y = 0;
     m_draw_object = std::make_unique<TextDrawObject>(
-        context.renderer(), "Time left: " + std::to_string(m_time_left / SECONDS_TO_MILLISECONDS), font_file, font_size,
-        font_color, m_x, m_y);
+        context.renderer(), "Time left: " + std::to_string(m_time_left / SECONDS_TO_MILLISECONDS), font_color, m_x, m_y,
+        font_file, font_size);
 }
 
 void CountDownTimer::start() { last_time_tick = SDL_GetTicks(); }

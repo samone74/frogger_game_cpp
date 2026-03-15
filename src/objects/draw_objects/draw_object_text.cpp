@@ -1,9 +1,10 @@
 #include "draw_object_text.h"
 #include <iostream>
 
-TextDrawObject::TextDrawObject(SDL_Renderer *renderer, const std::string &text, const std::string &font_file,
+TextDrawObject::TextDrawObject(SDL_Renderer *renderer, const std::string &text,
                                // NOLINTNEXTLINE(readability-identifier-length)
-                               const float font_size, const Color color, const float x, const float y)
+                               const Color color, const float x, const float y, const std::string &font_file,
+                               const float font_size)
     : color(color.red, color.green, color.blue, color.transparency), text(text) {
     font = TTF_OpenFont(font_file.c_str(), font_size);
     if (font == nullptr) {
