@@ -8,4 +8,11 @@ struct Rectangle {
     float height;
 };
 
-#endif //RECTANGLE_H
+struct Position {
+    // NOLINTNEXTLINE(readability-identifier-length)
+    float x;
+    // NOLINTNEXTLINE(readability-identifier-length)
+    float y;
+};
+
+#endif // RECTANGLE_H

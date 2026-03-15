@@ -1,24 +1,22 @@
 #include "sdl_context.h"
+#include <SDL3_ttf/SDL_ttf.h>
 #include <iostream>
 #include <stdexcept>
 #include <utility>
-#include <SDL3_ttf/SDL_ttf.h>
 
-SdlContext::SdlContext(const std::string& title, const int width, const int height)
-    : window_width(width), window_height(height)
-{
+SdlContext::SdlContext(const std::string &title, const ScreenSize &screen_size) : m_screen_size(screen_size) {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         throw std::runtime_error("SDL_Init Error: " + std::string(SDL_GetError()));
     }
 
-    m_window = SDL_CreateWindow(title.c_str(), window_width, window_height, 0);
-    if (!m_window) {
+    m_window = SDL_CreateWindow(title.c_str(), screen_size.width, screen_size.height, 0);
+    if (m_window == nullptr) {
         SDL_Quit();
         throw std::runtime_error(SDL_GetError());
     }
 
     m_renderer = SDL_CreateRenderer(m_window, nullptr);
-    if (!m_renderer) {
+    if (m_renderer == nullptr) {
         SDL_DestroyWindow(m_window);
         m_window = nullptr;
         SDL_Quit();
@@ -27,19 +25,14 @@ SdlContext::SdlContext(const std::string& title, const int width, const int heig
     TTF_Init();
 }
 
-SdlContext::~SdlContext() {
-    cleanup();
-}
+SdlContext::~SdlContext() { cleanup(); }
 
-SdlContext::SdlContext(SdlContext&& other) noexcept: window_width(other.window_width), window_height(other.window_height) {
-    *this = std::move(other);
-}
+SdlContext::SdlContext(SdlContext &&other) noexcept : m_screen_size(other.m_screen_size) { *this = std::move(other); }
 
-SdlContext& SdlContext::operator=(SdlContext&& other) noexcept {
+SdlContext &SdlContext::operator=(SdlContext &&other) noexcept {
     if (this != &other) {
         cleanup();
-        window_height = other.window_height;
-        window_width = other.window_width;
+        m_screen_size = other.m_screen_size;
         m_window = other.m_window;
         m_renderer = other.m_renderer;
         other.m_window = nullptr;
@@ -48,7 +41,6 @@ SdlContext& SdlContext::operator=(SdlContext&& other) noexcept {
     return *this;
 }
 
-
 void SdlContext::draw_object_to_screen(const std::vector<DrawObjectBase *> &draw_objects) const {
     for (const auto &draw_object : draw_objects) {
         draw_object->draw(m_renderer);
@@ -56,11 +48,11 @@ void SdlContext::draw_object_to_screen(const std::vector<DrawObjectBase *> &draw
 }
 
 void SdlContext::cleanup() noexcept {
-    if (m_renderer) {
+    if (m_renderer != nullptr) {
         SDL_DestroyRenderer(m_renderer);
         m_renderer = nullptr;
     }
-    if (m_window) {
+    if (m_window != nullptr) {
         SDL_DestroyWindow(m_window);
         m_window = nullptr;
     }

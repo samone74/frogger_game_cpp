@@ -2,23 +2,20 @@
 #include <SDL3_image/SDL_image.h>
 
 #include <utility>
-
-DrawObjectSprite::DrawObjectSprite(std::string sprite_file, SDL_Renderer *renderer, const float x, const float y,
-                                   const float width, const float height): sprite_file(std::move(sprite_file)) {
+DrawObjectSprite::DrawObjectSprite(std::string sprite_file, SDL_Renderer *renderer, const Rectangle &rectangle)
+    : sprite_file(std::move(sprite_file)) {
     load_texture(renderer);
-    rect.x = x;
-    rect.y = y;
-    rect.w = width;
-    rect.h = height;
+    rect.x = rectangle.x;
+    rect.y = rectangle.y;
+    rect.w = rectangle.width;
+    rect.h = rectangle.height;
 }
-
 
 void DrawObjectSprite::load_texture(SDL_Renderer *renderer) {
     SDL_Surface *surf = IMG_Load(sprite_file.c_str());
     texture = SDL_CreateTextureFromSurface(renderer, surf);
     SDL_DestroySurface(surf);
 }
-
 
 DrawObjectSprite::DrawObjectSprite(DrawObjectSprite &&other) noexcept {
     sprite_file = std::move(other.sprite_file);
@@ -30,7 +27,7 @@ DrawObjectSprite::DrawObjectSprite(DrawObjectSprite &&other) noexcept {
     other.texture = nullptr;
 }
 
-DrawObjectSprite & DrawObjectSprite::operator=(DrawObjectSprite &&other) noexcept {
+DrawObjectSprite &DrawObjectSprite::operator=(DrawObjectSprite &&other) noexcept {
     sprite_file = std::move(other.sprite_file);
     texture = other.texture;
     rect.x = other.rect.x;
@@ -42,15 +39,15 @@ DrawObjectSprite & DrawObjectSprite::operator=(DrawObjectSprite &&other) noexcep
 }
 
 void DrawObjectSprite::draw(SDL_Renderer *renderer) {
-    if (modified) { load_texture(renderer); }
+    if (modified) {
+        load_texture(renderer);
+    }
     SDL_RenderTexture(renderer, texture, nullptr, &rect);
 }
-
-void DrawObjectSprite::set_position(const float x, const float y) {
-    rect.x = x;
-    rect.y = y;
+// NOLINTNEXTLINE(readability-identifier-length)
+void DrawObjectSprite::set_position(const Position &position) {
+    rect.x = position.x;
+    rect.y = position.y;
 }
 
-std::pair<float, float> DrawObjectSprite::get_position() {
-    return {rect.x,rect.y};
-}
+std::pair<float, float> DrawObjectSprite::get_position() { return {rect.x, rect.y}; }

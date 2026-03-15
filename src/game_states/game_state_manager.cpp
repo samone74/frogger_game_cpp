@@ -5,13 +5,17 @@
 #include "start_screen.h"
 #include "win_screen.h"
 
-
-std::unique_ptr<GameState> GameStateManager::create_state(StateID id, const SdlContext &context) {
-    switch (id) {
-        case StateID::Play: return std::make_unique<MainGameState>(context);
-        case StateID::Start: return std::make_unique<StartScreen>(context);
-        case StateID::Lose: return std::make_unique<LoseScreen>(context);
-        case StateID::Win: return std::make_unique<WinScreen>(context);
-        default: return nullptr;
+std::unique_ptr<GameState> GameStateManager::create_state(StateID identifier, const SdlContext &context) {
+    switch (identifier) {
+    case StateID::Play:
+        return std::make_unique<MainGameState>(context);
+    case StateID::Start:
+        return std::make_unique<StartScreen>(context);
+    case StateID::Lose:
+        return std::make_unique<LoseScreen>(context);
+    case StateID::Win:
+        return std::make_unique<WinScreen>(context);
+    default:
+        return nullptr;
     }
 }

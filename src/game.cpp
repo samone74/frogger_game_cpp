@@ -1,28 +1,27 @@
 #include "game.h"
 
 #include "objects/color.h"
+#include "objects/screen_size.h"
 
-MainGame::MainGame(int width, int height) :m_ctx(GAME_NAME, 800, 600){
-}
+MainGame::MainGame(const ScreenSize &screen_size) : m_ctx(GAME_NAME, screen_size) {}
 
 MainGame::~MainGame() = default;
 
 void MainGame::run_game() {
     m_gsm.change_state(StateID::Start, m_ctx);
     bool running = true;
-    SDL_Event e;
+    SDL_Event events;
     while (running) {
-
         // --- Handle events ---
-        while (SDL_PollEvent(&e)) {
-            if (auto tr = m_gsm.get()->handle_event(m_ctx, e)) {
-                running = process_transition(*tr);
+        while (SDL_PollEvent(&events)) {
+            if (auto transition_request = m_gsm.get()->handle_event(m_ctx, events)) {
+                running = process_transition(*transition_request);
             }
         }
 
         // --- Update ---
-        if (auto tr = m_gsm.get()->update(m_ctx)) {
-            running = process_transition(*tr);
+        if (auto transition_request = m_gsm.get()->update(m_ctx)) {
+            running = process_transition(*transition_request);
         }
 
         // --- Render ---
@@ -30,17 +29,17 @@ void MainGame::run_game() {
         SDL_RenderClear(m_ctx.renderer());
         m_gsm.get()->render(m_ctx);
         SDL_RenderPresent(m_ctx.renderer());
-        SDL_Delay(16); // ~60 FPS
+        SDL_Delay(SECONDS_TO_MILLISECONDS / fps); // ~60 FPS
     }
 }
 
-bool MainGame::process_transition(const Transition &tr) {
-    switch (tr.type) {
-        case Transition::Type::Switch:
-            m_gsm.change_state(tr.target, m_ctx);
+bool MainGame::process_transition(const Transition &transition_request) {
+    switch (transition_request.type) {
+    case Transition::Type::Switch:
+        m_gsm.change_state(transition_request.target, m_ctx);
         return true;
-        case Transition::Type::Quit:
-            return false;
+    case Transition::Type::Quit:
+        return false;
     }
     return true;
 }

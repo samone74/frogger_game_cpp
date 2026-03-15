@@ -1,27 +1,23 @@
 #ifndef TRANSITION_H
 #define TRANSITION_H
+#include <cstdint>
 #include <optional>
 
 // Identify states without including their headers
-enum class StateID {
-    Start,
-    Play,
-    Lose,
-    Win
-};
+enum class StateID : std::uint8_t { Start, Play, Lose, Win };
 
 struct Transition {
-    enum class Type {
-        Switch,  // replace current state with target
-        Quit     // exit the game loop
+    enum class Type : std::uint8_t {
+        Switch, // replace current state with target
+        Quit    // exit the game loop
     };
 
     Type type;
     StateID target; // only meaningful for Switch
 
     // Convenience constructors
-    static Transition switch_to(StateID id) { return { Type::Switch, id }; }
-    static Transition quit()                { return { Type::Quit,  StateID::Start }; }
+    static Transition switch_to(const StateID identifier) { return {Type::Switch, identifier}; }
+    static Transition quit() { return {Type::Quit, StateID::Start}; }
 };
 
 // A state returns:
@@ -29,4 +25,4 @@ struct Transition {
 // - Transition    -> request a transition
 using TransitionRequest = std::optional<Transition>;
 
-#endif //TRANSITION_H
+#endif // TRANSITION_H
