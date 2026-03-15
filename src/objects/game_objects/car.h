@@ -4,10 +4,11 @@
 
 #include "object_base.h"
 #include "objects/color.h"
+#include "objects/screen_size.h"
 
 class Car final : public ObjectBase {
   public:
-    Car(float x, float y, float speed, Color color, float width, float height, int screen_width, int screen_height);
+    Car(const Rectangle &rect, float speed, Color color, const ScreenSize &screen_size);
     ~Car() override = default;
     void update() override;
     std::vector<DrawObjectBase *> get_draw_objects() override;
@@ -20,8 +21,7 @@ class Car final : public ObjectBase {
     Rectangle get_rect() override;
 
   private:
-    float m_x, m_y;
-    const float m_width, m_height;
+    Rectangle m_rectangle;
     const int m_screen_width, m_screen_height;
     float m_speed;
     const Color m_color;

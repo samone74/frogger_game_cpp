@@ -101,13 +101,13 @@ void MainGameState::create_cars(const SdlContext &ctx) {
             int x = std::experimental::randint(x_prev, length_for_car * (j + 1));
             x_prev = x + minimum_distance + car_width;
             objects.push_back(
-                std::make_unique<Car>(x, y, speed, color, car_width, car_height, ctx.width(), ctx.height()));
+                std::make_unique<Car>(Rectangle(x, y, car_width, car_height), speed, color, ctx.screen_size()));
         }
     }
 }
 
 void MainGameState::set_level() const {
-    for (auto &object : objects) {
+    for (const auto &object : objects) {
         object->change_level(m_level);
     }
 }
