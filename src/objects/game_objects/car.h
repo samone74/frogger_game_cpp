@@ -8,7 +8,7 @@
 
 class Car final : public ObjectBase {
   public:
-    Car(const Rectangle &rect, float speed, Color color, const ScreenSize &screen_size);
+    Car(const Rectangle &rectangle, float speed, Color color, const ScreenSize &screen_size);
     ~Car() override = default;
     void update() override;
     std::vector<DrawObjectBase *> get_draw_objects() override;

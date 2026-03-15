@@ -15,15 +15,16 @@ MainGameState::MainGameState(const SdlContext &ctx) {
     objects.push_back(std::make_unique<Lanes>(ctx.screen_size()));
     create_cars(ctx);
     create_live_objects();
-    objects.push_back(std::make_unique<Frog>(40, ctx));
+    objects.push_back(std::make_unique<Frog>(frog_size, ctx));
     m_key_down_events = objects.back()->get_key_down_map();
     m_key_up_events = objects.back()->get_key_up_map();
-    objects.push_back(std::make_unique<CountDownTimer>(ctx, 60));
+    objects.push_back(std::make_unique<CountDownTimer>(ctx, game_time));
 }
 
 TransitionRequest MainGameState::handle_event(const SdlContext &ctx, const SDL_Event &event) {
-    if (event.type == SDL_EVENT_QUIT)
+    if (event.type == SDL_EVENT_QUIT) {
         return Transition::quit();
+    }
     if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat) {
         if (m_key_down_events.contains(event.key.key)) {
             m_key_down_events.at(event.key.key)();
@@ -87,21 +88,25 @@ void MainGameState::create_cars(const SdlContext &ctx) {
     const int car_width = 2 * car_height;
     const int minimum_distance = car_width;
     for (int i = 1; i <= m_level; i++) {
-        int dir = std::experimental::randint(0, 1) == 0 ? -1 : 1;
-        int speed = dir * std::experimental::randint(1, 5);
+        const int dir = std::experimental::randint(0, 1) == 0 ? -1 : 1;
+        int speed = dir * std::experimental::randint(1, max_car_speed);
+        // NOLINTNEXTLINE(readability-identifier-length)
         int y = ctx.height() / 2 - lane_height / 2 * (m_level) + (i - 1) * lane_height + margin / 2;
-        int number_of_cars_in_lane = static_cast<int>(std::round(3.0 / std::abs(speed)));
-        int length_for_car = ctx.width() / number_of_cars_in_lane;
+        const int number_of_cars_in_lane = static_cast<int>(std::round(max_car_in_lane / std::abs(speed)));
+        const int length_for_car = ctx.width() / number_of_cars_in_lane;
         int x_prev = 0;
         for (int j = 0; j < number_of_cars_in_lane; j++) {
-            int red = std::experimental::randint(0, 255);
-            int green = std::experimental::randint(0, 255);
-            int blue = std::experimental::randint(0, 255);
-            Color color(red, green, blue, 255);
-            int x = std::experimental::randint(x_prev, length_for_car * (j + 1));
+            const int red = std::experimental::randint(0, MAXCOLORVALUE);
+            const int green = std::experimental::randint(0, MAXCOLORVALUE);
+            const int blue = std::experimental::randint(0, MAXCOLORVALUE);
+            Color color(red, green, blue, MAXCOLORVALUE);
+            // NOLINTNEXTLINE(readability-identifier-length)
+            const int x = std::experimental::randint(x_prev, length_for_car * (j + 1));
             x_prev = x + minimum_distance + car_width;
             objects.push_back(
-                std::make_unique<Car>(Rectangle(x, y, car_width, car_height), speed, color, ctx.screen_size()));
+                std::make_unique<Car>(Rectangle(static_cast<float>(x), static_cast<float>(y),
+                                                static_cast<float>(car_width), static_cast<float>(car_height)),
+                                      speed, color, ctx.screen_size()));
         }
     }
 }
@@ -123,7 +128,7 @@ void MainGameState::change_level(const SdlContext &ctx, const int level_increase
 
 void MainGameState::create_live_objects() {
     for (int i = 1; i <= m_lives; i++) {
-        objects.push_back(std::make_unique<Live>(5 * i));
+        objects.push_back(std::make_unique<Live>(max_number_of_lives * i));
     }
 }
 
@@ -140,6 +145,7 @@ void MainGameState::render(SdlContext &ctx) {
     }
 }
 
-bool detect_collision(const Rectangle &a, const Rectangle &b) {
-    return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+bool detect_collision(const Rectangle &right, const Rectangle &left) {
+    return right.x < left.x + left.width && right.x + right.width > left.x && right.y < left.y + left.height &&
+           right.y + right.height > left.y;
 }

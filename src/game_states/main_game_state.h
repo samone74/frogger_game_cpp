@@ -17,8 +17,7 @@ class MainGameState final : public GameState {
 
   private:
     std::vector<std::unique_ptr<ObjectBase>> objects;
-    int m_level = 1;
-    int m_lives = 5;
+
     std::unordered_map<SDL_Keycode, std::function<void()>> m_key_down_events;
     std::unordered_map<SDL_Keycode, std::function<void()>> m_key_up_events;
     void create_cars(const SdlContext &ctx);
@@ -27,7 +26,14 @@ class MainGameState final : public GameState {
 
     void create_live_objects();
     void remove_live_objects();
+    const int max_car_speed = 5;
+    const float max_car_in_lane = 3.0;
+    const int frog_size = 40;
+    const int game_time = 60;
+    const int max_number_of_lives = 5;
+    int m_level = 1;
+    int m_lives = max_number_of_lives;
 };
-bool detect_collision(const Rectangle &a, const Rectangle &b);
+bool detect_collision(const Rectangle &left, const Rectangle &right);
 
 #endif // MAIN_GAME_STATE_H

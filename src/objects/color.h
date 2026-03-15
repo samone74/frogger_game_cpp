@@ -14,5 +14,5 @@ constexpr Color WHITE{255, 255, 255, 255};
 constexpr Color BLACK{0, 0, 0, 0};
 constexpr Color GRAY{124, 124, 124, 255};
 constexpr Color FROGGREEN(0, 224, 0, 255);
-
+constexpr int MAXCOLORVALUE = 255;
 #endif // COLOR_H
