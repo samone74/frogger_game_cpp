@@ -33,6 +33,7 @@ class MainGameState final : public GameState {
     const int max_number_of_lives = 5;
     int m_level = 1;
     int m_lives = max_number_of_lives;
+    const int max_level = 11;
 };
 bool detect_collision(const Rectangle &left, const Rectangle &right);
 

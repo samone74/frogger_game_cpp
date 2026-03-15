@@ -36,17 +36,21 @@ Rectangle Car::get_rect() { return m_rectangle; }
 void Car::create_car_draw_objects() {
     m_draw_objects.clear();
     // complete car rectangle
-    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(m_rectangle.x, m_rectangle.y, m_rectangle.width,
-                                                              m_rectangle.height, m_color, true));
+    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(m_rectangle, m_color, true));
     // front rectangle
-    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(m_rectangle.x, m_rectangle.y, m_rectangle.width / 4,
-                                                              m_rectangle.height, BLACK, false));
+    Rectangle front_rectangle = m_rectangle;
+    front_rectangle.width = m_rectangle.width / 4;
+    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(front_rectangle, BLACK, false));
     // middle rectangle
-    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(m_rectangle.x + m_rectangle.width / 4, m_rectangle.y,
-                                                              m_rectangle.width / 2, m_rectangle.height, BLACK, false));
+    Rectangle middle_rectangle = m_rectangle;
+    middle_rectangle.width = m_rectangle.width / 2;
+    middle_rectangle.x = m_rectangle.x + m_rectangle.width / 4;
+    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(middle_rectangle, BLACK, false));
     // back rectangle
-    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(m_rectangle.x + 3 * m_rectangle.width / 4, m_rectangle.y,
-                                                              m_rectangle.width / 4, m_rectangle.height, BLACK, false));
+    Rectangle back_rectangle = m_rectangle;
+    back_rectangle.width = m_rectangle.width / 4;
+    back_rectangle.x = m_rectangle.x + 3 * m_rectangle.width / 4;
+    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(back_rectangle, BLACK, false));
 }
 
 void Car::move_draw_objects(const float d_x) const {

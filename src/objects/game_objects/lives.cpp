@@ -19,5 +19,6 @@ Rectangle Live::get_rect() { return Rectangle(m_x, m_y, width, height); }
 
 void Live::create_draw_objects() {
     m_draw_objects.clear();
-    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(m_x, m_y, width, height, RED, true));
+    const Rectangle rect = get_rect();
+    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(rect, RED, true));
 }

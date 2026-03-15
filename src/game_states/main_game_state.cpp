@@ -80,8 +80,9 @@ TransitionRequest MainGameState::update(const SdlContext &ctx) {
     }
     if (frog_rect.y == 0) {
         change_level(ctx, 1);
-        if (m_level == 11)
+        if (m_level == max_level) {
             return Transition::switch_to(StateID::Win);
+        }
         frog = std::ranges::find_if(
             objects, [](const std::unique_ptr<ObjectBase> &obj) { return obj->get_type() == ObjectBase::Type::Frog; });
         (*frog)->set_y(static_cast<float>(ctx.height()) - frog_rect.height);
@@ -101,7 +102,8 @@ void MainGameState::create_cars(const SdlContext &ctx) {
         int speed = dir * std::experimental::randint(1, max_car_speed);
         // NOLINTNEXTLINE(readability-identifier-length)
         int y = ctx.height() / 2 - lane_height / 2 * (m_level) + (i - 1) * lane_height + margin / 2;
-        const int number_of_cars_in_lane = static_cast<int>(std::round(max_car_in_lane / std::abs(speed)));
+        const int number_of_cars_in_lane =
+            static_cast<int>(std::round(max_car_in_lane / static_cast<float>(std::abs(speed))));
         const int length_for_car = ctx.width() / number_of_cars_in_lane;
         int x_prev = 0;
         for (int j = 0; j < number_of_cars_in_lane; j++) {
@@ -154,7 +156,7 @@ void MainGameState::render(SdlContext &ctx) {
     }
 }
 
-bool detect_collision(const Rectangle &right, const Rectangle &left) {
-    return right.x < left.x + left.width && right.x + right.width > left.x && right.y < left.y + left.height &&
-           right.y + right.height > left.y;
+bool detect_collision(const Rectangle &left, const Rectangle &right) {
+    return left.x < right.x + right.width && left.x + left.width > right.x && left.y < right.y + right.height &&
+           left.y + left.height > right.y;
 }

@@ -6,11 +6,11 @@
 #include "../color.h"
 #include "SDL3/SDL.h"
 #include "draw_object_base.h"
+#include "objects/rectangle.h"
 
 class DrawObjectRect : public DrawObjectBase {
   public:
-    // NOLINTNEXTLINE(readability-identifier-length)
-    DrawObjectRect(float x, float y, float width, float height, Color color, bool fill);
+    DrawObjectRect(const Rectangle &rectangle, Color color, bool fill);
     ~DrawObjectRect() override = default;
     void draw(SDL_Renderer *renderer) override;
     // NOLINTNEXTLINE(readability-identifier-length)

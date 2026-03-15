@@ -26,16 +26,17 @@ ObjectBase::Type Lanes::get_type() const { return Type::Lanes; }
 
 void Lanes::create_draw_objects() {
     m_draw_objects.clear();
-
-    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(
+    const Rectangle lanes_rectangle{
         0, (static_cast<float>(m_screen_height) / 2) - (m_lane_size / 2 * static_cast<float>(m_number_of_lanes)),
-        m_screen_width, m_lane_size * static_cast<float>(m_number_of_lanes), GRAY, true));
+        static_cast<float>(m_screen_width), m_lane_size * static_cast<float>(m_number_of_lanes)};
+    m_draw_objects.push_back(std::make_unique<DrawObjectRect>(lanes_rectangle, GRAY, true));
     for (int i = 0; i < m_number_of_lanes + 1; i++) {
-        m_draw_objects.push_back(std::make_unique<DrawObjectRect>(
-            0,
-            (static_cast<float>(m_screen_height) / 2) - (m_lane_size / 2 * static_cast<float>(m_number_of_lanes)) +
-                (m_lane_size * static_cast<float>(i)) - line_size / 2,
-            m_screen_width, line_size, WHITE, true));
+        const Rectangle lanes_line_rectangle{0,
+                                             (static_cast<float>(m_screen_height) / 2) -
+                                                 (m_lane_size / 2 * static_cast<float>(m_number_of_lanes)) +
+                                                 (m_lane_size * static_cast<float>(i)) - line_size / 2,
+                                             static_cast<float>(m_screen_width), line_size};
+        m_draw_objects.push_back(std::make_unique<DrawObjectRect>(lanes_line_rectangle, WHITE, true));
     }
 }
 

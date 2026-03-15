@@ -10,13 +10,13 @@ SdlContext::SdlContext(const std::string &title, const ScreenSize &screen_size) 
     }
 
     m_window = SDL_CreateWindow(title.c_str(), screen_size.width, screen_size.height, 0);
-    if (!m_window) {
+    if (m_window == nullptr) {
         SDL_Quit();
         throw std::runtime_error(SDL_GetError());
     }
 
     m_renderer = SDL_CreateRenderer(m_window, nullptr);
-    if (!m_renderer) {
+    if (m_renderer == nullptr) {
         SDL_DestroyWindow(m_window);
         m_window = nullptr;
         SDL_Quit();
@@ -48,11 +48,11 @@ void SdlContext::draw_object_to_screen(const std::vector<DrawObjectBase *> &draw
 }
 
 void SdlContext::cleanup() noexcept {
-    if (m_renderer) {
+    if (m_renderer != nullptr) {
         SDL_DestroyRenderer(m_renderer);
         m_renderer = nullptr;
     }
-    if (m_window) {
+    if (m_window != nullptr) {
         SDL_DestroyWindow(m_window);
         m_window = nullptr;
     }
