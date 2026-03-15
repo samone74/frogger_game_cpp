@@ -31,6 +31,9 @@ class LoseScreen final : public GameState {
 
   private:
     std::vector<std::unique_ptr<TextDrawObject>> objects;
+    const int font_size = 20;
+    const int m_x = 10;
+    const int m_y = 10;
 };
 
 #endif // LOSE_SCREEN_H

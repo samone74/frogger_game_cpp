@@ -4,24 +4,30 @@
 WinScreen::WinScreen(const SdlContext &ctx) {
     std::string font_file = "assets/fonts/arial.ttf";
     std::string text = "You won, press P to start again";
-    objects.push_back(std::make_unique<TextDrawObject>(ctx.renderer(), text, font_file, 20, RED, 10, 10));
+    objects.push_back(std::make_unique<TextDrawObject>(ctx.renderer(), text, font_file, font_size, RED, m_x, m_y));
 }
 
 TransitionRequest WinScreen::handle_event(const SdlContext &ctx, const SDL_Event &event) {
-    if (event.type == SDL_EVENT_QUIT)
+    switch (event.type) {
+    case (SDL_EVENT_QUIT): {
         return Transition::quit();
-    if (event.type == SDL_EVENT_KEY_DOWN) {
+    }
+    case (SDL_EVENT_KEY_DOWN): {
         if (event.key.key == SDLK_ESCAPE) {
             return Transition::quit();
         }
-        if (event.key.key == SDLK_P)
+        if (event.key.key == SDLK_P) {
             return Transition::switch_to(StateID::Play);
+        }
     }
-    return std::nullopt;
+    default: {
+        return std::nullopt;
+    }
+    }
 }
 
 void WinScreen::render(SdlContext &ctx) {
-    for (auto &object : objects) {
+    for (const auto &object : objects) {
         object->draw(ctx.renderer());
     }
 }

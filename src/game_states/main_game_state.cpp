@@ -32,6 +32,7 @@ TransitionRequest MainGameState::handle_event(const SdlContext &ctx, const SDL_E
         }
         if (m_key_down_events.contains(event.key.key)) {
             m_key_down_events.at(event.key.key)();
+            return std::nullopt;
         }
         if (event.key.key == SDLK_ESCAPE) {
             return Transition::quit();
@@ -44,6 +45,7 @@ TransitionRequest MainGameState::handle_event(const SdlContext &ctx, const SDL_E
             change_level(ctx, -1);
             return std::nullopt;
         }
+        return std::nullopt;
     }
     case (SDL_EVENT_KEY_UP): {
         if (m_key_up_events.contains(event.key.key)) {
