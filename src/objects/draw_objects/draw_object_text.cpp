@@ -10,7 +10,7 @@ TextDrawObject::TextDrawObject(SDL_Renderer *renderer, const std::string &text, 
         std::cout << "TTF_OpenFont error: " << SDL_GetError() << "\n";
     }
     rebuild_texture(renderer);
-    set_position(x, y);
+    set_position(Position(x, y));
 }
 
 TextDrawObject::TextDrawObject(TextDrawObject &&other) noexcept {
@@ -47,9 +47,9 @@ void TextDrawObject::set_text(const std::string &text_new) {
     modified = true;
 }
 // NOLINTNEXTLINE(readability-identifier-length)
-void TextDrawObject::set_position(const float x, const float y) {
-    rect.x = x;
-    rect.y = y;
+void TextDrawObject::set_position(const Position &position) {
+    rect.x = position.x;
+    rect.y = position.y;
 }
 
 std::pair<float, float> TextDrawObject::get_position() { return {rect.x, rect.y}; }

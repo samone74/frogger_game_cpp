@@ -26,7 +26,7 @@ void Frog::update() {
     m_x = std::min(m_x, static_cast<float>(m_screen_width) - size);
     m_y = std::max<float>(m_y, 0);
     m_y = std::min(m_y, static_cast<float>(m_screen_height) - size);
-    m_draw_objects.at(0)->set_position(m_x, m_y);
+    m_draw_objects.at(0)->set_position(Position(m_x, m_y));
 }
 
 std::vector<DrawObjectBase *> Frog::get_draw_objects() {
@@ -84,7 +84,8 @@ void Frog::create_draw_objects(const SdlContext &context) {
     ;
     // m_draw_objects.push_back(std::make_unique<DrawObjectRect>(x, y, size, size, FROGGREEN, true));
     const std::string sprite_file = "assets\\sprites\\frog2.png";
-    m_draw_objects.push_back(std::make_unique<DrawObjectSprite>(sprite_file, context.renderer(), m_x, m_y, size, size));
+    m_draw_objects.push_back(
+        std::make_unique<DrawObjectSprite>(sprite_file, context.renderer(), Rectangle(m_x, m_y, size, size)));
 }
 
 void Frog::stop_move_up() { move_up = false; }

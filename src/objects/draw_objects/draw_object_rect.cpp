@@ -19,9 +19,9 @@ void DrawObjectRect::draw(SDL_Renderer *renderer) {
     }
 }
 
-void DrawObjectRect::set_position(const float x, const float y) { // NOLINT(readability-identifier-length)
-    rect.x = x;
-    rect.y = y;
+void DrawObjectRect::set_position(const Position &position) { // NOLINT(readability-identifier-length)
+    rect.x = position.x;
+    rect.y = position.y;
 }
 
 std::pair<float, float> DrawObjectRect::get_position() { return {rect.x, rect.y}; }

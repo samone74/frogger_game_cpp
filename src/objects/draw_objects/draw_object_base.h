@@ -1,5 +1,6 @@
 #ifndef DRAW_OBJECT_BASE_H
 #define DRAW_OBJECT_BASE_H
+#include "objects/rectangle.h"
 #include <SDL3/SDL_render.h>
 #include <utility>
 /* Interface class for draw objects.
@@ -13,7 +14,7 @@ class DrawObjectBase {
     DrawObjectBase(DrawObjectBase &&) = delete;
     DrawObjectBase &operator=(const DrawObjectBase &) = delete;
     virtual void draw(SDL_Renderer *m_renderer) = 0;
-    virtual void set_position(float x, float y) = 0; // NOLINT(readability-identifier-length)
+    virtual void set_position(const Position &position) = 0; // NOLINT(readability-identifier-length)
     virtual std::pair<float, float> get_position() = 0;
 };
 

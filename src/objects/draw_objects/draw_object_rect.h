@@ -14,7 +14,7 @@ class DrawObjectRect : public DrawObjectBase {
     ~DrawObjectRect() override = default;
     void draw(SDL_Renderer *renderer) override;
     // NOLINTNEXTLINE(readability-identifier-length)
-    void set_position(float x, float y) override;
+    void set_position(const Position &position) override;
     std::pair<float, float> get_position() override;
 
   private:

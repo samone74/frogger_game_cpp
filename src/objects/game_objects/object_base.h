@@ -11,7 +11,7 @@
 class ObjectBase {
   public:
     enum Type : std::uint8_t { Lanes, Car, Frog, Live, Night, Timer };
-    virtual ~ObjectBase() {}
+    virtual ~ObjectBase() = default;
     virtual void update() = 0;
     virtual std::vector<DrawObjectBase *> get_draw_objects() = 0;
     virtual std::unordered_map<SDL_Keycode, std::function<void()>> get_key_down_map() = 0;
