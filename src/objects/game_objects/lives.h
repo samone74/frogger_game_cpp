@@ -4,7 +4,7 @@
 
 #include "object_base.h"
 
-class Live : public ObjectBase {
+class Live final : public ObjectBase {
   public:
     // NOLINTNEXTLINE(readability-identifier-length)
     explicit Live(float x);
