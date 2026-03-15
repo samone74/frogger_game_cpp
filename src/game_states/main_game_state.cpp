@@ -22,10 +22,14 @@ MainGameState::MainGameState(const SdlContext &ctx) {
 }
 
 TransitionRequest MainGameState::handle_event(const SdlContext &ctx, const SDL_Event &event) {
-    if (event.type == SDL_EVENT_QUIT) {
+    switch (event.type) {
+    case (SDL_EVENT_QUIT): {
         return Transition::quit();
     }
-    if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat) {
+    case (SDL_EVENT_KEY_DOWN): {
+        if (event.key.repeat) {
+            return std::nullopt;
+        }
         if (m_key_down_events.contains(event.key.key)) {
             m_key_down_events.at(event.key.key)();
         }
@@ -41,13 +45,16 @@ TransitionRequest MainGameState::handle_event(const SdlContext &ctx, const SDL_E
             return std::nullopt;
         }
     }
-    if (event.type == SDL_EVENT_KEY_UP) {
+    case (SDL_EVENT_KEY_UP): {
         if (m_key_up_events.contains(event.key.key)) {
             m_key_up_events.at(event.key.key)();
             return std::nullopt;
         }
     }
-    return std::nullopt;
+    default: {
+        return std::nullopt;
+    }
+    }
 }
 
 TransitionRequest MainGameState::update(const SdlContext &ctx) {
