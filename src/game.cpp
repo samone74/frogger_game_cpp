@@ -29,7 +29,6 @@ void MainGame::run_game() {
         SDL_RenderClear(m_ctx.renderer());
         m_gsm.get()->render(m_ctx);
         SDL_RenderPresent(m_ctx.renderer());
-        int temp = SECONDS_TO_MILLISECONDS / fps;
         SDL_Delay(SECONDS_TO_MILLISECONDS / fps); // ~60 FPS
     }
 }

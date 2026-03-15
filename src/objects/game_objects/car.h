@@ -27,7 +27,7 @@ class Car final : public ObjectBase {
     const Color m_color;
     std::vector<std::unique_ptr<DrawObjectBase>> m_draw_objects;
     void create_car_draw_objects();
-    void move_draw_objects(float dx) const;
+    void move_draw_objects(float d_x) const;
 };
 
 #endif // CAR_H

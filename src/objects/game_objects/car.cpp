@@ -50,7 +50,7 @@ void Car::create_car_draw_objects() {
 }
 
 void Car::move_draw_objects(const float d_x) const {
-    for (auto &ptr : m_draw_objects) {
-        ptr->set_position(ptr->get_position().first + d_x, m_rectangle.y);
+    for (const auto &draw_object : m_draw_objects) {
+        draw_object->set_position(draw_object->get_position().first + d_x, m_rectangle.y);
     }
 }
