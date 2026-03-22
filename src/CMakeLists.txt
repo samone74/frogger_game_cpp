@@ -36,6 +36,7 @@ add_library(frogger_core
         objects/color.h
         objects/rectangle.h
         objects/screen_size.h
+        game_states/text_to_screen_state.cpp
 )
 
 target_include_directories(frogger_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
