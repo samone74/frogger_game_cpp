@@ -11,10 +11,10 @@ TextToScreenState::TextToScreenState(const SdlContext &ctx, const std::string &t
 
 TransitionRequest TextToScreenState::handle_event(const SdlContext &ctx, const SDL_Event &event) {
     switch (event.type) {
-    case (SDL_EVENT_QUIT): {
+    case SDL_EVENT_QUIT: {
         return Transition::quit();
     }
-    case (SDL_EVENT_KEY_DOWN): {
+    case SDL_EVENT_KEY_DOWN: {
         if (event.key.key == SDLK_ESCAPE) {
             return Transition::quit();
         }
