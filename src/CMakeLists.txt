@@ -20,12 +20,6 @@ add_library(frogger_core
         game_states/transition.h
         game_states/main_game_state.cpp
         game_states/main_game_state.h
-        game_states/start_screen.cpp
-        game_states/start_screen.h
-        game_states/lose_screen.cpp
-        game_states/lose_screen.h
-        game_states/win_screen.cpp
-        game_states/win_screen.h
         objects/draw_objects/draw_object_base.h
         objects/draw_objects/draw_object_text.cpp
         objects/draw_objects/draw_object_text.h
@@ -37,6 +31,8 @@ add_library(frogger_core
         objects/rectangle.h
         objects/screen_size.h
         game_states/text_to_screen_state.cpp
+        game_states/create_game_states.cpp
+        game_states/create_game_states.h
 )
 
 target_include_directories(frogger_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
