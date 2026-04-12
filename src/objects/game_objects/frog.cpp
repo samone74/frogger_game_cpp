@@ -11,22 +11,26 @@ Frog::Frog(const float size, const SdlContext &context)
 void Frog::update() {
     if (move_down) {
         m_y += speed;
+        angle = 90.0;
     }
     if (move_up) {
         m_y -= speed;
+        angle = 270.0;
     }
     if (move_left) {
         m_x -= speed;
+        angle = 180.0;
     }
     if (move_right) {
         m_x += speed;
+        angle = 0.0;
     }
     // keep in bounds
     m_x = std::max<float>(m_x, 0);
     m_x = std::min(m_x, static_cast<float>(m_screen_width) - size);
     m_y = std::max<float>(m_y, 0);
     m_y = std::min(m_y, static_cast<float>(m_screen_height) - size);
-    m_draw_objects.at(0)->set_position(Position(m_x, m_y));
+    m_draw_objects.at(0)->set_position(Position(m_x, m_y, angle));
     if (move_down or move_left or move_right or move_up) {
         current_frame = SDL_GetTicks() / frame_speed % number_of_frames;
     } else {

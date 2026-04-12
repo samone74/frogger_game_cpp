@@ -32,6 +32,7 @@ class DrawObjectSprite final : public DrawObjectBase {
     SDL_FRect rect{0, 0, 0, 0};
     SDL_FRect src_rect{0.0, 0, 0, 0};
     bool modified = false;
+    float angle = 0.0;
     void load_texture(SDL_Renderer *renderer);
 };
 

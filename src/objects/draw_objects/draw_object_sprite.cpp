@@ -51,14 +51,17 @@ void DrawObjectSprite::draw(SDL_Renderer *renderer) {
         load_texture(renderer);
         modified = false;
     }
-    // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-    // SDL_RenderFillRect(renderer, &rect);
-    SDL_RenderTexture(renderer, texture, &src_rect, &rect);
+    if (angle == 180) {
+        SDL_RenderTextureRotated(renderer, texture, &src_rect, &rect, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+    } else {
+        SDL_RenderTextureRotated(renderer, texture, &src_rect, &rect, angle, nullptr, SDL_FLIP_NONE);
+    }
 }
 // NOLINTNEXTLINE(readability-identifier-length)
 void DrawObjectSprite::set_position(const Position &position) {
     rect.x = position.x;
     rect.y = position.y;
+    angle = position.rotation_angle;
 }
 
 std::pair<float, float> DrawObjectSprite::get_position() { return {rect.x, rect.y}; }

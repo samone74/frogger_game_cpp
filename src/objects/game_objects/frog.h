@@ -28,6 +28,7 @@ class Frog : public ObjectBase {
 
   private:
     float m_x, m_y;
+    float angle = 0.0;
     const float size;
     const int m_screen_width, m_screen_height;
     const float speed = 5;
