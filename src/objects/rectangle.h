@@ -10,9 +10,10 @@ struct Rectangle {
 
 struct Position {
     // NOLINTNEXTLINE(readability-identifier-length)
-    float x;
+    float x = 0.0;
     // NOLINTNEXTLINE(readability-identifier-length)
-    float y;
+    float y = 0.0;
+    float rotation_angle = 0.0;
 };
 
 #endif // RECTANGLE_H

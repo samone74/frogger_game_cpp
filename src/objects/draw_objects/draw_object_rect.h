@@ -16,6 +16,7 @@ class DrawObjectRect : public DrawObjectBase {
     // NOLINTNEXTLINE(readability-identifier-length)
     void set_position(const Position &position) override;
     std::pair<float, float> get_position() override;
+    void set_source_rect(const SDL_FRect &rect_in) override {};
 
   private:
     SDL_Color color{};

@@ -28,6 +28,7 @@ class Frog : public ObjectBase {
 
   private:
     float m_x, m_y;
+    float angle = 0.0;
     const float size;
     const int m_screen_width, m_screen_height;
     const float speed = 5;
@@ -37,6 +38,14 @@ class Frog : public ObjectBase {
     bool move_down = false;
     std::vector<std::unique_ptr<DrawObjectBase>> m_draw_objects;
     void create_draw_objects(const SdlContext &context);
+    unsigned int current_frame = 2;
+    static constexpr int number_of_frames = 8;
+    const unsigned int frame_speed = 100;
+    SDL_FRect frames[number_of_frames];
+    const float angle_left = 180.0;
+    const float angle_right = 0.0;
+    const float angle_up = 270.0;
+    const float angle_down = 90.0;
 };
 
 #endif // FROG_H

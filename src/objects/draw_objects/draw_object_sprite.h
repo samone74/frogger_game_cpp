@@ -24,12 +24,17 @@ class DrawObjectSprite final : public DrawObjectBase {
 
     std::pair<float, float> get_position() override;
 
+    void set_source_rect(const SDL_FRect &src) override;
+
   private:
     std::string sprite_file;
     SDL_Texture *texture = nullptr;
     SDL_FRect rect{0, 0, 0, 0};
+    SDL_FRect src_rect{0.0, 0, 0, 0};
     bool modified = false;
+    float angle = 0.0;
     void load_texture(SDL_Renderer *renderer);
+    const float angle_left = 180;
 };
 
 #endif // DRAW_OBJECT_SPRITE_H
