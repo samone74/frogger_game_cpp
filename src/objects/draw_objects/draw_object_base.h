@@ -16,6 +16,7 @@ class DrawObjectBase {
     virtual void draw(SDL_Renderer *m_renderer) = 0;
     virtual void set_position(const Position &position) = 0; // NOLINT(readability-identifier-length)
     virtual std::pair<float, float> get_position() = 0;
+    virtual void set_source_rect(const SDL_FRect &rect) = 0;
 };
 
 #endif // DRAW_OBJECT_BASE_H

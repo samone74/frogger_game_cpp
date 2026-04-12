@@ -23,6 +23,7 @@ class TextDrawObject final : public DrawObjectBase {
     void set_position(const Position &position) override;
     std::pair<float, float> get_position() override;
     [[nodiscard]] Rectangle get_rect() const;
+    void set_source_rect(const SDL_FRect &rect_in) override {};
 
   private:
     void rebuild_texture(SDL_Renderer *renderer);

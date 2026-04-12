@@ -37,6 +37,10 @@ class Frog : public ObjectBase {
     bool move_down = false;
     std::vector<std::unique_ptr<DrawObjectBase>> m_draw_objects;
     void create_draw_objects(const SdlContext &context);
+    unsigned int current_frame = 2;
+    static constexpr int number_of_frames = 8;
+    const unsigned int frame_speed = 100;
+    SDL_FRect frames[number_of_frames];
 };
 
 #endif // FROG_H

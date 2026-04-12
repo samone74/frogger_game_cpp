@@ -27,6 +27,12 @@ void Frog::update() {
     m_y = std::max<float>(m_y, 0);
     m_y = std::min(m_y, static_cast<float>(m_screen_height) - size);
     m_draw_objects.at(0)->set_position(Position(m_x, m_y));
+    if (move_down or move_left or move_right or move_up) {
+        current_frame = SDL_GetTicks() / frame_speed % number_of_frames;
+    } else {
+        current_frame = 0;
+    }
+    m_draw_objects.at(0)->set_source_rect(frames[current_frame]);
 }
 
 std::vector<DrawObjectBase *> Frog::get_draw_objects() {
@@ -81,11 +87,19 @@ void Frog::stop_move_down() { move_down = false; }
 
 void Frog::create_draw_objects(const SdlContext &context) {
     m_draw_objects.clear();
-    ;
-    // m_draw_objects.push_back(std::make_unique<DrawObjectRect>(x, y, size, size, FROGGREEN, true));
-    const std::string sprite_file = "assets\\sprites\\frog2.png";
+    const std::string sprite_file = "assets\\sprites\\frog_sprite.png";
     m_draw_objects.push_back(
         std::make_unique<DrawObjectSprite>(sprite_file, context.renderer(), Rectangle(m_x, m_y, size, size)));
+    const int FRAME_WIDTH = 512;
+    const int FRAME_HEIGHT = 300;
+
+    int index = 0;
+    for (int row = 0; row < 4; row++) {
+        for (int col = 0; col < 2; col++) {
+            frames[index++] = {static_cast<float>(col) * FRAME_WIDTH, static_cast<float>(row) * FRAME_HEIGHT,
+                               FRAME_WIDTH, FRAME_HEIGHT};
+        }
+    }
 }
 
 void Frog::stop_move_up() { move_up = false; }
