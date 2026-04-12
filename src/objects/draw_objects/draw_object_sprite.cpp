@@ -51,7 +51,7 @@ void DrawObjectSprite::draw(SDL_Renderer *renderer) {
         load_texture(renderer);
         modified = false;
     }
-    if (angle == 180) {
+    if (angle == angle_left) {
         SDL_RenderTextureRotated(renderer, texture, &src_rect, &rect, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
     } else {
         SDL_RenderTextureRotated(renderer, texture, &src_rect, &rect, angle, nullptr, SDL_FLIP_NONE);

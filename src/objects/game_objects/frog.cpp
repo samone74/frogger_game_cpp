@@ -11,19 +11,19 @@ Frog::Frog(const float size, const SdlContext &context)
 void Frog::update() {
     if (move_down) {
         m_y += speed;
-        angle = 90.0;
+        angle = angle_down;
     }
     if (move_up) {
         m_y -= speed;
-        angle = 270.0;
+        angle = angle_up;
     }
     if (move_left) {
         m_x -= speed;
-        angle = 180.0;
+        angle = angle_left;
     }
     if (move_right) {
         m_x += speed;
-        angle = 0.0;
+        angle = angle_right;
     }
     // keep in bounds
     m_x = std::max<float>(m_x, 0);

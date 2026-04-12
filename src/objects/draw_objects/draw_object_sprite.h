@@ -34,6 +34,7 @@ class DrawObjectSprite final : public DrawObjectBase {
     bool modified = false;
     float angle = 0.0;
     void load_texture(SDL_Renderer *renderer);
+    const float angle_left = 180;
 };
 
 #endif // DRAW_OBJECT_SPRITE_H

@@ -42,6 +42,10 @@ class Frog : public ObjectBase {
     static constexpr int number_of_frames = 8;
     const unsigned int frame_speed = 100;
     SDL_FRect frames[number_of_frames];
+    const float angle_left = 180.0;
+    const float angle_right = 0.0;
+    const float angle_up = 270.0;
+    const float angle_down = 90.0;
 };
 
 #endif // FROG_H
