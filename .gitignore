@@ -21,3 +21,8 @@ CMakeUserPresets.json
 /.idea
 /.idea
 /cmake-build-release
+/android/app/build
+/android/app/.cxx
+/.gradle
+/.idea
+/build/reports

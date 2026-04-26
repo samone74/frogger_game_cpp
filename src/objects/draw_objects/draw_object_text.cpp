@@ -2,16 +2,19 @@
 #include <array>
 #include <iostream>
 
-TextDrawObject::TextDrawObject(SDL_Renderer *renderer, const std::string &text, const std::string &font_file,
-                               const float font_size, const Color color, const float x, const float y) : color(
-    color.red, color.green, color.blue, color.transparency) , text(text){
+TextDrawObject::TextDrawObject(SDL_Renderer *renderer, const std::string &text,
+                               const std::string &font_file,
+                               const float font_size, const Color color, const float x,
+                               const float y) : color(
+        {static_cast<Uint8>(color.red), static_cast<Uint8>(color.green),
+         static_cast<Uint8>(color.blue), static_cast<Uint8>(color.transparency)}), text(text) {
     font = TTF_OpenFont(font_file.c_str(), font_size);
     if (!font) {
         std::string error = SDL_GetError();
         std::cout << "TTF_OpenFont error: " << SDL_GetError() << "\n";
     }
     rebuild_texture(renderer);
-    set_position(x,y);
+    set_position(x, y);
 }
 
 TextDrawObject::TextDrawObject(TextDrawObject &&other) noexcept {
@@ -23,7 +26,7 @@ TextDrawObject::TextDrawObject(TextDrawObject &&other) noexcept {
     other.texture = nullptr;
 }
 
-TextDrawObject & TextDrawObject::operator=(TextDrawObject &&other) noexcept {
+TextDrawObject &TextDrawObject::operator=(TextDrawObject &&other) noexcept {
     if (this != &other) {
         color = other.color;
         font = other.font;
@@ -67,10 +70,10 @@ void TextDrawObject::rebuild_texture(SDL_Renderer *renderer) {
         texture = nullptr;
     }
     SDL_Surface *surface = TTF_RenderText_Blended(
-        font,
-        text.c_str(),
-        0,
-        color
+            font,
+            text.c_str(),
+            0,
+            color
     );
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     rect.w = static_cast<float>(surface->w);

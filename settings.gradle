@@ -1,0 +1,4 @@
+rootProject.name = "frogger_game_cpp"
+
+include(":android:app")
+project(":android:app").projectDir = file("android/app")

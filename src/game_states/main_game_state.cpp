@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "objects/sdl_context.h"
-#include <experimental/random>
+#include <random>
 
 #include "objects/color.h"
 #include "objects/game_objects/car.h"
@@ -10,20 +10,26 @@
 #include "objects/game_objects/lanes.h"
 #include "objects/game_objects/lives.h"
 
-MainGameState::MainGameState(const SdlContext& ctx){
+inline int randint(int min, int max) {
+    static thread_local std::mt19937 gen(std::random_device{}());
+    std::uniform_int_distribution<int> dist(min, max);
+    return dist(gen);
+}
+
+MainGameState::MainGameState(const SdlContext &ctx) {
     objects.push_back(std::make_unique<Lanes>(ctx.width(), ctx.height()));
     create_cars(ctx);
     create_live_objects();
     objects.push_back(std::make_unique<Frog>(20, ctx.width(), ctx.height()));
     m_key_down_events = objects.back()->get_key_down_map();
     m_key_up_events = objects.back()->get_key_up_map();
-    objects.push_back(std::make_unique<CountDownTimer>( ctx, 60));
+    objects.push_back(std::make_unique<CountDownTimer>(ctx, 60));
     //sprite_objects.push_back({R"(C:\Users\samzw\OneDrive\Documenten\GitHub\frogger_game_cpp\assets\sprites\frog2.png)", 10,10,50,60,0});
 }
 
-TransitionRequest MainGameState::handle_event(const SdlContext& ctx, const SDL_Event& event) {
+TransitionRequest MainGameState::handle_event(const SdlContext &ctx, const SDL_Event &event) {
     if (event.type == SDL_EVENT_QUIT)
-        return Transition::quit() ;
+        return Transition::quit();
     if (event.type == SDL_EVENT_KEY_DOWN) {
         if (m_key_down_events.contains(event.key.key)) {
             m_key_down_events.at(event.key.key)();
@@ -33,31 +39,32 @@ TransitionRequest MainGameState::handle_event(const SdlContext& ctx, const SDL_E
         }
         if (event.key.key == SDLK_P) {
             change_level(ctx, 1);
-            return std::nullopt ;
+            return std::nullopt;
         }
         if (event.key.key == SDLK_O) {
             change_level(ctx, -1);
-            return std::nullopt ;
+            return std::nullopt;
         }
     }
     if (event.type == SDL_EVENT_KEY_UP) {
         if (m_key_up_events.contains(event.key.key)) {
             m_key_up_events.at(event.key.key)();
-            return std::nullopt ;
+            return std::nullopt;
         }
     }
     return std::nullopt;
 }
 
-TransitionRequest MainGameState::update(const SdlContext& ctx) {
-    auto frog = std::ranges::find_if(objects,[](const std::unique_ptr<ObjectBase>& obj) {
-                      return obj->get_type() == ObjectBase::Type::Frog;
-                  });
-    const Rectangle& frog_rect = (*frog)->get_rect();
+TransitionRequest MainGameState::update(const SdlContext &ctx) {
+    auto frog = std::find_if(objects.begin(), objects.end(),
+                             [](const std::unique_ptr<ObjectBase> &obj) {
+                                 return obj->get_type() == ObjectBase::Type::Frog;
+                             });
+    const Rectangle &frog_rect = (*frog)->get_rect();
     for (auto &object: objects) {
         object->update();
         if (object->get_type() == ObjectBase::Type::Car) {
-            if ( detect_collision(object->get_rect(), frog_rect)) {
+            if (detect_collision(object->get_rect(), frog_rect)) {
                 (*frog)->set_y(ctx.height() - frog_rect.height);
                 m_lives--;
                 if (m_lives == 0) {
@@ -71,11 +78,12 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
     }
     if (frog_rect.y == 0) {
         change_level(ctx, 1);
-        if ( m_level == 11)
+        if (m_level == 11)
             return Transition::switch_to(StateID::Win);
-        frog = std::ranges::find_if(objects,[](const std::unique_ptr<ObjectBase>& obj) {
-                      return obj->get_type() == ObjectBase::Type::Frog;
-                  });
+        frog = std::find_if(objects.begin(), objects.end(),
+                            [](const std::unique_ptr<ObjectBase> &obj) {
+                                return obj->get_type() == ObjectBase::Type::Frog;
+                            });
         (*frog)->set_y(ctx.height() - frog_rect.height);
     }
     //timer->update();
@@ -83,53 +91,51 @@ TransitionRequest MainGameState::update(const SdlContext& ctx) {
 }
 
 
-
-
-void MainGameState::create_cars(const SdlContext& ctx) {
+void MainGameState::create_cars(const SdlContext &ctx) {
     const int lane_height = ctx.height() / (10 + 2);
     const int margin = 10;
     const int car_height = lane_height - margin;
     for (int i = 1; i <= m_level; i++) {
-        int dir = std::experimental::randint(0, 1) == 0 ? -1 : 1;
-        int speed = dir * std::experimental::randint(1, 5);
+        int dir = randint(0, 1) == 0 ? -1 : 1;
+        int speed = dir * randint(1, 5);
         int y = ctx.height() / 2 - lane_height / 2 * (m_level) + (i - 1) * lane_height + margin / 2;
         int number_of_cars_in_lane = std::round(3.0 / std::abs(speed));
         int distance_between_cars = 2 * ctx.height() / number_of_cars_in_lane;
         for (int j = 0; j < number_of_cars_in_lane; j++) {
-            int red = std::experimental::randint(0, 255);
-            int green = std::experimental::randint(0, 255);
-            int blue = std::experimental::randint(0, 255);
-            Color color(red, green, blue, 255);
-            int x = std::experimental::randint(j * distance_between_cars, distance_between_cars * (j + 1) - car_height * 2);
+            int red = randint(0, 255);
+            int green = randint(0, 255);
+            int blue = randint(0, 255);
+            Color color({red, green, blue, 255});
+            int x = randint(j * distance_between_cars,
+                            distance_between_cars * (j + 1) - car_height * 2);
             objects.push_back(std::make_unique<Car>(x, y, speed, color, car_height * 2,
                                                     car_height, ctx.width(), ctx.height()));
         }
     }
 }
 
-void MainGameState::set_level() const
-{
+void MainGameState::set_level() const {
     for (auto &object: objects) {
         object->change_level(m_level);
     }
 }
 
-void MainGameState::change_level(const SdlContext& ctx, const int level_increase) {
+void MainGameState::change_level(const SdlContext &ctx, const int level_increase) {
     m_level += level_increase;
     m_level = std::max(m_level, 1);
     std::erase_if(objects,
-                  [](const std::unique_ptr<ObjectBase>& obj) {
+                  [](const std::unique_ptr<ObjectBase> &obj) {
                       return obj->get_type() == ObjectBase::Type::Car;
                   });
     create_cars(ctx);
     set_level();
 }
 
-bool MainGameState::detect_collision(const Rectangle& a, const Rectangle& b) {
-        return a.x < b.x + b.width  &&
-               a.x + a.width > b.x  &&
-               a.y < b.y + b.height &&
-               a.y + a.height > b.y;
+bool MainGameState::detect_collision(const Rectangle &a, const Rectangle &b) {
+    return a.x < b.x + b.width &&
+           a.x + a.width > b.x &&
+           a.y < b.y + b.height &&
+           a.y + a.height > b.y;
 }
 
 void MainGameState::create_live_objects() {
@@ -140,14 +146,14 @@ void MainGameState::create_live_objects() {
 
 void MainGameState::remove_live_objects() {
     std::erase_if(objects,
-              [](const std::unique_ptr<ObjectBase>& obj) {
-                  return obj->get_type() == ObjectBase::Type::Live;
-              });
+                  [](const std::unique_ptr<ObjectBase> &obj) {
+                      return obj->get_type() == ObjectBase::Type::Live;
+                  });
 }
 
-void MainGameState::render(SdlContext& ctx) {
-    for (const auto& object : objects) {
-        for (const auto& draw_object:object->get_draw_objects()) {
+void MainGameState::render(SdlContext &ctx) {
+    for (const auto &object: objects) {
+        for (const auto &draw_object: object->get_draw_objects()) {
             draw_object->draw(ctx.renderer());
         }
     }

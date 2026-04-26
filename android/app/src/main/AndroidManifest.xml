@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.frogger">
+
+    <application
+        android:label="Frogger"
+        android:hasCode="true"
+        android:allowBackup="true"
+        android:supportsRtl="true">
+
+        <activity
+            android:name="android.app.NativeActivity"
+            android:label="Frogger"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true">
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="game" />
+
+        </activity>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,29 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace "com.example.frogger"
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.example.frogger"
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++20"
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+        }
+    }
+}
+
+dependencies {
+}
